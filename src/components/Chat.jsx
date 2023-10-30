@@ -1,16 +1,21 @@
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { useContext, useState } from 'react';
+import { useContext, useRef, useState } from 'react';
 import Context from '../index';
-import { Avatar, Button, Container, Grid, TextField } from '@mui/material';
 import {useCollectionData} from 'react-firebase-hooks/firestore';
 import {collection, orderBy, getFirestore, addDoc} from 'firebase/firestore';
 import { initializeApp } from 'firebase/app';
 import Preloader from './Preloader';
-import { Timestamp} from '@firebase/firestore';
+import { Timestamp } from '@firebase/firestore';
+import Style from '../styles/chat/chat.module.css';
 
 const Chat = () => {
     const {auth} = useContext(Context); 
     const [user] = useAuthState(auth); 
+    const bottomRef = useRef();
+
+    // useEffect(() =>
+    //     bottomRef.current.scrollIntoView({ behavior: "smooth", block: "end" })
+    // ); 
 
     const firebaseConfig = {
         apiKey: "AIzaSyC-8mx4_j1nxfHVLavJI0DzIdyefAlBMR4",
@@ -32,13 +37,22 @@ const Chat = () => {
         orderBy("createdAt")   
     ); 
 
+
     const Send = async () => {
-        console.log(value)
+        bottomRef.current.scrollIntoView({ behavior: "smooth", block: "end" })
+        // console.log(bottomRef.current.scrollHeight)
+        // console.log(bottomRef.current)
+
+        if (!value || value.trim().length < 1) {
+            setValue('');
+            return 0;
+        }
+
         await addDoc(collection(db, 'messages'), {
             uid: user.uid,
             displayName: user.displayName,
             photoURL: user.photoURL,
-            text: value,
+            text: value.trim(),
             createdAt: Timestamp.fromDate(new Date())
         });
 
@@ -50,43 +64,66 @@ const Chat = () => {
     }
 
     return (
-        <Container>
-            <Grid container justify={'center'} style={{height: window.innerHeight - 200, marginTop:20}}>
-                <div style={{width:'80%', height: '60vh',
-                border: '1px solid gray', overflowY:'auto'}}>
+        <section>
+            <div className={Style.chat}>
+                <div ref={bottomRef}>
                     {
                         messages.sort((a, b) => a.createdAt > b.createdAt ? 1 : -1).map((message, id)=> 
-                        <div style={{
-                            margin:20,
-                            marginLeft: user.uid === message.uid ? 'auto' : '10px',
-                            width: 'fit-content'
-                            }} key={id}>
-                            <Grid container>
-                                <Avatar src={message.photoURL}/>
-                                <div style={{marginLeft:13, marginTop:2}}>
-                                    {message.displayName}
+                        <div 
+                        style={{marginLeft: user.uid === message.uid ? 'auto' : '0px'}}
+                        className={Style.chat_message} 
+                        key={id}
+                        >
+                            <div>
+                            {user.uid === message.uid ? 
+                            <div className={Style.chat_messageYou}>
+                                <div className={Style.chat_message_blockYou}>
+                                        <p className={Style.chat_message_textYou}>
+                                            {message.text}
+                                        </p>
                                 </div>
-                            </Grid>
-                            <div style={{marginLeft:53, marginTop:-18}}>
-                                {message.text}
+
+                                <div className={Style.chat_message_ava}>
+                                    <img alt='avatar' src={message.photoURL}/>
+                                </div>
+                            </div>
+                             :         
+                             <div className={`${Style.chat_message} ${Style.chat_message_user}`}>
+                                <div className={Style.chat_message_ava}>
+                                    <img alt='avatar' src={message.photoURL}/>
+                                </div>
+                                <div className={Style.chat_message_block}>
+                                    <p className={Style.chat_message_name}>
+                                        {message.displayName}
+                                    </p>
+                                <hr />
+                                    <p className={Style.chat_message_text}>
+                                        {message.text}
+                                    </p>
+                                </div>
+                             </div>
+                            }
                             </div>
                         </div>)
                     }
                 </div>
-                <Grid container direction={'column'} alignItems={'flex-end'}
-                    style={{width:'80%', height:'100px'}}
-                    >
-                        <TextField 
-                        fullWidth
-                        placeholder='Начать писать'
-                        variant="outlined"
-                        value={value}
-                        onChange={(e=>{setValue(e.target.value)})}/>
-                        
-                        <Button onClick={Send} variant='outlined'>Отправить</Button>
-                </Grid>
-            </Grid>
-        </Container>
+            </div>
+            <div className={Style.chat_form}>
+                <div className={Style.chat_form_input}>
+                    <input 
+                    placeholder='Начать писать'
+                    value={value}
+                    onChange={(e=>{setValue(e.target.value)})}/>
+                </div>
+                <div className={Style.chat_form_button_block}>
+                    <button onClick={Send}>
+                        <div className={Style.chat_form_button}>
+                            <img src='../../img/send.svg' alt="send"/>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </section>
     );
 }
 

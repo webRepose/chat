@@ -1,0 +1,108 @@
+.chat {
+    width:calc(95% - 1px);
+    height: 90vh;
+    overflow-y: auto;
+    margin: 0 auto;
+    border-bottom: 0;
+
+    &::-webkit-scrollbar { 
+        width: 0; 
+    }
+
+    &_message {
+        display: flex;
+        width: fit-content;
+        padding-top: 0px;
+        margin: 0 10px; 
+
+        &_user {
+            margin-bottom: 10px;
+        }
+
+        &_ava img{
+            border-radius: 50%;
+            width: 40px;
+            height: auto;
+        }
+
+        &_name {
+            color: #7773ca;
+        }
+
+
+        &_block {
+            background-color: #e8ecf0 ;
+            padding: 2px 20px;
+            border-radius: 10px;
+            margin-left: 6px;
+        }
+
+        &_text {
+            color: whitesmoke;
+            color: #5d6f82;
+        }
+    }
+
+    &_messageYou {
+        display: flex;
+        align-content: center;
+        align-items: center;
+    }
+
+    &_message_blockYou {
+        background-color: #837ccf;
+        padding: 6px 20px 6px 20px;
+        border-radius: 10px;
+        margin-right: 6px;
+        height: 30px;
+    }
+
+    &_message_textYou {
+        color: whitesmoke;
+    }
+
+    &_form {
+        width: 95%;
+        display: flex;
+        margin: 0 auto;
+        height: 40px;
+
+        &_input {
+            width: 80%;
+        }
+
+        input {
+            outline: none;
+            height: 35px;
+            border: 0;
+            width: 100%;
+            background-color: #35373b;
+            padding-left: 10px;
+            color:floralwhite ;
+        }
+
+        button {
+            border: 0;
+            background-color: transparent;
+            width: 100%;
+            cursor: pointer;
+
+            img {
+                width: 20px;
+            }
+        }
+
+        &_button_block {
+            width: 20%;
+        }
+
+        &_button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 35px;
+            background-color: rebeccapurple;
+        }
+    }
+}
