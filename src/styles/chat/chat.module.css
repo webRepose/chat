@@ -15,11 +15,8 @@
   display: flex;
   width: -moz-fit-content;
   width: fit-content;
-  padding-top: 0px;
-  margin: 3px 0;
-}
-.chat_message_user {
-  margin-bottom: 10px;
+  margin-top: 10px;
+  max-width: 700px;
 }
 .chat_message_ava img {
   border-radius: 50%;
@@ -28,10 +25,11 @@
 }
 .chat_message_name {
   color: #7773ca;
+  margin-right: 8px;
 }
 .chat_message_block {
   background-color: #e8ecf0;
-  padding: 2px 20px;
+  padding: 4px 20px;
   border-radius: 10px;
   margin-left: 6px;
 }
@@ -39,20 +37,38 @@
   color: #5d6f82;
   word-break: break-all;
 }
+.chat_message_date {
+  display: flex;
+  color: #737889;
+  margin-top: 4px;
+}
+.chat_message_date span {
+  display: flex;
+  margin-left: auto;
+  font-size: 13px;
+}
 .chat_messageYou {
   display: flex;
-  align-content: center;
-  align-items: center;
 }
 .chat_message_blockYou {
   background-color: #837ccf;
-  padding: 6px 20px 6px 20px;
+  padding: 6px 20px;
   border-radius: 10px;
   margin-right: 6px;
+  display: flex;
+  align-items: center;
 }
 .chat_message_textYou {
   color: whitesmoke;
   word-break: break-all;
+}
+.chat_message_dateYou {
+  display: flex;
+  color: #737889;
+  font-size: 14px;
+  margin-bottom: 4px;
+  justify-content: flex-end;
+  margin-right: 50px;
 }
 .chat_form {
   width: 95%;
@@ -60,7 +76,7 @@
   margin: 0 auto;
   height: 40px;
   position: relative;
-  margin-top: 10px;
+  margin-top: 20px;
 }
 .chat_form_input {
   width: 80%;

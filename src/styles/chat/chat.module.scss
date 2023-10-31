@@ -15,12 +15,8 @@
     &_message {
         display: flex;
         width: fit-content;
-        padding-top: 0px;
-        margin: 3px 0; 
-
-        &_user {
-            margin-bottom: 10px;
-        }
+        margin-top: 10px;
+        max-width: 700px; 
 
         &_ava img{
             border-radius: 50%;
@@ -30,12 +26,13 @@
 
         &_name {
             color: #7773ca;
+            margin-right: 8px;
         }
 
 
         &_block {
             background-color: #e8ecf0;
-            padding: 2px 20px;
+            padding: 4px 20px;
             border-radius: 10px;
             margin-left: 6px;
         }
@@ -44,25 +41,50 @@
             color: #5d6f82;
             word-break: break-all;
         }
+
+        &_date {
+            display: flex;
+            color: #737889;
+            margin-top: 4px;
+
+            span {
+                display: flex;
+                margin-left: auto;
+                font-size: 13px;
+            }
+
+        }
     }
 
-    &_messageYou {
-        display: flex;
-        align-content: center;
-        align-items: center;
+    &_message {
+        &You {
+            display: flex;
+        }
+    
+        &_blockYou {
+            background-color: #837ccf;
+            padding: 6px 20px;
+            border-radius: 10px;
+            margin-right: 6px;
+            display: flex;
+            align-items: center;
+        }
+    
+        &_textYou {
+            color: whitesmoke;
+            word-break: break-all;
+        }
+
+        &_dateYou {
+            display: flex;
+            color: #737889;
+            font-size: 14px;
+            margin-bottom: 4px;
+            justify-content: flex-end;
+            margin-right: 50px;
+        }
     }
 
-    &_message_blockYou {
-        background-color: #837ccf;
-        padding: 6px 20px 6px 20px;
-        border-radius: 10px;
-        margin-right: 6px;
-    }
-
-    &_message_textYou {
-        color: whitesmoke;
-        word-break: break-all;
-    }
 
     &_form {
         width: 95%;
@@ -70,7 +92,7 @@
         margin: 0 auto;
         height: 40px;
         position: relative;
-        margin-top: 10px;
+        margin-top: 20px;
 
         &_input {
             width: 80%;

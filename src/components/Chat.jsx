@@ -13,11 +13,10 @@ const Chat = () => {
     const {auth} = useContext(Context); 
     const [user] = useAuthState(auth); 
     const bottomRef = useRef();
-
+    const [value, setValue] = useState('');
 
     useEffect(() => {
         const timer = setTimeout(() => {
-  
         bottomRef.current.scrollIntoView({ block: 'end' });
       }, 700);
   
@@ -35,10 +34,8 @@ const Chat = () => {
       };
 
       const app = initializeApp(firebaseConfig)
-      
       const db = getFirestore(app);
 
-    const [value, setValue] = useState('');
     const [messages, loading] = useCollectionData(
         collection(db, 'messages'), 
         orderBy("createdAt")   
@@ -47,7 +44,7 @@ const Chat = () => {
 
     const Send = async () => {
         bottomRef.current.scrollIntoView({ behavior: "smooth", block: "end" })
-        
+
         if (!value || value.trim().length < 1) {
             setValue('');
             return 0;
@@ -58,11 +55,12 @@ const Chat = () => {
             displayName: user.displayName,
             photoURL: user.photoURL,
             text: value.trim(),
-            createdAt: Timestamp.fromDate(new Date())
+            createdAt: Timestamp.fromDate(new Date()),
         });
 
         setValue('');
     }
+
 
     if(loading) {
         return <Preloader/>
@@ -81,13 +79,18 @@ const Chat = () => {
                         >
                             <div>
                             {user.uid === message.uid ? 
+                            <>
+                            <span className={Style.chat_message_dateYou}>
+                                    <p>{message.createdAt.toDate().getHours()}</p>
+                                    <p>:</p>
+                                    <p>{message.createdAt.toDate().getMinutes()}</p>
+                            </span>
                             <div className={Style.chat_messageYou}>
                                 <div className={Style.chat_message_blockYou}>
                                         <p className={Style.chat_message_textYou}>
                                             {message.text}
                                         </p>
                                 </div>
-
                                 <div className={Style.chat_message_ava}>
                                 { message.photoURL ?
                                         <img alt='avatar' src={message.photoURL}/>
@@ -96,8 +99,9 @@ const Chat = () => {
                                 }
                                 </div>
                             </div>
-                             :         
-                             <div className={`${Style.chat_message} ${Style.chat_message_user}`}>
+                                </>
+                             :    
+                             <div className={Style.chat_message}>
                                 <div className={Style.chat_message_ava}>
                                     { message.photoURL  ?
                                         <img alt='avatar' src={message.photoURL}/>
@@ -107,12 +111,23 @@ const Chat = () => {
                                     }
                                 </div>
                                 <div className={Style.chat_message_block}>
+                                <span className={Style.chat_message_date}>
                                     <p className={Style.chat_message_name}>
                                         {message.displayName}
-                                    </p>
-                                <hr />
+                                    </p>    
+                                    <span>
+                                        <p>
+                                            {message.createdAt.toDate().getHours()}
+                                        </p>
+                                        <p>:</p>
+                                        <p>
+                                            {message.createdAt.toDate().getMinutes()}
+                                        </p>
+                                    </span>
+                                </span>     
+
                                     <p className={Style.chat_message_text}>
-                                        {message.text}
+                                         {message.text}
                                     </p>
                                 </div>
                              </div>
