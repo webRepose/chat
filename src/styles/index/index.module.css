@@ -9,4 +9,10 @@
   overflow-x: hidden;
   height: 100vh;
   background-color: #242627;
+}
+
+@media (max-width: 912px) {
+  body {
+    padding-bottom: 100px;
+  }
 }/*# sourceMappingURL=index.module.css.map */

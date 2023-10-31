@@ -1,9 +1,9 @@
-import * as React from 'react';
 import { NavLink } from 'react-router-dom';
 import { LOGIN_ROUTE } from '../utils/consts';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useContext } from 'react';
 import Context from '../index';
+import Style from '../styles/components/navbar/navbar.module.css';
 
 const Navbar = () => {
     const {auth} = useContext(Context); 
@@ -14,7 +14,7 @@ const Navbar = () => {
     }
 
   return (
-    <div>
+    <header className={Style.header}>
           {user ? 
           <NavLink>
             <button onClick={signOut} >Exit</button>
@@ -25,7 +25,7 @@ const Navbar = () => {
           // </NavLink>
           ''
           }
-    </div>
+    </header>
   );
 }
 

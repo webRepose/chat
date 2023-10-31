@@ -6,14 +6,6 @@
   margin: 20px auto;
 }
 
-.determinate {
-  position: relative;
-  max-width: 100%;
-  height: 100%;
-  transition: width 500ms ease-out 1s;
-  background-color: #03A9F4;
-}
-
 .indeterminate {
   position: relative;
   width: 100%;

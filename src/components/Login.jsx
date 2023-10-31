@@ -1,7 +1,6 @@
 import { useContext } from 'react';
 import Context from '../index';
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-
 import Style from '../styles/components/login/login.module.css';
 
 
