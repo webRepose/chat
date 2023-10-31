@@ -8,7 +8,11 @@ import Context from "./index";
 
 const App = () => {
   const {auth} = useContext(Context); 
-  const [user, loading, error] = useAuthState(auth); 
+  const [user, loading, error] = useAuthState(auth);
+  
+  if(error && user) {
+    console.log('костыль');
+  }
 
   if(loading) {
     return <Preloader/>

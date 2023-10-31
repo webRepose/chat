@@ -1,5 +1,5 @@
 .chat {
-    width:calc(95% - 1px);
+    width:calc(100% - 1px);
     height: 75vh;
     overflow-y: auto;
     margin: 0 auto;
@@ -8,12 +8,15 @@
     &::-webkit-scrollbar { 
         width: 0; 
     }
+    &_block {
+        padding: 0px 15px;
+    }
 
     &_message {
         display: flex;
         width: fit-content;
         padding-top: 0px;
-        margin: 0 10px; 
+        margin: 3px 0; 
 
         &_user {
             margin-bottom: 10px;
@@ -38,8 +41,8 @@
         }
 
         &_text {
-            color: whitesmoke;
             color: #5d6f82;
+            word-break: break-all;
         }
     }
 
@@ -54,11 +57,11 @@
         padding: 6px 20px 6px 20px;
         border-radius: 10px;
         margin-right: 6px;
-        height: 30px;
     }
 
     &_message_textYou {
         color: whitesmoke;
+        word-break: break-all;
     }
 
     &_form {
@@ -67,6 +70,7 @@
         margin: 0 auto;
         height: 40px;
         position: relative;
+        margin-top: 10px;
 
         &_input {
             width: 80%;

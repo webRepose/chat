@@ -6,7 +6,7 @@
 }
 
 .html, body {
-  overflow-x: hidden;
+  overflow: hidden;
   height: 90vh;
   background-color: #242627;
 }/*# sourceMappingURL=index.module.css.map */

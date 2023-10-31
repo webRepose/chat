@@ -7,15 +7,22 @@ import { initializeApp } from 'firebase/app';
 import Preloader from './Preloader';
 import { Timestamp } from '@firebase/firestore';
 import Style from '../styles/chat/chat.module.css';
+import { useEffect } from 'react';   
 
 const Chat = () => {
     const {auth} = useContext(Context); 
     const [user] = useAuthState(auth); 
     const bottomRef = useRef();
 
-    // useEffect(() =>
-    //     bottomRef.current.scrollIntoView({ behavior: "smooth", block: "end" })
-    // ); 
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+  
+        bottomRef.current.scrollIntoView({ block: 'end' });
+      }, 700);
+  
+      return () => clearTimeout(timer);
+    }, []);    
 
     const firebaseConfig = {
         apiKey: "AIzaSyC-8mx4_j1nxfHVLavJI0DzIdyefAlBMR4",
@@ -40,9 +47,7 @@ const Chat = () => {
 
     const Send = async () => {
         bottomRef.current.scrollIntoView({ behavior: "smooth", block: "end" })
-        // console.log(bottomRef.current.scrollHeight)
-        // console.log(bottomRef.current)
-
+        
         if (!value || value.trim().length < 1) {
             setValue('');
             return 0;
@@ -66,7 +71,7 @@ const Chat = () => {
     return (
         <section>
             <div className={Style.chat}>
-                <div ref={bottomRef}>
+                <div className={Style.chat_block} ref={bottomRef}>
                     {
                         messages.sort((a, b) => a.createdAt > b.createdAt ? 1 : -1).map((message, id)=> 
                         <div 
@@ -84,13 +89,22 @@ const Chat = () => {
                                 </div>
 
                                 <div className={Style.chat_message_ava}>
-                                    <img alt='avatar' src={message.photoURL}/>
+                                { message.photoURL ?
+                                        <img alt='avatar' src={message.photoURL}/>
+                                        :
+                                        <img alt='Avatar by Dmitriy Bondarchuk' src='../../img/avatar.svg'/>
+                                }
                                 </div>
                             </div>
                              :         
                              <div className={`${Style.chat_message} ${Style.chat_message_user}`}>
                                 <div className={Style.chat_message_ava}>
-                                    <img alt='avatar' src={message.photoURL}/>
+                                    { message.photoURL  ?
+                                        <img alt='avatar' src={message.photoURL}/>
+                                        :
+                                        <img alt='Avatar by Dmitriy Bondarchuk' src='../../img/avatar.svg'/>
+                                        
+                                    }
                                 </div>
                                 <div className={Style.chat_message_block}>
                                     <p className={Style.chat_message_name}>
