@@ -91,7 +91,7 @@
   background-color: rebeccapurple;
 }
 
-@media (max-width: 600) {
+@media (max-width: 600px) {
   .chat_form {
     padding-bottom: env(safe-area-inset-bottom);
   }
