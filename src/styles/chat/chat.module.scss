@@ -1,6 +1,6 @@
 .chat {
     width:calc(95% - 1px);
-    height: 90vh;
+    height: 85vh;
     overflow-y: auto;
     margin: 0 auto;
     border-bottom: 0;
@@ -31,7 +31,7 @@
 
 
         &_block {
-            background-color: #e8ecf0 ;
+            background-color: #e8ecf0;
             padding: 2px 20px;
             border-radius: 10px;
             margin-left: 6px;
