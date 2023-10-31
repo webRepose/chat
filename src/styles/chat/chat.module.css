@@ -56,6 +56,7 @@
   display: flex;
   margin: 0 auto;
   height: 40px;
+  position: relative;
 }
 .chat_form_input {
   width: 80%;
@@ -88,4 +89,10 @@
   width: 100%;
   height: 35px;
   background-color: rebeccapurple;
+}
+
+@media (max-wdth: 600) {
+  .chat_form {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
 }/*# sourceMappingURL=chat.module.css.map */
