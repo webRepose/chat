@@ -21,7 +21,11 @@ const Chat = () => {
       }, 700);
   
       return () => clearTimeout(timer);
-    }, []);    
+    }, []);  
+    
+    // const goDown = () => {
+    //     bottomRef.current.scrollIntoView({ behavior: "smooth", block: 'end' });
+    // }
 
     const firebaseConfig = {
         apiKey: "AIzaSyC-8mx4_j1nxfHVLavJI0DzIdyefAlBMR4",
@@ -44,6 +48,7 @@ const Chat = () => {
 
     const Send = async () => {
         bottomRef.current.scrollIntoView({ behavior: "smooth", block: "end" })
+        // console.log(bottomRef.current.scrollHeight)
 
         if (!value || value.trim().length < 1) {
             setValue('');
@@ -65,10 +70,16 @@ const Chat = () => {
     if(loading) {
         return <Preloader/>
     }
+    
 
     return (
         <section>
             <div className={Style.chat}>
+                {/* {bottomRef.current.scrollHeight === 3000 &&
+                    <button className={Style.chat_goDown} onClick={goDown}>
+                        вниз
+                    </button>
+                } */}
                 <div className={Style.chat_block} ref={bottomRef}>
                     {
                         messages.sort((a, b) => a.createdAt > b.createdAt ? 1 : -1).map((message, id)=> 
@@ -83,7 +94,7 @@ const Chat = () => {
                             <span className={Style.chat_message_dateYou}>
                                     <p>{message.createdAt.toDate().getHours()}</p>
                                     <p>:</p>
-                                    <p>{message.createdAt.toDate().getMinutes()}</p>
+                                    <p>{message.createdAt.toDate().getMinutes() !== 0 ? message.createdAt.toDate().getMinutes() : message.createdAt.toDate().getMinutes() + '0' }</p>
                             </span>
                             <div className={Style.chat_messageYou}>
                                 <div className={Style.chat_message_blockYou}>
@@ -121,7 +132,7 @@ const Chat = () => {
                                         </p>
                                         <p>:</p>
                                         <p>
-                                            {message.createdAt.toDate().getMinutes()}
+                                            {message.createdAt.toDate().getMinutes() !== 0 ? message.createdAt.toDate().getMinutes() : message.createdAt.toDate().getMinutes() + '0' }
                                         </p>
                                     </span>
                                 </span>     

@@ -4,12 +4,24 @@
     overflow-y: auto;
     margin: 0 auto;
     border-bottom: 0;
+    position: relative;
+
+    &_goDown {
+        width: 45px;
+        height: 45px;
+        border: 0;
+        background-color: #905bb7;
+        position: fixed;
+        border-radius: 50%;
+        top: 70%;
+        left: 80%;
+    }
 
     &::-webkit-scrollbar { 
         width: 0; 
     }
     &_block {
-        padding: 0px 15px;
+        padding: 0 15px;
     }
 
     &_message {
@@ -32,7 +44,7 @@
 
         &_block {
             background-color: #e8ecf0;
-            padding: 4px 20px;
+            padding: 4px 20px 8px 20px;
             border-radius: 10px;
             margin-left: 6px;
         }
@@ -78,7 +90,7 @@
         &_dateYou {
             display: flex;
             color: #737889;
-            font-size: 14px;
+            font-size: 13px;
             margin-bottom: 4px;
             justify-content: flex-end;
             margin-right: 50px;

@@ -15,6 +15,9 @@ const Navbar = () => {
 
   return (
     <header className={Style.header}>
+      <button onClick={()=>{
+        window.location.reload()
+      }}>Reload</button>
           {user ? 
           <NavLink>
             <button onClick={signOut} >Exit</button>

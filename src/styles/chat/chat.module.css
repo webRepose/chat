@@ -4,12 +4,23 @@
   overflow-y: auto;
   margin: 0 auto;
   border-bottom: 0;
+  position: relative;
+}
+.chat_goDown {
+  width: 45px;
+  height: 45px;
+  border: 0;
+  background-color: #905bb7;
+  position: fixed;
+  border-radius: 50%;
+  top: 70%;
+  left: 80%;
 }
 .chat::-webkit-scrollbar {
   width: 0;
 }
 .chat_block {
-  padding: 0px 15px;
+  padding: 0 15px;
 }
 .chat_message {
   display: flex;
@@ -29,7 +40,7 @@
 }
 .chat_message_block {
   background-color: #e8ecf0;
-  padding: 4px 20px;
+  padding: 4px 20px 8px 20px;
   border-radius: 10px;
   margin-left: 6px;
 }
@@ -65,7 +76,7 @@
 .chat_message_dateYou {
   display: flex;
   color: #737889;
-  font-size: 14px;
+  font-size: 13px;
   margin-bottom: 4px;
   justify-content: flex-end;
   margin-right: 50px;
