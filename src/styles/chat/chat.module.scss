@@ -1,6 +1,6 @@
 .chat {
     width:calc(100% - 1px);
-    height: 75vh;
+    height: 70vh;
     overflow-y: auto;
     margin: 0 auto;
     border-bottom: 0;
@@ -20,6 +20,7 @@
     &::-webkit-scrollbar { 
         width: 0; 
     }
+    
     &_block {
         padding: 0 15px;
     }

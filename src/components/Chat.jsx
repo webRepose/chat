@@ -18,10 +18,12 @@ const Chat = () => {
     useEffect(() => {
         const timer = setTimeout(() => {
         bottomRef.current.scrollIntoView({ block: 'end' });
-      }, 700);
+
+      }, 1000);
   
       return () => clearTimeout(timer);
     }, []);  
+
     
     // const goDown = () => {
     //     bottomRef.current.scrollIntoView({ behavior: "smooth", block: 'end' });
@@ -45,10 +47,8 @@ const Chat = () => {
         orderBy("createdAt")   
     ); 
 
-
     const Send = async () => {
         bottomRef.current.scrollIntoView({ behavior: "smooth", block: "end" })
-        // console.log(bottomRef.current.scrollHeight)
 
         if (!value || value.trim().length < 1) {
             setValue('');
@@ -66,7 +66,6 @@ const Chat = () => {
         setValue('');
     }
 
-
     if(loading) {
         return <Preloader/>
     }
@@ -75,11 +74,9 @@ const Chat = () => {
     return (
         <section>
             <div className={Style.chat}>
-                {/* {bottomRef.current.scrollHeight === 3000 &&
-                    <button className={Style.chat_goDown} onClick={goDown}>
+                    {/* <button className={Style.chat_goDown} onClick={goDown}>
                         вниз
-                    </button>
-                } */}
+                    </button> */}
                 <div className={Style.chat_block} ref={bottomRef}>
                     {
                         messages.sort((a, b) => a.createdAt > b.createdAt ? 1 : -1).map((message, id)=> 

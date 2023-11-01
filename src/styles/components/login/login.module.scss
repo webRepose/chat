@@ -1,4 +1,28 @@
 .login {
-    width: 100%;
-    position: fixed;
+    height: 70vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: antiquewhite;
+
+    h1 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    button {
+        padding: 10px 30px;
+        background-color: #cc3633;
+        color: antiquewhite;     
+        border: 0;
+        border-radius: 15px;
+        margin: 0 auto;
+        display: block;
+    }
+}
+
+.copyright {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
 }

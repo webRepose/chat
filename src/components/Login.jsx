@@ -3,11 +3,9 @@ import Context from '../index';
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import Style from '../styles/components/login/login.module.css';
 
-
-
 const Copyright = () => {
   return (
-    <div>
+    <div className={Style.copyright}>
       <p>{'Copyright © '}</p>
       <p>Test</p>
       <p>{new Date().getFullYear()}</p>
@@ -29,10 +27,13 @@ const Login = () => {
   return (
     <>
     <section className={Style.login}>
+      <div>
+      <h1>Вход</h1>
       <button onClick={login} type="submit">
         Войти с помощью Google
       </button>
               <Copyright/>
+      </div>
     </section>
     </>
 )

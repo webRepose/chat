@@ -1,6 +1,6 @@
 .chat {
   width: calc(100% - 1px);
-  height: 75vh;
+  height: 70vh;
   overflow-y: auto;
   margin: 0 auto;
   border-bottom: 0;
