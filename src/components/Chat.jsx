@@ -48,10 +48,9 @@ const Chat = () => {
     ); 
 
     const Send = async () => {
-        bottomRef.current.scrollIntoView({ behavior: "smooth", block: "end" })
-
         if (!value || value.trim().length < 1) {
             setValue('');
+            bottomRef.current.scrollIntoView({ behavior: "smooth", block: "end" })
             return 0;
         }
 
@@ -63,13 +62,16 @@ const Chat = () => {
             createdAt: Timestamp.fromDate(new Date()),
         });
 
+        bottomRef.current.scrollIntoView({ behavior: "smooth", block: "end" })
+
         setValue('');
     }
 
-    if(loading) {
-        return <Preloader/>
-    }
+    if(loading) return <Preloader/>
     
+    console.log(Timestamp.fromDate(new Date()).toDate())
+    console.log(Timestamp.fromDate(new Date()).toDate().getMonth())
+    console.log(Timestamp.fromDate(new Date()).toDate().getDay())
 
     return (
         <section>
@@ -91,7 +93,19 @@ const Chat = () => {
                             <span className={Style.chat_message_dateYou}>
                                     <p>{message.createdAt.toDate().getHours()}</p>
                                     <p>:</p>
-                                    <p>{message.createdAt.toDate().getMinutes() !== 0 ? message.createdAt.toDate().getMinutes() : message.createdAt.toDate().getMinutes() + '0' }</p>
+                                    <p>
+                                        {message.createdAt.toDate().getMinutes() !== 0 
+                                        ?
+                                        <>
+                                            {message.createdAt.toDate().getMinutes() < 10 ?
+                                                '0' + message.createdAt.toDate().getMinutes() 
+                                                : message.createdAt.toDate().getMinutes() 
+                                            }
+                                        </>
+                                        : 
+                                        message.createdAt.toDate().getMinutes() + '0' 
+                                        }
+                                    </p>
                             </span>
                             <div className={Style.chat_messageYou}>
                                 <div className={Style.chat_message_blockYou}>
@@ -101,7 +115,7 @@ const Chat = () => {
                                 </div>
                                 <div className={Style.chat_message_ava}>
                                 { message.photoURL ?
-                                        <img alt='avatar' src={message.photoURL}/>
+                                        <img width={'40px'} height={'40px'} alt='avatar' src={message.photoURL}/>
                                         :
                                         <img alt='Avatar by Dmitriy Bondarchuk' src='../../img/avatar.svg'/>
                                 }
@@ -109,7 +123,7 @@ const Chat = () => {
                             </div>
                                 </>
                              :    
-                             <div className={Style.chat_message}>
+                             <div style={{marginTop:'15px'}} className={Style.chat_message}>
                                 <div className={Style.chat_message_ava}>
                                     { message.photoURL  ?
                                         <img alt='avatar' src={message.photoURL}/>
@@ -129,7 +143,16 @@ const Chat = () => {
                                         </p>
                                         <p>:</p>
                                         <p>
-                                            {message.createdAt.toDate().getMinutes() !== 0 ? message.createdAt.toDate().getMinutes() : message.createdAt.toDate().getMinutes() + '0' }
+                                            {message.createdAt.toDate().getMinutes() !== 0 
+                                            ?
+                                            <>
+                                                {message.createdAt.toDate().getMinutes() < 10 ?
+                                                   '0' + message.createdAt.toDate().getMinutes() 
+                                                   : message.createdAt.toDate().getMinutes() 
+                                                }
+                                            </>
+                                            : 
+                                            message.createdAt.toDate().getMinutes() + '0' }
                                         </p>
                                     </span>
                                 </span>     
@@ -155,7 +178,7 @@ const Chat = () => {
                 <div className={Style.chat_form_button_block}>
                     <button onClick={Send}>
                         <div className={Style.chat_form_button}>
-                            <img src='../../img/send.svg' alt="send"/>
+                            <img width={'20px'} height={'16.83px'} src='../../img/send.svg' alt="send"/>
                         </div>
                     </button>
                 </div>
