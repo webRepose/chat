@@ -73,7 +73,7 @@ const Chat = () => {
 
     return (
         <section>
-            <div className={Style.chat}>
+            <div style={{height: window.visualViewport.height - 130}} className={Style.chat}>
                     {/* <button className={Style.chat_goDown} onClick={goDown}>
                         вниз
                     </button> */}
