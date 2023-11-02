@@ -1,6 +1,6 @@
 {
-  "name": "Fast Type - because need!",
-  "short_name": "Fast Type",
+  "name": "Messagnger IO",
+  "short_name": "Messagnger",
   "theme_color": "#202124",
   "background_color": "#202124",
   "display": "standalone",
@@ -11,7 +11,8 @@
       "icons": [
         {
           "src": "/img/Manifest//img/Manifest/windows11/SmallTile.scale-100.png",
-          "sizes": "71x71"
+          "sizes": "71x71",
+          "purpose": "maskable"
         },
         {
           "src": "/img/Manifest/windows11/SmallTile.scale-125.png",
