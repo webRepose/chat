@@ -6,8 +6,6 @@
   "display": "standalone",
   "orientation": "portrait",
   "start_url": "./",
-  "icons": [
-    {
       "icons": [
         {
           "src": "/img/Manifest/img/Manifest/windows11/SmallTile.scale-100.png",
@@ -572,5 +570,3 @@
         }
       ]
     }
-  ]
-}
