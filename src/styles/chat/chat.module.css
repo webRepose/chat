@@ -6,15 +6,49 @@
   border-bottom: 0;
   position: relative;
 }
-.chat_goDown {
-  width: 45px;
-  height: 45px;
-  border: 0;
-  background-color: #905bb7;
+.chat_delete_block {
+  width: 100%;
+  height: 100%;
   position: fixed;
-  border-radius: 50%;
-  top: 70%;
-  left: 80%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  -webkit-backdrop-filter: blur(2px);
+          backdrop-filter: blur(2px);
+  z-index: 10;
+}
+.chat_delete {
+  width: -moz-fit-content;
+  width: fit-content;
+  height: auto;
+  display: block;
+}
+.chat_delete li {
+  list-style: none;
+  border: 0;
+  margin-bottom: 10px;
+}
+.chat_delete h4 {
+  color: antiquewhite;
+  margin-bottom: 10px;
+}
+.chat_delete button {
+  padding: 8px 30px;
+  background-color: #8864cc;
+  color: wheat;
+  border: 0;
+  border-radius: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 auto;
+  width: 90%;
+  font-size: 16px;
+  cursor: pointer;
+}
+.chat_delete img {
+  margin-top: 2px;
+  width: 15px;
 }
 .chat::-webkit-scrollbar {
   width: 0;

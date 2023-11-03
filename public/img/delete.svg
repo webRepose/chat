@@ -1,0 +1,3 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="720" viewBox="0 0 640 720">
+  <path id="delete" d="M280-120q-33,0-56.5-23.5T200-200V-720H160v-80H360v-40H600v40H800v80H760v520q0,33-23.5,56.5T680-120ZM680-720H280v520H680ZM360-280h80V-640H360Zm160,0h80V-640H520ZM280-720v0Z" transform="translate(-160 840)" fill="wheat"/>
+</svg>
