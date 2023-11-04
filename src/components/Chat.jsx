@@ -246,11 +246,12 @@ const Chat = () => {
                     <input 
                     placeholder='Начать писать'
                     value={value}
-                    // onClick={()=>{
-                    //     setTimeout(()=>{
-                    //         setHeightChat(prev => prev = window.visualViewport.height + 130);
-                    //     },1000)
-                    // }}
+                    onClick={()=>{
+                        setTimeout(()=>{
+                            alert(heightChat)
+                            // setHeightChat(prev => prev = window.visualViewport.height + 130);
+                        },1000)
+                    }}
                     onChange={(e=>{setValue(e.target.value)})}/>
                 </div>
                 <div className={Style.chat_form_button_block}>
