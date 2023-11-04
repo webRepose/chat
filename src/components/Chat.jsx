@@ -248,8 +248,8 @@ const Chat = () => {
                     value={value}
                     onClick={()=>{
                         setTimeout(()=>{
-                            alert(heightChat)
-                            // setHeightChat(prev => prev = window.visualViewport.height + 130);
+                            // alert(heightChat)
+                            setHeightChat(prev => prev = window.visualViewport.height - 40+'%');
                         },1000)
                     }}
                     onChange={(e=>{setValue(e.target.value)})}/>
