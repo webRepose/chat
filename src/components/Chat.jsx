@@ -249,7 +249,7 @@ const Chat = () => {
                     onClick={()=>{
                         setTimeout(()=>{
                             // alert(heightChat)
-                            setHeightChat(prev => prev = window.visualViewport.height - 40+'%');
+                            setHeightChat(prev => prev = 'auto');
                         },1000)
                     }}
                     onChange={(e=>{setValue(e.target.value)})}/>
