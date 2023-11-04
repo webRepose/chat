@@ -249,7 +249,7 @@ const Chat = () => {
                     onClick={()=>{
                         setTimeout(()=>{
                             setHeightChat(prev => prev = window.visualViewport.height - 130);
-                        },1000)
+                        },500)
                     }}
                     onChange={(e=>{setValue(e.target.value)})}/>
                 </div>

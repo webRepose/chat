@@ -7,7 +7,6 @@
 
 .html, body {
   overflow: hidden;
-  height: 90vh;
   background-color: #242627;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
