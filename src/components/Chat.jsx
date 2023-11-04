@@ -79,9 +79,6 @@ const Chat = () => {
 
         bottomRef.current.scrollIntoView({ behavior: "smooth", block: "end" })
         setValue('');
-
-            // console.log(chatRef.current.clientHeight)
-            // chatRef.current.clientHeight = window.visualViewport.height - 130
     }
 
     const Delete = async (value) => {
@@ -250,9 +247,9 @@ const Chat = () => {
                     placeholder='Начать писать'
                     value={value}
                     onClick={()=>{
-                        // alert(chatRef.current.clientHeight)
-                        // window.visualViewport.height - chatRef.current.clientHeight
-                        setHeightChat(prev => prev = window.visualViewport.height - 130);
+                        setTimeout(()=>{
+                            setHeightChat(prev => prev = window.visualViewport.height - 130);
+                        },1000)
                     }}
                     onChange={(e=>{setValue(e.target.value)})}/>
                 </div>
