@@ -12,6 +12,7 @@ import Style from '../styles/chat/chat.module.css';
 const Chat = () => {
     const {auth} = useContext(Context); 
     const [user] = useAuthState(auth); 
+    const [heightChat, setHeightChat] = useState(window.visualViewport.height - 130);
     const bottomRef = useRef();
     const [value, setValue] = useState('');
     const [modalMessage, setModalMessage] = useState(false);
@@ -29,21 +30,27 @@ const Chat = () => {
     const [messages, loading] = useCollectionData(collection(db, 'messages')); 
     const [idMessageList, setIdMessageList] = useState([]);
     const [idDoc, setIdDoc] = useState();
-    const chatRef = useRef();
 
     const q = query(collection(db, "messages"));
+
+
     useEffect(()=>{
         const documentsArray = [];
-        onSnapshot(q, (querySnapshot) => {
-            querySnapshot.docs.forEach((e) => {
+        const f = onSnapshot(q, (querySnapshot) => {
+            querySnapshot.docs.map((e) => (
                 documentsArray.push(e.id)
-            })
+            ))
 
             if(documentsArray.length > idMessageList.length) {
-                setIdMessageList(prev => prev = documentsArray);
+                setIdMessageList(documentsArray)
             }
+
+            return () => f()
         });
+
+
     },[q,idMessageList]);
+
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -68,6 +75,8 @@ const Chat = () => {
             createdAt: Timestamp.fromDate(new Date()),
         });
 
+        setHeightChat(prev => prev = window.visualViewport.height - 130);
+
         bottomRef.current.scrollIntoView({ behavior: "smooth", block: "end" })
         setValue('');
 
@@ -86,13 +95,13 @@ const Chat = () => {
     // }
 
     console.log(idMessageList)
-    console.log(idDoc)
+    //  
 
     if(loading) return <Preloader/>
 
     return (
         <section>
-            <div ref={chatRef} style={{height: window.visualViewport.height - 130}} className={Style.chat}>
+            <div style={{height: heightChat}} className={Style.chat}>
                     { modalMessage &&
                         <div className={Style.chat_delete_block}>
                             <div className={Style.chat_delete}>
@@ -240,11 +249,11 @@ const Chat = () => {
                     <input 
                     placeholder='Начать писать'
                     value={value}
-                    // onClick={()=>{
-                    //     alert(chatRef.current.clientHeight)
-                    //     window.visualViewport.height - chatRef.current.clientHeight
-
-                    // }}
+                    onClick={()=>{
+                        // alert(chatRef.current.clientHeight)
+                        // window.visualViewport.height - chatRef.current.clientHeight
+                        setHeightChat(prev => prev = window.visualViewport.height - 130);
+                    }}
                     onChange={(e=>{setValue(e.target.value)})}/>
                 </div>
                 <div className={Style.chat_form_button_block}>

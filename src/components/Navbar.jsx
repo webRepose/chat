@@ -17,10 +17,10 @@ const Navbar = () => {
     <header className={Style.header}>
       <button onClick={()=>{
         window.location.reload()
-      }}>Reload</button>
+      }}>Перезагрузка</button>
           {user ? 
           <NavLink>
-            <button onClick={signOut} >Exit</button>
+            <button onClick={signOut}>Выход</button>
           </NavLink>
            : 
           // <NavLink to={LOGIN_ROUTE}>
