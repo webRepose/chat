@@ -61,10 +61,9 @@ const Chat = () => {
     }, []);  
       
     const Send = async () => {
-        setHeightChat(prev => prev = window.visualViewport.height - 130);
-
         if (!value || value.trim().length < 1) {
             setValue('');
+            setHeightChat(prev => prev = window.visualViewport.height - 130);
             bottomRef.current.scrollIntoView({ behavior: "smooth", block: "end" })
             return 0;
         }
@@ -79,6 +78,7 @@ const Chat = () => {
 
         bottomRef.current.scrollIntoView({ behavior: "smooth", block: "end" })
         setValue('');
+        setHeightChat(prev => prev = window.visualViewport.height - 130);
     }
 
     const Delete = async (value) => {
