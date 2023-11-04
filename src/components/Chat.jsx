@@ -63,8 +63,8 @@ const Chat = () => {
     const Send = async () => {
         if (!value || value.trim().length < 1) {
             setValue('');
-            setHeightChat(prev => prev = window.visualViewport.height - 130);
             bottomRef.current.scrollIntoView({ behavior: "smooth", block: "end" })
+            setTimeout(()=>{setHeightChat(prev => prev = window.visualViewport.height - 130);},200)
             return 0;
         }
 
