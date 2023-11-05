@@ -269,7 +269,10 @@ const Chat = () => {
                     placeholder='Начать писать'
                     value={value}
                     onKeyDown={(e)=>{
-                        if(e.key === 'Enter' || e.code === 'Enter') Send();
+                        if(e.key === 'Enter' || e.code === 'Enter') {
+                            Send();
+                            setHeightChat(prev => prev = window.visualViewport.height - 60);
+                        };
                     }}
                     onChange={(e => {
                         setValue(prev => prev = e.target.value);
