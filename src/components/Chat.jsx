@@ -169,7 +169,7 @@ const Chat = () => {
                     {
                         messages ? messages.map((message, id) => 
                         <div 
-                        style={{marginLeft: user.uid === message.uid ? 'auto' : '0px'}}
+                        style={{marginLeft: user.uid === message.uid ? 'auto' : '0px', maxWidth: user.uid === message.uid && '88%'} }
                         className={Style.chat_message} 
                         key={id}
                         >
@@ -223,7 +223,7 @@ const Chat = () => {
                                     setUidModal(prev => prev = false);
                                     setModalMessage(prev => prev = true);
                                     setCopyText(prev => prev = message.text);
-                                }} className={Style.chat_message_block}>
+                                }} style={{maxWidth: '80%'}} className={Style.chat_message_block}>
                                 <span className={Style.chat_message_date}>
                                     <p className={Style.chat_message_name}>
                                         {message.displayName}
