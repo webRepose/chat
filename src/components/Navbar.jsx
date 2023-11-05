@@ -15,12 +15,19 @@ const Navbar = () => {
 
   return (
     <header className={Style.header}>
-      <button onClick={()=>{
-        window.location.reload()
-      }}>Перезагрузка</button>
+      <button className={Style.header_sync} onClick={()=>{
+        window.location.reload();
+      }}>
+        <img width={'20px'} src="../../img/sync.svg" alt="sync"/>
+      </button>
           {user ? 
           <NavLink>
-            <button onClick={signOut}>Выход</button>
+            <button className={Style.header_exit} onClick={signOut}>
+                <div>Выход</div>
+                <div>
+                  <img width={'20px'} src="../../img/exit.svg" alt="exit"/>
+                </div>
+            </button>
           </NavLink>
            : 
           // <NavLink to={LOGIN_ROUTE}>

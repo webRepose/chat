@@ -2,7 +2,7 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { useContext, useRef, useState, useEffect } from 'react';
 import Context from '../index';
 import {useCollectionData} from 'react-firebase-hooks/firestore';
-import { collection, getFirestore, addDoc, doc, deleteDoc, onSnapshot, query, updateDoc } from 'firebase/firestore';
+import { orderBy, collection, getFirestore, addDoc, doc, deleteDoc, onSnapshot, query, updateDoc } from 'firebase/firestore';
 import { initializeApp } from 'firebase/app';
 import Preloader from './Preloader';
 import { Timestamp } from '@firebase/firestore';
@@ -12,7 +12,7 @@ import Style from '../styles/chat/chat.module.css';
 const Chat = () => {
     const {auth} = useContext(Context); 
     const [user] = useAuthState(auth); 
-    const [heightChat, setHeightChat] = useState(window.visualViewport.height - 130);
+    const [heightChat, setHeightChat] = useState(window.visualViewport.height - 60);
     const bottomRef = useRef();
     const [value, setValue] = useState('');
     const [modalMessage, setModalMessage] = useState(false);
@@ -27,12 +27,14 @@ const Chat = () => {
     };
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
-    const [messages, loading] = useCollectionData(collection(db, 'messages')); 
+    const [messages, loading] = useCollectionData(query(
+        collection(db, 'messages'), orderBy("createdAt", "asc")
+    )); 
     const [idMessageList, setIdMessageList] = useState([]);
     const [idDoc, setIdDoc] = useState();
-
-    const q = query(collection(db, "messages"));
-
+    const [copyText, setCopyText] = useState();
+    const [uidModal, setUidModal] = useState();
+    const q = query(collection(db, "messages"), orderBy("createdAt", "asc"));
 
     useEffect(()=>{
         const documentsArray = [];
@@ -42,15 +44,11 @@ const Chat = () => {
             ))
 
             if(documentsArray.length > idMessageList.length) {
-                setIdMessageList(documentsArray)
+                setIdMessageList(prev => prev = documentsArray);
             }
-
-            return () => f()
+            return () => f();
         });
-
-
     },[q,idMessageList]);
-
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -64,7 +62,7 @@ const Chat = () => {
         if (!value || value.trim().length < 1) {
             setValue('');
             bottomRef.current.scrollIntoView({ behavior: "smooth", block: "end" })
-            setTimeout(()=>{setHeightChat(prev => prev = window.visualViewport.height - 130);},200)
+            setTimeout(()=>{setHeightChat(prev => prev = window.visualViewport.height - 60);},200)
             return 0;
         }
 
@@ -76,13 +74,21 @@ const Chat = () => {
             createdAt: Timestamp.fromDate(new Date()),
         });
 
+        setIdMessageList(prev => prev = []);
         bottomRef.current.scrollIntoView({ behavior: "smooth", block: "end" })
         setValue('');
-        setHeightChat(prev => prev = window.visualViewport.height - 130);
+        setHeightChat(prev => prev = window.visualViewport.height - 60);
     }
 
     const Delete = async (value) => {
         await deleteDoc(doc(db, "messages", value));
+        setIdMessageList(prev => prev = []);
+    }
+
+    const DeleteButton = () => {
+        const resDel = window.confirm('Вы действительно хотите удалить это сообщение?');
+        if(resDel) Delete(idDoc);
+        setModalMessage(prev => prev = false);
     }
 
     // const Update = async (valueID) => {
@@ -91,54 +97,67 @@ const Chat = () => {
     //     })
     // }
 
-    console.log(idMessageList)
-    //  
-
     if(loading) return <Preloader/>
 
     return (
-        <section>
+        <main>
+            <section>
             <div style={{height: heightChat}} className={Style.chat}>
                     { modalMessage &&
-                        <div className={Style.chat_delete_block}>
-                            <div className={Style.chat_delete}>
+                        <div className={Style.chat_change_block}>
+                            <div className={Style.chat_change}>
                                 <h4>Меню взаимодействия</h4>
                                 <ul>
-                                <li onClick={()=>{
-                                        // Update(idDoc)
+                                    {uidModal &&
+                                        <li onClick={()=>{
+                                            // Update(idDoc)
+                                            setModalMessage(prev => prev = false);
+                                        }}>
+                                            <button>
+                                                <div>
+                                                    <img width={15} src="../../img/edit.svg" alt="close"/>
+                                                </div>
+                                                <div>
+                                                    Изменить 
+                                                </div>
+                                            </button>
+                                        </li>
+                                    }
+                                    <li onClick={()=>{
+                                        navigator.clipboard.writeText(copyText);
+                                        alert('Вы успешно скопировали тест сообщения!');
                                         setModalMessage(prev => prev = false);
                                     }}>
                                         <button>
                                             <div>
-                                                Изменить 
+                                                <img width={15} src="../../img/copy.svg" alt="copy"/>
                                             </div>
                                             <div>
-                                                <img width={15} src="../../img/edit.svg" alt="close"/>
+                                                Копировать 
                                             </div>
                                         </button>
                                     </li>
+                                    {uidModal &&
+                                        <li onClick={DeleteButton}>
+                                            <button>
+                                                <div>
+                                                    <img width={15} src="../../img/delete.svg" alt="delete"/>
+                                                </div>
+                                                <div>
+                                                    Удалить 
+                                                </div>
+                                            </button>
+                                        </li>
+                                    }
                                     <li onClick={()=>{
-                                        Delete(idDoc);
                                         setModalMessage(prev => prev = false);
                                     }}>
                                         <button>
-                                            <div>
-                                                Удалить 
-                                            </div>
-                                            <div>
-                                                <img width={15} src="../../img/delete.svg" alt="delete"/>
-                                            </div>
-                                        </button>
-                                    </li>
-                                    <li onClick={()=>{
-                                        setModalMessage(prev => prev = false);
-                                    }}>
-                                        <button>
-                                            <div>
-                                                Отмена 
-                                            </div>
                                             <div>
                                                 <img width={15} src="../../img/close.svg" alt="close"/>
+                                            </div>
+                                            <div>
+                                                Отменить
                                             </div>
                                         </button>
                                     </li>
@@ -148,7 +167,7 @@ const Chat = () => {
                     }
                 <div className={Style.chat_block} ref={bottomRef}>
                     {
-                        messages.sort((a, b) => a.createdAt > b.createdAt ? 1 : -1).map((message, id)=> 
+                        messages ? messages.map((message, id) => 
                         <div 
                         style={{marginLeft: user.uid === message.uid ? 'auto' : '0px'}}
                         className={Style.chat_message} 
@@ -157,55 +176,54 @@ const Chat = () => {
                             <div>
                             {user.uid === message.uid ? 
                             <>
-                            <span className={Style.chat_message_dateYou}>
-                                    <p>{message.createdAt.toDate().getHours()}</p>
-                                    <p>:</p>
-                                    <p>
-                                        {message.createdAt.toDate().getMinutes() !== 0 
-                                        ?
-                                        <>
-                                            {message.createdAt.toDate().getMinutes() < 10 ?
-                                                '0' + message.createdAt.toDate().getMinutes() 
-                                                : message.createdAt.toDate().getMinutes() 
-                                            }
-                                        </>
-                                        : 
-                                        message.createdAt.toDate().getMinutes() + '0' 
-                                        }
-                                    </p>
-                            </span>
                             <div className={Style.chat_messageYou}>
                                 <div
                                 id={id}
                                 onClick={()=>{
+                                    setUidModal(prev => prev = true);
                                     setModalMessage(prev => prev = true);
-                                    setIdDoc(idMessageList[id]);
+                                    setIdDoc(prev => prev = idMessageList[id]);
+                                    setCopyText(prev => prev = message.text);
                                 }} 
                                 className={Style.chat_message_blockYou}>
-                                        <p className={Style.chat_message_textYou}>
-                                            {message.text}
+                                    <p className={Style.chat_message_textYou}>
+                                        {message.text}
+                                    </p>
+                                    <span className={Style.chat_message_dateYou}>
+                                        <p>{message.createdAt.toDate().getHours()}</p>
+                                        <p>:</p>
+                                        <p>
+                                            {message.createdAt.toDate().getMinutes() !== 0 
+                                            ?
+                                            <>
+                                                {message.createdAt.toDate().getMinutes() < 10 ?
+                                                    '0' + message.createdAt.toDate().getMinutes() 
+                                                    : message.createdAt.toDate().getMinutes() 
+                                                }
+                                            </>
+                                            : 
+                                            message.createdAt.toDate().getMinutes() + '0' 
+                                            }
                                         </p>
-                                </div>
-                                <div className={Style.chat_message_ava}>
-                                { message.photoURL ?
-                                        <img width={'40px'} height={'40px'} alt='avatar' src={message.photoURL}/>
-                                        :
-                                        <img alt='Avatar by Dmitriy Bondarchuk' src='../../img/avatar.svg'/>
-                                }
+                                    </span>
                                 </div>
                             </div>
                                 </>
                              :    
-                             <div style={{marginTop:'15px'}} className={Style.chat_message}>
+                             <div className={Style.chat_message}>
                                 <div className={Style.chat_message_ava}>
-                                    { message.photoURL  ?
+                                    { message.photoURL ?
                                         <img alt='avatar' src={message.photoURL}/>
                                         :
                                         <img alt='Avatar by Dmitriy Bondarchuk' src='../../img/avatar.svg'/>
                                         
                                     }
                                 </div>
-                                <div className={Style.chat_message_block}>
+                                <div onClick={()=>{
+                                    setUidModal(prev => prev = false);
+                                    setModalMessage(prev => prev = true);
+                                    setCopyText(prev => prev = message.text);
+                                }} className={Style.chat_message_block}>
                                 <span className={Style.chat_message_date}>
                                     <p className={Style.chat_message_name}>
                                         {message.displayName}
@@ -229,7 +247,6 @@ const Chat = () => {
                                         </p>
                                     </span>
                                 </span>     
-
                                     <p className={Style.chat_message_text}>
                                          {message.text}
                                     </p>
@@ -238,6 +255,11 @@ const Chat = () => {
                             }
                             </div>
                         </div>)
+
+                        : 
+                        <div>
+                            Здесь пока пусто
+                        </div>
                     }
                 </div>
             </div>
@@ -246,13 +268,12 @@ const Chat = () => {
                     <input 
                     placeholder='Начать писать'
                     value={value}
-                    // onClick={()=>{
-                    //     setTimeout(()=>{
-                    //         // alert(heightChat)
-                    //         setHeightChat(prev => prev = 'auto');
-                    //     },1000)
-                    // }}
-                    onChange={(e=>{setValue(e.target.value)})}/>
+                    onKeyDown={(e)=>{
+                        if(e.key === 'Enter' || e.code === 'Enter') Send();
+                    }}
+                    onChange={(e => {
+                        setValue(prev => prev = e.target.value);
+                    })}/>
                 </div>
                 <div className={Style.chat_form_button_block}>
                     <button onClick={Send}>
@@ -263,6 +284,7 @@ const Chat = () => {
                 </div>
             </div>
         </section>
+        </main>
     );
 }
 

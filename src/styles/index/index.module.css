@@ -11,6 +11,14 @@
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
+button {
+  cursor: pointer;
+}
+
+a {
+  text-decoration: none;
+}
+
 button:hover {
   opacity: 0.8;
   transition: all 0.3s ease;
