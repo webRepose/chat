@@ -1,36 +1,39 @@
+import Section from '../UI_kit/Section';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useRef, useState, useEffect } from 'react';
 import {useCollectionData} from 'react-firebase-hooks/firestore';
 import { Timestamp, orderBy, collection, addDoc, doc, deleteDoc, onSnapshot, query, updateDoc } from 'firebase/firestore';
-import Preloader from './Preloader';
+import Preloader from '../components/Preloader';
 import Style from '../styles/chat/chat.module.css';
-// import { getMessaging, onMessage } from "firebase/messaging";
+import { getMessaging, onMessage } from "firebase/messaging";
 import { db, auth  } from '../index';
-import Section from '../UI_kit/Section';
 
-const Chat = () => {
-    const [user] = useAuthState(auth); 
-    const [heightChat, setHeightChat] = useState(window.visualViewport.height - 130);
-    const bottomRef = useRef();
-    const [value, setValue] = useState('');
-    const [valueRewrite, setValueRewrite] = useState('');
-    const [modalMessage, setModalMessage] = useState(false);
-    const [messages, loading] = useCollectionData(query(
-        collection(db, 'messages'), orderBy("createdAt", "asc")
-    )); 
-    const [idMessageList, setIdMessageList] = useState([]);
-    const [idDoc, setIdDoc] = useState();
-    const [copyText, setCopyText] = useState();
-    const [uidModal, setUidModal] = useState();
-    const q = query(collection(db, "messages"), orderBy("createdAt", "asc"));
-    const [modeType, setModeType] = useState(true);
+const Chats = ({dataChats}) => {
+    const [heightChat, setHeightChat] = useState(window.visualViewport.height - 130),
+    [user] = useAuthState(auth), 
+    href = window.location.href;
+    let idFromHref;
+    if(href.includes('https://webrepose-chat.vercel.app')) {
+        idFromHref = href.replace('https://webrepose-chat.vercel.app/','');
+    } else idFromHref = href.replace('http://localhost:3000/','');
+    const bottomRef = useRef(),
+    [value, setValue] = useState(''),
+    [valueRewrite, setValueRewrite] = useState(''),
+    [modalMessage, setModalMessage] = useState(false),
+    [messages, loading] = useCollectionData(query(
+      collection(db, 'users', dataChats, 'chats', idFromHref, 'messages'), orderBy("createdAt", "asc")
+    )), 
+    [idMessageList, setIdMessageList] = useState([]),
+    [idDoc, setIdDoc] = useState(),
+    [copyText, setCopyText] = useState(),
+    [uidModal, setUidModal] = useState(),
+    q = query(collection(db, 'users', dataChats, 'chats', idFromHref, 'messages'), orderBy("createdAt", "asc")),
+    [modeType, setModeType] = useState(true);
 
     useEffect(()=>{
         const f = onSnapshot(q, (querySnapshot) => {
-            const data = querySnapshot.docs.map(e => e.id)
-            if(data.length > idMessageList.length) {
-                setIdMessageList(prev => prev = data);
-            }
+            const data = querySnapshot.docs.map(e => e.id);
+            data.length > idMessageList.length && setIdMessageList(prev => prev = data);
             return () => f();
         });
     },[q,idMessageList]);
@@ -51,7 +54,7 @@ const Chat = () => {
             return 0;
         }
 
-        await addDoc(collection(db, 'messages'), {
+        await addDoc(collection(db, 'users', dataChats, 'chats', idFromHref, 'messages'), {
             uid: user.uid,
             displayName: user.displayName,
             photoURL: user.photoURL,
@@ -60,33 +63,36 @@ const Chat = () => {
             changed: false
         });
 
+        // await updateDoc(doc(db, 'users', dataChats, 'chats', idFromHref), {
+        //     displayNameFromMessages: user.displayName,
+        //     text: value.trim(),
+        // });
+
         bottomRef.current.scrollIntoView({ behavior: "smooth", block: "end" })
         setValue('');
         setHeightChat(prev => prev = window.visualViewport.height - 130);
     }
 
     const Delete = async (value) => {
-        await deleteDoc(doc(db, "messages", value));
+        await deleteDoc(doc(db, 'users', dataChats, 'chats', idFromHref, 'messages', value));
     }
 
     const DeleteButton = () => {
         const resDel = window.confirm('Вы действительно хотите удалить это сообщение?');
-        if(resDel) Delete(idDoc);
+        resDel && Delete(idDoc);
         setModalMessage(prev => prev = false);
     }
 
     const Update = () => {
         setModeType(prev => prev = false);
         messages.forEach((data, i) => {
-            if(idDoc === idMessageList[i]) {
-                setValueRewrite(prev => prev = data.text);
-            }
+            idDoc === idMessageList[i] && setValueRewrite(prev => prev = data.text);
         })
     }
 
     const UpdateButton = async () => {
         if(valueRewrite.length === 0) return 0;
-        await updateDoc(doc(db, "messages", idDoc), {
+        await updateDoc(doc(db, 'users', dataChats, 'chats', idFromHref, 'messages', idDoc), {
             text: valueRewrite.trim(),
             changed: true
         })
@@ -95,14 +101,25 @@ const Chat = () => {
         setModeType(prev => prev = true);
     }
 
-    // const messaging = getMessaging();
-    // onMessage(messaging, () => {
-    //     const timer = setTimeout(() => {
-    //         bottomRef.current.scrollIntoView({ block: 'end' });
-    //       }, 1200);
+    const sendFirstMessage = async() => {
+        await addDoc(collection(db, 'users', dataChats, 'chats', idFromHref, 'messages'), {
+            uid: user.uid,
+            displayName: user.displayName,
+            photoURL: user.photoURL,
+            text: 'Привет!',
+            createdAt: Timestamp.fromDate(new Date()),
+            changed: false
+        });
+    }
+
+    const messaging = getMessaging();
+    onMessage(messaging, () => {
+        const timer = setTimeout(() => {
+            bottomRef.current.scrollIntoView({ block: 'end' });
+          }, 1200);
       
-    //       return () => clearTimeout(timer);
-    // });
+          return () => clearTimeout(timer);
+    });
 
     if(loading) return <Preloader/>
 
@@ -222,22 +239,18 @@ const Chat = () => {
                              :    
                              <div className={Style.chat_message}>
                                 <div className={Style.chat_message_ava}>
-                                    { message.photoURL ?
-                                        <img alt='avatar' src={message.photoURL}/>
-                                        :
-                                        <img alt='Avatar by Dmitriy Bondarchuk' src='../../img/avatar.svg'/>
-                                        
-                                    }
+                                        <img alt='avatar' 
+                                        src={message.photoURL ? message.photoURL : '../../img/avatar.svg'}/>
                                 </div>
                                 <div onClick={()=>{
                                     setUidModal(prev => prev = false);
                                     setModalMessage(prev => prev = true);
                                     setCopyText(prev => prev = message.text);
-                                }} style={{maxWidth: '80%'}} className={Style.chat_message_block}>
-                                <span className={Style.chat_message_date}>
-                                    <p className={Style.chat_message_name}>
-                                        {message.displayName}
-                                    </p>    
+                                }} style={{maxWidth: '80%', paddingTop: '6px'}} className={Style.chat_message_block}>     
+                                    <p className={Style.chat_message_text}>
+                                         {message.text}
+                                    </p>
+                                    <span style={{marginTop:'0'}} className={Style.chat_message_date}>
                                     <span>
                                     {message.changed &&
                                         <p style={{marginRight:'3px'}}>Изменено</p>
@@ -259,10 +272,7 @@ const Chat = () => {
                                             message.createdAt.toDate().getMinutes() + '0' }
                                         </p>
                                     </span>
-                                </span>     
-                                    <p className={Style.chat_message_text}>
-                                         {message.text}
-                                    </p>
+                                </span>
                                 </div>
                              </div>
                             }
@@ -270,8 +280,12 @@ const Chat = () => {
                         </div>)
 
                         : 
-                        <div>
-                            Здесь пока пусто
+                        <div onClick={sendFirstMessage} style={{height: heightChat - 40}} className={Style.chat_empty}>
+                            <div className={Style.chat_empty_block}> 
+                                <h4>Не знаете что написать?</h4>
+                                <p>Отправить сообщение:</p>
+                                <p><b>Привет!</b></p>
+                            </div>
                         </div>
                     }
                 </div>
@@ -330,4 +344,4 @@ const Chat = () => {
     );
 }
 
-export default Chat;
+export default Chats;

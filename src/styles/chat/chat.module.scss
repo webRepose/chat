@@ -59,19 +59,49 @@
     }
 
     &::-webkit-scrollbar { 
-        width: 0; 
+        width: 8px; 
+        background-color: transparent;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: transparent;
+    }
+      
+    &::-webkit-scrollbar-thumb {
+        background: #686868;
+        border-radius: 1.17vw;
+    }
+
+    &_empty {
+        display: grid;
+        place-items: center;
+
+        &_block {
+            border-radius: 20px;
+            background-color: #2c2d31;
+            color: floralwhite;
+            padding: 15px 25px;
+            text-align: center;
+
+            h4 {
+                margin-bottom: 7px;
+            }
+
+            p {
+                margin-bottom: 5px;
+            }
+        }
     }
     
     &_block {
         padding: 0 15px;
-        margin-top: 80px;
+        margin-top: 20px;
     }
 
     &_message {
         display: flex;
         width: fit-content;
         margin-bottom: 5px;
-        // max-width: 88%; 
 
         &_ava img{
             border-radius: 50%;
@@ -195,5 +225,10 @@
 @media (max-width:600px) {
     .chat_form {
         padding-bottom: env(safe-area-inset-bottom);
+    }
+    .chat {
+        &::-webkit-scrollbar { 
+            width: 3px; 
+        }
     }
 }

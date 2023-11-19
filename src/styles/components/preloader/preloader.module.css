@@ -4,6 +4,7 @@
   height: 4px;
   background-color: #B3E5FC;
   margin: 20px auto;
+  position: absolute;
 }
 
 .indeterminate {

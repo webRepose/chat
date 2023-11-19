@@ -1,0 +1,88 @@
+import Style from '../styles/data/data.module.css';
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { collection, query, doc, deleteDoc, getDocs } from 'firebase/firestore';
+import { db, auth } from "..";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { useCollectionData } from "react-firebase-hooks/firestore";
+
+
+const Chat_list = () => {
+    const [user] = useAuthState(auth), 
+    [dataUsersID, setDataUsersID] = useState([]),
+    [dataUsersID2, setDataUsersID2] = useState([]),
+    [dataUserTwo, setDataUserTwo] = useState([]),
+    [chatsAll] = useCollectionData(query(
+        collection(db, 'users', user.uid, 'chats')
+    ));
+
+    useEffect(()=>{
+    if(chatsAll) {
+        const data = chatsAll.map(data => data.participants[0] + data.participants[1]);
+        setDataUsersID(prev => prev = data);
+
+        const data2 = chatsAll.map(data => data.participants[1]);
+        setDataUserTwo(prev => prev = data2);
+
+        const data3 = chatsAll.map(data => data.participants[1] + data.participants[0]);
+        setDataUsersID2(prev => prev = data3);
+    }
+    },[chatsAll])
+
+    const data = [
+        {
+            id: '/messages',
+            name: 'group chat',
+            photo: 'https://storage.needpix.com/rsynced_images/avatar-1577909_1280.png',
+        },
+    ]
+
+    const DeleteChat = async(userTwoUID, value, value2) => {
+        const q = query(collection(db, "users", user.uid, 'chats', value, 'messages')),
+        q2 = query(collection(db, "users", userTwoUID, 'chats', value2, 'messages')),
+        querySnapshot = await getDocs(q),
+        querySnapshot2 = await getDocs(q2);
+        
+        querySnapshot.forEach(async(docsData) => {
+            await deleteDoc(doc(db, "users", user.uid, 'chats', value, 'messages', docsData.id));
+        });
+
+        querySnapshot2.forEach(async(docsData) => {
+            await deleteDoc(doc(db, "users", userTwoUID, 'chats', value2, 'messages', docsData.id));
+        });
+        await deleteDoc(doc(db, "users", user.uid, 'chats', value));
+        await deleteDoc(doc(db, "users", userTwoUID, 'chats', value2));
+    }
+
+    console.log(chatsAll)
+    return (
+        <>
+            {data && data.map((data, id)=>(
+                <Link key={id} to={data.id}>
+                <div className={Style.data}>
+                    <img className={Style.data_avatar} src={data.photo} alt="avatar_chat"/>
+                    <p className={Style.data_name}>{data.name}</p>
+                </div>
+                </Link>
+            ))}
+
+            {chatsAll && chatsAll.map((data, id)=>(
+                <Link key={id} to={data.id}>
+                    <div className={Style.data}>
+                        <img className={Style.data_avatar} src={data.photoURL} alt="avatar_chat"/>
+                        <p className={Style.data_name}>{data.displayName}</p>
+                        {/* <p>{data.displayNameFromMessages}</p> */}
+                        <button className={Style.data_delete} onClick={(e)=> {
+                            e.preventDefault();
+                            DeleteChat(dataUserTwo[id], dataUsersID[id], dataUsersID2[id]);
+                        }}>
+                        <img src="../../img/deleteChat.svg" width={18} alt="delete_chat"/>
+                        </button>
+                    </div>
+                </Link>
+            ))}
+        </>
+    );
+};
+
+export default Chat_list;

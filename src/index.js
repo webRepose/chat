@@ -2,9 +2,10 @@ import React, { createContext } from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import './styles/index/index.module.css';
-import {initializeApp} from 'firebase/app';
-import {getStorage} from 'firebase/storage';
-import {getAuth} from 'firebase/auth';
+import { initializeApp } from 'firebase/app';
+import { getStorage } from 'firebase/storage';
+import { getAuth } from 'firebase/auth';
+import { getFirestore } from 'firebase/firestore';
 
 const firebaseConfig = {
   apiKey: "AIzaSyC-8mx4_j1nxfHVLavJI0DzIdyefAlBMR4",
@@ -16,11 +17,12 @@ const firebaseConfig = {
   measurementId: "G-30ZGEPBMSJ"
 };
 
-const Context = createContext(null)
+const Context = createContext(null);
 export default Context;
-const app = initializeApp(firebaseConfig)
+const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
-export const firestore = getStorage(app)
+export const firestore = getStorage(app);
+export const db = getFirestore(app);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

@@ -11,22 +11,28 @@
     overflow: hidden;
     background-color: #242627;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    height: 100vh;
 }
 
 button {
     cursor: pointer;
+
+    &:hover {
+        opacity: 0.8;
+        transition: all 0.3s ease;
+    }
+    
+    &:active {
+        opacity: 0.7;
+        transition: all 0.3s ease;
+    }
 }
 
 a {
     text-decoration: none;
 }
 
-button:hover {
-    opacity: 0.8;
-    transition: all 0.3s ease;
-}
 
-button:active {
-    opacity: 0.7;
-    transition: all 0.3s ease;
+img {
+    pointer-events: none;
 }
