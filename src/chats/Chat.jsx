@@ -47,7 +47,6 @@ const Chats = ({dataChats}) => {
     }, []);  
       
     const Send = async () => {
-        setHeightChat(prev => prev = window.visualViewport.height - 130);
         if (!value || value.trim().length < 1) {
             setValue('');
             bottomRef.current.scrollIntoView({ behavior: "smooth", block: "end" })
@@ -66,6 +65,7 @@ const Chats = ({dataChats}) => {
 
         bottomRef.current.scrollIntoView({ behavior: "smooth", block: "end" })
         setValue('');
+        setHeightChat(prev => prev = window.visualViewport.height - 130);
     }
 
     const isURL = (str) => {
