@@ -27,7 +27,7 @@ const Chats = ({dataChats}) => {
     [copyText, setCopyText] = useState(),
     [uidModal, setUidModal] = useState(),
     [modeType, setModeType] = useState(true);
-    
+    let vh = window.innerHeight * 0.01;
 
     useEffect(()=>{
         const f = onSnapshot(q, (querySnapshot) => {
@@ -118,7 +118,7 @@ const Chats = ({dataChats}) => {
     return (
         <main>
             <Section>
-            <div className={Style.chat}>
+            <div style={{height: (vh * 100) - 130}}  className={Style.chat}>
                     { modalMessage &&
                         <div className={Style.chat_change_block}>
                             <div className={Style.chat_change}>
