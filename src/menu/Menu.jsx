@@ -2,15 +2,17 @@ import ChatList from "../chat_list/Chat_list";
 import Section from "../UI_kit/Section";
 import Style from '../styles/menu/Menu.module.css';
 import { useEffect, useState } from "react";
-import { collection, query, onSnapshot, setDoc, doc} from 'firebase/firestore';
+import { collection, query, onSnapshot, setDoc, doc } from 'firebase/firestore';
 import { db, auth } from "..";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { useNavigate } from "react-router-dom";
 
 const Menu = () => {
     const [user] = useAuthState(auth),
     [checkHaveChat, setCheckHaveChat] = useState(''),
     [modalChoiceUser, setModalChoiceUser] = useState(false),
-    [usersAll, setUsersAll] = useState([]);
+    [usersAll, setUsersAll] = useState([]),
+    navigate = useNavigate();
 
     useEffect(()=>{
         const f = onSnapshot(query(collection(db, 'users', user.uid, 'chats')), (querySnapshot) => {
@@ -58,7 +60,10 @@ const Menu = () => {
                 displayName: user.displayName,
             });
             
+            navigate('/' + user1+user2);
+
             return user1+user2;
+            
         }
     }
 

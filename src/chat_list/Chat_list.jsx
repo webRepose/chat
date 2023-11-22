@@ -9,12 +9,15 @@ import { useCollectionData } from "react-firebase-hooks/firestore";
 
 const Chat_list = () => {
     const [user] = useAuthState(auth), 
-    [dataUsersID, setDataUsersID] = useState([]),
-    [dataUsersID2, setDataUsersID2] = useState([]),
-    [dataUserTwo, setDataUserTwo] = useState([]),
     [chatsAll] = useCollectionData(query(
         collection(db, 'users', user.uid, 'chats')
-    ));
+    )),
+    [dataUsersID, setDataUsersID] = useState([]),
+    [dataUsersID2, setDataUsersID2] = useState([]),
+    [dataUserTwo, setDataUserTwo] = useState([]);
+    // [idUserChat, setIDUserChat] = useState([]);
+
+    // console.log(idUserChat)
 
     useEffect(()=>{
     if(chatsAll) {
@@ -26,6 +29,15 @@ const Chat_list = () => {
 
         const data3 = chatsAll.map(data => data.participants[1] + data.participants[0]);
         setDataUsersID2(prev => prev = data3);
+
+        // const data4 = chatsAll.map((data)=> (
+        //     {
+        //         id: data.id,
+        //         chatsId: data.idChats
+        //     }
+        // ))
+
+        // setIDUserChat(prev => prev = data4);
     }
     },[chatsAll])
 
@@ -54,7 +66,6 @@ const Chat_list = () => {
         await deleteDoc(doc(db, "users", userTwoUID, 'chats', value2));
     }
 
-    console.log(chatsAll)
     return (
         <>
             {data && data.map((data, id)=>(
@@ -71,10 +82,15 @@ const Chat_list = () => {
                     <div className={Style.data}>
                         <img className={Style.data_avatar} src={data.photoURL} alt="avatar_chat"/>
                         <p className={Style.data_name}>{data.displayName}</p>
-                        {/* <p>{data.displayNameFromMessages}</p> */}
-                        <button className={Style.data_delete} onClick={(e)=> {
+                        
+                        {/* <p>{data.text}</p> */}
+                        
+                        <button className={Style.data_delete} onClick={(e) => {
                             e.preventDefault();
-                            DeleteChat(dataUserTwo[id], dataUsersID[id], dataUsersID2[id]);
+                            console.log(dataUserTwo[id], dataUsersID[id], dataUsersID2[id])
+                            const resDel = window.confirm('Вы действительно хотите удалить этоn чат?');
+                            resDel && DeleteChat(dataUserTwo[id], dataUsersID[id], dataUsersID2[id]);
+
                         }}>
                         <img src="../../img/deleteChat.svg" width={18} alt="delete_chat"/>
                         </button>

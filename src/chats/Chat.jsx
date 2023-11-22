@@ -5,7 +5,6 @@ import {useCollectionData} from 'react-firebase-hooks/firestore';
 import { Timestamp, orderBy, collection, addDoc, doc, deleteDoc, onSnapshot, query, updateDoc } from 'firebase/firestore';
 import Preloader from '../components/Preloader';
 import Style from '../styles/chat/chat.module.css';
-import { getMessaging, onMessage } from "firebase/messaging";
 import { db, auth  } from '../index';
 
 const Chats = ({dataChats}) => {
@@ -16,19 +15,20 @@ const Chats = ({dataChats}) => {
     if(href.includes('https://webrepose-chat.vercel.app')) {
         idFromHref = href.replace('https://webrepose-chat.vercel.app/','');
     } else idFromHref = href.replace('http://localhost:3000/','');
-    const bottomRef = useRef(),
+    const [messages, loading] = useCollectionData(query(
+        collection(db, 'users', dataChats, 'chats', idFromHref, 'messages'), orderBy("createdAt", "asc")
+    )),
+    q = query(collection(db, 'users', dataChats, 'chats', idFromHref, 'messages'), orderBy("createdAt", "asc")), 
+    bottomRef = useRef(),
     [value, setValue] = useState(''),
     [valueRewrite, setValueRewrite] = useState(''),
     [modalMessage, setModalMessage] = useState(false),
-    [messages, loading] = useCollectionData(query(
-      collection(db, 'users', dataChats, 'chats', idFromHref, 'messages'), orderBy("createdAt", "asc")
-    )), 
     [idMessageList, setIdMessageList] = useState([]),
     [idDoc, setIdDoc] = useState(),
     [copyText, setCopyText] = useState(),
     [uidModal, setUidModal] = useState(),
-    q = query(collection(db, 'users', dataChats, 'chats', idFromHref, 'messages'), orderBy("createdAt", "asc")),
     [modeType, setModeType] = useState(true);
+    
 
     useEffect(()=>{
         const f = onSnapshot(q, (querySnapshot) => {
@@ -47,6 +47,7 @@ const Chats = ({dataChats}) => {
     }, []);  
       
     const Send = async () => {
+        setHeightChat(prev => prev = window.visualViewport.height - 130);
         if (!value || value.trim().length < 1) {
             setValue('');
             bottomRef.current.scrollIntoView({ behavior: "smooth", block: "end" })
@@ -63,15 +64,18 @@ const Chats = ({dataChats}) => {
             changed: false
         });
 
-        // await updateDoc(doc(db, 'users', dataChats, 'chats', idFromHref), {
-        //     displayNameFromMessages: user.displayName,
-        //     text: value.trim(),
-        // });
-
         bottomRef.current.scrollIntoView({ behavior: "smooth", block: "end" })
         setValue('');
-        setHeightChat(prev => prev = window.visualViewport.height - 130);
     }
+
+    const isURL = (str) => {
+        try {
+          new URL(str);
+          return true;
+        } catch {
+          return false;
+        }
+    } 
 
     const Delete = async (value) => {
         await deleteDoc(doc(db, 'users', dataChats, 'chats', idFromHref, 'messages', value));
@@ -111,15 +115,6 @@ const Chats = ({dataChats}) => {
             changed: false
         });
     }
-
-    const messaging = getMessaging();
-    onMessage(messaging, () => {
-        const timer = setTimeout(() => {
-            bottomRef.current.scrollIntoView({ block: 'end' });
-          }, 1200);
-      
-          return () => clearTimeout(timer);
-    });
 
     if(loading) return <Preloader/>
 
@@ -211,7 +206,9 @@ const Chats = ({dataChats}) => {
                                 }} 
                                 className={Style.chat_message_blockYou}>
                                     <p className={Style.chat_message_textYou}>
-                                        {message.text}
+                                        {message.text.split(' ').map((data, id) => (
+                                            isURL(data) ? <a style={{textDecoration: 'underline', color:'#fff'}} key={id} rel="noreferrer" target="_blank" href={data}> {data} </a> : `${data} `
+                                        ))}
                                     </p>
                                     <span className={Style.chat_message_dateYou}>
                                     {message.changed &&
@@ -248,7 +245,10 @@ const Chats = ({dataChats}) => {
                                     setCopyText(prev => prev = message.text);
                                 }} style={{maxWidth: '80%', paddingTop: '6px'}} className={Style.chat_message_block}>     
                                     <p className={Style.chat_message_text}>
-                                         {message.text}
+                                        {message.text.split(' ').map((data, id) => (
+                                            isURL(data) ? 
+                                            <a style={{textDecoration: 'underline', color: user.uid === message.uid && '#fff'}} key={id} rel="noreferrer" target="_blank" href={data}> {data} </a> : `${data} `
+                                        ))}
                                     </p>
                                     <span style={{marginTop:'0'}} className={Style.chat_message_date}>
                                     <span>
