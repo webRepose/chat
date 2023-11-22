@@ -44,8 +44,16 @@ const Chats = ({dataChats}) => {
   
       return () => clearTimeout(timer);
     }, []);  
+
+    const resize = () => {
+        window.addEventListener('resize', () => {
+            vh = window.innerHeight * 0.01;
+        });
+    }
       
     const Send = async () => {
+        resize();
+
         if (!value || value.trim().length < 1) {
             setValue('');
             bottomRef.current.scrollIntoView({ behavior: "smooth", block: "end" });
@@ -113,10 +121,7 @@ const Chats = ({dataChats}) => {
         });
     }
 
-    
-    window.addEventListener('resize', () => {
-        vh = window.innerHeight * 0.01;
-    });
+    resize();
 
     if(loading) return <Preloader/>
 
@@ -328,7 +333,9 @@ const Chats = ({dataChats}) => {
                         }}
                         onChange={(e => {
                             setValueRewrite(prev => prev = e.target.value);
-                        })}/>
+                        })}
+                        onClick={resize}
+                        />
                     </div>
                     <div className={Style.chat_form_button_block}>
                         <button onClick={UpdateButton}>
