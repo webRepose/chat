@@ -121,6 +121,8 @@ const Chats = ({dataChats}) => {
         });
     }
 
+    resize();
+
     if(loading) return <Preloader/>
 
     return (
