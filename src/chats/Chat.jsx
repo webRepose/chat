@@ -113,6 +113,11 @@ const Chats = ({dataChats}) => {
         });
     }
 
+    
+    window.addEventListener('resize', () => {
+        vh = window.innerHeight * 0.01;
+    });
+
     if(loading) return <Preloader/>
 
     return (
