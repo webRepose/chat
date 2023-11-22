@@ -8,8 +8,9 @@ import Style from '../styles/chat/chat.module.css';
 import { db, auth  } from '../index';
 
 const Chats = ({dataChats}) => {
-    const [heightChat, setHeightChat] = useState(window.visualViewport.height - 130),
-    [user] = useAuthState(auth), 
+    // const [heightChat, setHeightChat] = useState(window.visualViewport.height - 130),
+    
+    const [user] = useAuthState(auth), 
     href = window.location.href;
     let idFromHref;
     if(href.includes('https://webrepose-chat.vercel.app')) {
@@ -49,8 +50,7 @@ const Chats = ({dataChats}) => {
     const Send = async () => {
         if (!value || value.trim().length < 1) {
             setValue('');
-            bottomRef.current.scrollIntoView({ behavior: "smooth", block: "end" })
-            setTimeout(()=>{setHeightChat(prev => prev = window.visualViewport.height - 130);},200)
+            bottomRef.current.scrollIntoView({ behavior: "smooth", block: "end" });
             return 0;
         }
 
@@ -63,9 +63,8 @@ const Chats = ({dataChats}) => {
             changed: false
         });
 
-        bottomRef.current.scrollIntoView({ behavior: "smooth", block: "end" })
+        bottomRef.current.scrollIntoView({ behavior: "smooth", block: "end" });
         setValue('');
-        setHeightChat(prev => prev = window.visualViewport.height - 130);
     }
 
     const isURL = (str) => {
@@ -121,7 +120,7 @@ const Chats = ({dataChats}) => {
     return (
         <main>
             <Section>
-            <div style={{height: heightChat}} className={Style.chat}>
+            <div className={Style.chat}>
                     { modalMessage &&
                         <div className={Style.chat_change_block}>
                             <div className={Style.chat_change}>
@@ -280,7 +279,7 @@ const Chats = ({dataChats}) => {
                         </div>)
 
                         : 
-                        <div onClick={sendFirstMessage} style={{height: heightChat - 40}} className={Style.chat_empty}>
+                        <div onClick={sendFirstMessage} className={Style.chat_empty}>
                             <div className={Style.chat_empty_block}> 
                                 <h4>Не знаете что написать?</h4>
                                 <p>Отправить сообщение:</p>
@@ -299,7 +298,6 @@ const Chats = ({dataChats}) => {
                             onKeyDown={(e)=>{
                                 if(e.key === 'Enter' || e.code === 'Enter') {
                                     Send();
-                                    setHeightChat(prev => prev = window.visualViewport.height - 130);
                                 };
                             }}
                             onChange={(e => {
@@ -323,7 +321,6 @@ const Chats = ({dataChats}) => {
                         onKeyDown={(e)=>{
                             if(e.key === 'Enter' || e.code === 'Enter') {
                                 UpdateButton();
-                                setHeightChat(prev => prev = window.visualViewport.height - 130);
                             };
                         }}
                         onChange={(e => {

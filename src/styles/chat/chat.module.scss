@@ -1,6 +1,6 @@
 .chat {
     width:calc(100% - 1px);
-    height: 70vh;
+    // height: 70vh;
     overflow-y: auto;
     margin: 0 auto;
     border-bottom: 0;
@@ -96,6 +96,7 @@
     &_block {
         padding: 0 15px;
         margin-top: 20px;
+        height: calc(100vh - 150px);
     }
 
     &_message {
