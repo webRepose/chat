@@ -8,8 +8,6 @@ import Style from '../styles/chat/chat.module.css';
 import { db, auth  } from '../index';
 
 const Chats = ({dataChats}) => {
-    // const [heightChat, setHeightChat] = useState(window.visualViewport.height - 130),
-    
     const [user] = useAuthState(auth), 
     href = window.location.href;
     let idFromHref;
@@ -41,7 +39,7 @@ const Chats = ({dataChats}) => {
 
     useEffect(() => {
         const timer = setTimeout(() => {
-        bottomRef.current.scrollIntoView({ block: 'end' });
+        bottomRef.current.scrollIntoView({ block: 'end' })
       }, 1200);
   
       return () => clearTimeout(timer);
