@@ -27,7 +27,6 @@ const Chats = ({dataChats}) => {
     [copyText, setCopyText] = useState(),
     [uidModal, setUidModal] = useState(),
     [modeType, setModeType] = useState(true);
-    let vh = window.innerHeight * 0.01;
 
     useEffect(()=>{
         const f = onSnapshot(q, (querySnapshot) => {
@@ -44,16 +43,8 @@ const Chats = ({dataChats}) => {
   
       return () => clearTimeout(timer);
     }, []);  
-
-    const resize = () => {
-        window.addEventListener('resize', () => {
-            vh = window.innerHeight * 0.01;
-        });
-    }
       
     const Send = async () => {
-        resize();
-
         if (!value || value.trim().length < 1) {
             setValue('');
             bottomRef.current.scrollIntoView({ behavior: "smooth", block: "end" });
@@ -121,14 +112,12 @@ const Chats = ({dataChats}) => {
         });
     }
 
-    resize();
-
     if(loading) return <Preloader/>
 
     return (
         <main>
             <Section>
-            <div style={{height: (vh * 100) - 130}}  className={Style.chat}>
+            <div className={Style.chat}>
                     { modalMessage &&
                         <div className={Style.chat_change_block}>
                             <div className={Style.chat_change}>
@@ -334,7 +323,6 @@ const Chats = ({dataChats}) => {
                         onChange={(e => {
                             setValueRewrite(prev => prev = e.target.value);
                         })}
-                        onClick={resize}
                         />
                     </div>
                     <div className={Style.chat_form_button_block}>
