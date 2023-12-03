@@ -4,7 +4,6 @@ import {useCollectionData} from 'react-firebase-hooks/firestore';
 import { Timestamp, orderBy, collection, addDoc, doc, deleteDoc, onSnapshot, query, updateDoc } from 'firebase/firestore';
 import Preloader from './Preloader';
 import Style from '../styles/chat/chat.module.css';
-// import { getMessaging, onMessage } from "firebase/messaging";
 import { db, auth  } from '../index';
 import Section from '../UI_kit/Section';
 
@@ -94,15 +93,6 @@ const Chat = () => {
         setValueRewrite('');
         setModeType(prev => prev = true);
     }
-
-    // const messaging = getMessaging();
-    // onMessage(messaging, () => {
-    //     const timer = setTimeout(() => {
-    //         bottomRef.current.scrollIntoView({ block: 'end' });
-    //       }, 1200);
-      
-    //       return () => clearTimeout(timer);
-    // });
 
     if(loading) return <Preloader/>
 

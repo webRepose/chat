@@ -1,38 +1,39 @@
 * {
-    margin: 0;
-    padding: 0;
-    -webkit-tap-highlight-color: transparent;
-    box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-       -moz-box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
 }
 
-.html, body {
-    overflow: hidden;
-    background-color: #242627;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    height: 100vh;
+.html,
+body {
+  overflow: hidden;
+  background-color: #242627;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  height: 100vh;
+  scroll-behavior: smooth;
 }
 
 button {
-    cursor: pointer;
+  cursor: pointer;
 
-    &:hover {
-        opacity: 0.8;
-        transition: all 0.3s ease;
-    }
-    
-    &:active {
-        opacity: 0.7;
-        transition: all 0.3s ease;
-    }
+  &:hover {
+    opacity: 0.8;
+    transition: all 0.3s ease;
+  }
+
+  &:active {
+    opacity: 0.7;
+    transition: all 0.3s ease;
+  }
 }
 
 a {
-    text-decoration: none;
+  text-decoration: none;
 }
 
-
 img {
-    pointer-events: none;
+  pointer-events: none;
 }

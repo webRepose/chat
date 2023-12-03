@@ -6,10 +6,18 @@
   border-bottom: 1px solid dimgray;
   display: flex;
 }
+.data_avatar_block {
+  position: relative;
+  width: 55px;
+  height: 55px;
+  margin: auto 10px;
+}
 .data_avatar {
   border-radius: 100%;
   height: 80%;
-  margin: auto 10px;
+  width: 55px;
+  height: 55px;
+  position: absolute;
 }
 .data_name {
   color: #fff;

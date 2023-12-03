@@ -39,7 +39,7 @@
 }
 .modal_choice_scroll {
   overflow-y: auto;
-  max-height: 150px;
+  max-height: 250px;
 }
 .modal_choice_data {
   display: flex;

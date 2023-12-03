@@ -1,0 +1,3 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="800" viewBox="0 0 480 800">
+  <path id="pin" d="M640-480l80,80v80H520V-80L480-40,440-80V-320H240v-80l80-80V-760H280v-80H680v80H640ZM354-400H606l-46-46V-760H400v314ZM480-400Z" transform="translate(-240 840)" fill="wheat"/>
+</svg>
