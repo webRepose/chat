@@ -214,7 +214,7 @@ const Chats = ({ dataChats }) => {
                       .getElementById(pinedIdMessage)
                       .classList.remove(Style.chat_anim);
                   }
-                }, [3500]);
+                }, [4500]);
               }}
             >
               <h4>Закрепленное сообщение</h4>
