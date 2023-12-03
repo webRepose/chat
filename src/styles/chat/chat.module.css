@@ -8,7 +8,7 @@
 }
 .chat_anim {
   width: 100% !important;
-  border-radius: 15px;
+  border-radius: 0 0 10px 10px;
   animation: indeterminate_first 2.5s ease-out;
 }
 @keyframes indeterminate_first {
@@ -26,6 +26,9 @@
   z-index: 10;
   width: 100%;
   display: flex;
+}
+.chat_consolidate_click {
+  cursor: pointer;
 }
 .chat_consolidate h4 {
   color: #8864cc;

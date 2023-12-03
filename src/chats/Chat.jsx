@@ -199,6 +199,7 @@ const Chats = ({ dataChats }) => {
         {pined && (
           <div className={Style.chat_consolidate}>
             <div
+            className={Style.chat_consolidate_click}
               onClick={() => {
                 document
                   .getElementById(pinedIdMessage)
@@ -327,18 +328,19 @@ const Chats = ({ dataChats }) => {
           >
             {messages.length >= 1 ? (
               messages.map((message, id) => (
-                <div
-                  style={{
-                    marginLeft: user.uid === message.uid ? "auto" : "0px",
-                    maxWidth: user.uid === message.uid && "88%",
-                  }}
-                  className={Style.chat_message}
-                  key={id}
-                  id={"#" + id}
-                  onClick={() => {
-                    setIdMessage((prev) => (prev = "#" + id));
-                  }}
-                >
+                <div                     
+                key={id}
+                id={"#" + id}>
+                    <div
+                    style={{
+                        marginLeft: user.uid === message.uid ? "auto" : "0px",
+                        maxWidth: user.uid === message.uid && "88%",
+                    }}
+                    className={Style.chat_message}
+                    onClick={() => {
+                        setIdMessage((prev) => (prev = "#" + id));
+                    }}
+                    >
                   <div>
                     {user.uid === message.uid ? (
                       <>
@@ -470,6 +472,7 @@ const Chats = ({ dataChats }) => {
                       </div>
                     )}
                   </div>
+                </div>
                 </div>
               ))
             ) : (
