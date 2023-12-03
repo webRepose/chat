@@ -31,6 +31,7 @@
 
     &_click {
         cursor: pointer;
+        width: 100%;
     }
 
     h4 {
@@ -40,10 +41,13 @@
 
     p {
       color: #fcfeef;
-      width: 90%;
       overflow: hidden;
       text-overflow: ellipsis;
       margin-left: 10px;
+      display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+      
     }
 
     button {

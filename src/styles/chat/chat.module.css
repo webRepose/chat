@@ -29,6 +29,7 @@
 }
 .chat_consolidate_click {
   cursor: pointer;
+  width: 100%;
 }
 .chat_consolidate h4 {
   color: #8864cc;
@@ -36,10 +37,12 @@
 }
 .chat_consolidate p {
   color: #fcfeef;
-  width: 90%;
   overflow: hidden;
   text-overflow: ellipsis;
   margin-left: 10px;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
 }
 .chat_consolidate button {
   margin-left: auto;
