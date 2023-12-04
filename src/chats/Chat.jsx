@@ -48,9 +48,13 @@ const Chats = ({ dataChats }) => {
     [pinedIdMessage, setPinedIdMessage] = useState(""),
     [idMessage, setIdMessage] = useState(),
     userUid1 = idFromHref.replace(dataChats, ""),
-    userUid2 = dataChats;
-    const chatRefUser1 = query(doc(db, "users", userUid2, "chats", userUid2 + userUid1));
-    const chatRefUser2 = query(doc(db, "users", userUid1, "chats", userUid1 + userUid2));
+    userUid2 = dataChats,
+    chatRefUser1 = query(
+      doc(db, "users", userUid2, "chats", userUid2 + userUid1)
+    ),
+    chatRefUser2 = query(
+      doc(db, "users", userUid1, "chats", userUid1 + userUid2)
+    );
 
   useEffect(() => {
     const f = onSnapshot(q, (querySnapshot) => {
@@ -115,12 +119,12 @@ const Chats = ({ dataChats }) => {
     );
   };
 
-  const DeleteButton = async() => {
+  const DeleteButton = async () => {
     const resDel = window.confirm(
       "Вы действительно хотите удалить это сообщение?"
     );
     resDel && Delete(idDoc);
-    if(idMessage === pinedIdMessage) {
+    if (idMessage === pinedIdMessage) {
       await updateDoc(chatRefUser1, {
         pined: "",
         idMessage: "",
@@ -154,7 +158,7 @@ const Chats = ({ dataChats }) => {
       }
     );
 
-    if(idMessage === pinedIdMessage) {
+    if (idMessage === pinedIdMessage) {
       await updateDoc(chatRefUser1, {
         pined: valueRewrite.trim(),
         idMessage: id,
@@ -224,7 +228,7 @@ const Chats = ({ dataChats }) => {
         {pined && (
           <div className={Style.chat_consolidate}>
             <div
-            className={Style.chat_consolidate_click}
+              className={Style.chat_consolidate_click}
               onClick={() => {
                 document
                   .getElementById(pinedIdMessage)
@@ -308,11 +312,7 @@ const Chats = ({ dataChats }) => {
                   )}
                   <li
                     onClick={() => {
-                      Consolidate(
-                        copyText,
-                        false,
-                        idMessage
-                      );
+                      Consolidate(copyText, false, idMessage);
                     }}
                   >
                     <button>
@@ -350,40 +350,109 @@ const Chats = ({ dataChats }) => {
           >
             {messages.length >= 1 ? (
               messages.map((message, id) => (
-                <div                     
-                key={id}
-                id={"#" + id}>
-                    <div
+                <div key={id} id={"#" + id}>
+                  <div
                     style={{
-                        marginLeft: user.uid === message.uid ? "auto" : "0px",
-                        maxWidth: user.uid === message.uid && "88%",
+                      marginLeft: user.uid === message.uid ? "auto" : "0px",
+                      maxWidth: user.uid === message.uid && "88%",
                     }}
                     className={Style.chat_message}
                     onClick={() => {
-                        setIdMessage((prev) => (prev = "#" + id));
+                      setIdMessage((prev) => (prev = "#" + id));
                     }}
-                    >
-                  <div>
-                    {user.uid === message.uid ? (
-                      <>
-                        <div className={Style.chat_messageYou}>
+                  >
+                    <div>
+                      {user.uid === message.uid ? (
+                        <>
+                          <div className={Style.chat_messageYou}>
+                            <div
+                              id={id}
+                              onClick={() => {
+                                setUidModal((prev) => (prev = true));
+                                setModalMessage((prev) => (prev = true));
+                                setIdDoc((prev) => (prev = idMessageList[id]));
+                                setCopyText((prev) => (prev = message.text));
+                              }}
+                              className={Style.chat_message_blockYou}
+                            >
+                              <p className={Style.chat_message_textYou}>
+                                {message.text.split(" ").map((data, id) =>
+                                  isURL(data) ? (
+                                    <a
+                                      style={{
+                                        textDecoration: "underline",
+                                        color: "#fff",
+                                      }}
+                                      key={id}
+                                      rel="noreferrer"
+                                      target="_blank"
+                                      href={data}
+                                    >
+                                      {" "}
+                                      {data}{" "}
+                                    </a>
+                                  ) : (
+                                    `${data} `
+                                  )
+                                )}
+                              </p>
+                              <span className={Style.chat_message_dateYou}>
+                                {message.changed && (
+                                  <p style={{ marginRight: "3px" }}>Изменено</p>
+                                )}
+                                <p>{message.createdAt.toDate().getHours()}</p>
+                                <p>:</p>
+                                <p>
+                                  {message.createdAt.toDate().getMinutes() !==
+                                  0 ? (
+                                    <>
+                                      {message.createdAt.toDate().getMinutes() <
+                                      10
+                                        ? "0" +
+                                          message.createdAt
+                                            .toDate()
+                                            .getMinutes()
+                                        : message.createdAt
+                                            .toDate()
+                                            .getMinutes()}
+                                    </>
+                                  ) : (
+                                    message.createdAt.toDate().getMinutes() +
+                                    "0"
+                                  )}
+                                </p>
+                              </span>
+                            </div>
+                          </div>
+                        </>
+                      ) : (
+                        <div className={Style.chat_message}>
+                          <div className={Style.chat_message_ava}>
+                            <img
+                              alt="avatar"
+                              src={
+                                message.photoURL
+                                  ? message.photoURL
+                                  : "../../img/avatar.svg"
+                              }
+                            />
+                          </div>
                           <div
-                            id={id}
                             onClick={() => {
-                              setUidModal((prev) => (prev = true));
+                              setUidModal((prev) => (prev = false));
                               setModalMessage((prev) => (prev = true));
-                              setIdDoc((prev) => (prev = idMessageList[id]));
                               setCopyText((prev) => (prev = message.text));
                             }}
-                            className={Style.chat_message_blockYou}
+                            style={{ maxWidth: "80%", paddingTop: "6px" }}
+                            className={Style.chat_message_block}
                           >
-                            <p className={Style.chat_message_textYou}>
+                            <p className={Style.chat_message_text}>
                               {message.text.split(" ").map((data, id) =>
                                 isURL(data) ? (
                                   <a
                                     style={{
                                       textDecoration: "underline",
-                                      color: "#fff",
+                                      color: user.uid === message.uid && "#fff",
                                     }}
                                     key={id}
                                     rel="noreferrer"
@@ -398,103 +467,42 @@ const Chats = ({ dataChats }) => {
                                 )
                               )}
                             </p>
-                            <span className={Style.chat_message_dateYou}>
-                              {message.changed && (
-                                <p style={{ marginRight: "3px" }}>Изменено</p>
-                              )}
-                              <p>{message.createdAt.toDate().getHours()}</p>
-                              <p>:</p>
-                              <p>
-                                {message.createdAt.toDate().getMinutes() !==
-                                0 ? (
-                                  <>
-                                    {message.createdAt.toDate().getMinutes() <
-                                    10
-                                      ? "0" +
-                                        message.createdAt.toDate().getMinutes()
-                                      : message.createdAt.toDate().getMinutes()}
-                                  </>
-                                ) : (
-                                  message.createdAt.toDate().getMinutes() + "0"
+                            <span
+                              style={{ marginTop: "0" }}
+                              className={Style.chat_message_date}
+                            >
+                              <span>
+                                {message.changed && (
+                                  <p style={{ marginRight: "3px" }}>Изменено</p>
                                 )}
-                              </p>
+                                <p>{message.createdAt.toDate().getHours()}</p>
+                                <p>:</p>
+                                <p>
+                                  {message.createdAt.toDate().getMinutes() !==
+                                  0 ? (
+                                    <>
+                                      {message.createdAt.toDate().getMinutes() <
+                                      10
+                                        ? "0" +
+                                          message.createdAt
+                                            .toDate()
+                                            .getMinutes()
+                                        : message.createdAt
+                                            .toDate()
+                                            .getMinutes()}
+                                    </>
+                                  ) : (
+                                    message.createdAt.toDate().getMinutes() +
+                                    "0"
+                                  )}
+                                </p>
+                              </span>
                             </span>
                           </div>
                         </div>
-                      </>
-                    ) : (
-                      <div className={Style.chat_message}>
-                        <div className={Style.chat_message_ava}>
-                          <img
-                            alt="avatar"
-                            src={
-                              message.photoURL
-                                ? message.photoURL
-                                : "../../img/avatar.svg"
-                            }
-                          />
-                        </div>
-                        <div
-                          onClick={() => {
-                            setUidModal((prev) => (prev = false));
-                            setModalMessage((prev) => (prev = true));
-                            setCopyText((prev) => (prev = message.text));
-                          }}
-                          style={{ maxWidth: "80%", paddingTop: "6px" }}
-                          className={Style.chat_message_block}
-                        >
-                          <p className={Style.chat_message_text}>
-                            {message.text.split(" ").map((data, id) =>
-                              isURL(data) ? (
-                                <a
-                                  style={{
-                                    textDecoration: "underline",
-                                    color: user.uid === message.uid && "#fff",
-                                  }}
-                                  key={id}
-                                  rel="noreferrer"
-                                  target="_blank"
-                                  href={data}
-                                >
-                                  {" "}
-                                  {data}{" "}
-                                </a>
-                              ) : (
-                                `${data} `
-                              )
-                            )}
-                          </p>
-                          <span
-                            style={{ marginTop: "0" }}
-                            className={Style.chat_message_date}
-                          >
-                            <span>
-                              {message.changed && (
-                                <p style={{ marginRight: "3px" }}>Изменено</p>
-                              )}
-                              <p>{message.createdAt.toDate().getHours()}</p>
-                              <p>:</p>
-                              <p>
-                                {message.createdAt.toDate().getMinutes() !==
-                                0 ? (
-                                  <>
-                                    {message.createdAt.toDate().getMinutes() <
-                                    10
-                                      ? "0" +
-                                        message.createdAt.toDate().getMinutes()
-                                      : message.createdAt.toDate().getMinutes()}
-                                  </>
-                                ) : (
-                                  message.createdAt.toDate().getMinutes() + "0"
-                                )}
-                              </p>
-                            </span>
-                          </span>
-                        </div>
-                      </div>
-                    )}
+                      )}
+                    </div>
                   </div>
-                </div>
                 </div>
               ))
             ) : (
@@ -556,7 +564,9 @@ const Chats = ({ dataChats }) => {
               />
             </div>
             <div className={Style.chat_form_button_block}>
-              <button onClick={UpdateButton}>
+              <button onClick={()=>{
+                UpdateButton(idMessage);
+              }}>
                 <div className={Style.chat_form_button}>
                   <img
                     width={"20px"}
