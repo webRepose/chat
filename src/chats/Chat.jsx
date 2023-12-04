@@ -49,6 +49,8 @@ const Chats = ({ dataChats }) => {
     [idMessage, setIdMessage] = useState(),
     userUid1 = idFromHref.replace(dataChats, ""),
     userUid2 = dataChats;
+    const chatRefUser1 = query(doc(db, "users", userUid2, "chats", userUid2 + userUid1));
+    const chatRefUser2 = query(doc(db, "users", userUid1, "chats", userUid1 + userUid2));
 
   useEffect(() => {
     const f = onSnapshot(q, (querySnapshot) => {
@@ -113,11 +115,22 @@ const Chats = ({ dataChats }) => {
     );
   };
 
-  const DeleteButton = () => {
+  const DeleteButton = async() => {
     const resDel = window.confirm(
       "Вы действительно хотите удалить это сообщение?"
     );
     resDel && Delete(idDoc);
+    if(idMessage === pinedIdMessage) {
+      await updateDoc(chatRefUser1, {
+        pined: "",
+        idMessage: "",
+      });
+
+      await updateDoc(chatRefUser2, {
+        pined: "",
+        idMessage: "",
+      });
+    }
     setModalMessage((prev) => (prev = false));
   };
 
@@ -127,9 +140,11 @@ const Chats = ({ dataChats }) => {
       idDoc === idMessageList[i] &&
         setValueRewrite((prev) => (prev = data.text));
     });
+
+    setModalMessage((prev) => (prev = false));
   };
 
-  const UpdateButton = async () => {
+  const UpdateButton = async (id) => {
     if (valueRewrite.length === 0) return 0;
     await updateDoc(
       doc(db, "users", dataChats, "chats", idFromHref, "messages", idDoc),
@@ -138,6 +153,18 @@ const Chats = ({ dataChats }) => {
         changed: true,
       }
     );
+
+    if(idMessage === pinedIdMessage) {
+      await updateDoc(chatRefUser1, {
+        pined: valueRewrite.trim(),
+        idMessage: id,
+      });
+
+      await updateDoc(chatRefUser2, {
+        pined: valueRewrite.trim(),
+        idMessage: id,
+      });
+    }
 
     setValueRewrite("");
     setModeType((prev) => (prev = true));
@@ -157,10 +184,8 @@ const Chats = ({ dataChats }) => {
     );
   };
 
-  const Consolidate = async (user1, user2, pinmess, del, id) => {
+  const Consolidate = async (pinmess, del, id) => {
     setModalMessage((prev) => (prev = false));
-    const chatRefUser1 = query(doc(db, "users", user1, "chats", user1 + user2));
-    const chatRefUser2 = query(doc(db, "users", user2, "chats", user2 + user1));
     if (!del) {
       await updateDoc(chatRefUser1, {
         pined: pinmess,
@@ -214,7 +239,7 @@ const Chats = ({ dataChats }) => {
                       .getElementById(pinedIdMessage)
                       .classList.remove(Style.chat_anim);
                   }
-                }, [4500]);
+                }, [5500]);
               }}
             >
               <h4>Закрепленное сообщение</h4>
@@ -222,7 +247,7 @@ const Chats = ({ dataChats }) => {
             </div>
             <button
               onClick={() => {
-                Consolidate(userUid2, userUid1, copyText, true, idMessage);
+                Consolidate(copyText, true, idMessage);
               }}
             >
               <img src="../../img/close.svg" width={15} alt="unpined" />
@@ -239,7 +264,6 @@ const Chats = ({ dataChats }) => {
                     <li
                       onClick={() => {
                         Update();
-                        setModalMessage((prev) => (prev = false));
                       }}
                     >
                       <button>
@@ -285,8 +309,6 @@ const Chats = ({ dataChats }) => {
                   <li
                     onClick={() => {
                       Consolidate(
-                        userUid2,
-                        userUid1,
                         copyText,
                         false,
                         idMessage
@@ -525,7 +547,7 @@ const Chats = ({ dataChats }) => {
                 value={valueRewrite}
                 onKeyDown={(e) => {
                   if (e.key === "Enter" || e.code === "Enter") {
-                    UpdateButton();
+                    UpdateButton(idMessage);
                   }
                 }}
                 onChange={(e) => {
