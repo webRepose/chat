@@ -47,6 +47,7 @@ const Chats = ({ dataChats }) => {
     [pined, setPined] = useState(""),
     [pinedIdMessage, setPinedIdMessage] = useState(""),
     [idMessage, setIdMessage] = useState(),
+    [togglePined, setTogglePined] = useState(false),
     userUid1 = idFromHref.replace(dataChats, ""),
     userUid2 = dataChats,
     chatRefUser1 = query(
@@ -219,7 +220,6 @@ const Chats = ({ dataChats }) => {
   };
 
   // bottomRef.current.addEventListener('resize', () => bottomRef.current.scrollIntoView({ behavior: "smooth", block: "end" }))
-
   if (loading) return <Preloader />;
 
   return (
@@ -230,6 +230,7 @@ const Chats = ({ dataChats }) => {
             <div
               className={Style.chat_consolidate_click}
               onClick={() => {
+                setTogglePined((prev) => !prev);
                 document
                   .getElementById(pinedIdMessage)
                   ?.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -237,13 +238,15 @@ const Chats = ({ dataChats }) => {
                   .getElementById(pinedIdMessage)
                   .classList.add(Style.chat_anim);
 
-                setTimeout(() => {
-                  if (document.getElementById(pinedIdMessage)) {
-                    document
-                      .getElementById(pinedIdMessage)
-                      .classList.remove(Style.chat_anim);
-                  }
-                }, [5500]);
+                if (togglePined) {
+                  setTimeout(() => {
+                    if (document.getElementById(pinedIdMessage)) {
+                      document
+                        .getElementById(pinedIdMessage)
+                        .classList.remove(Style.chat_anim);
+                    }
+                  }, [4500]);
+                }
               }}
             >
               <h4>Закрепленное сообщение</h4>
@@ -564,9 +567,11 @@ const Chats = ({ dataChats }) => {
               />
             </div>
             <div className={Style.chat_form_button_block}>
-              <button onClick={()=>{
-                UpdateButton(idMessage);
-              }}>
+              <button
+                onClick={() => {
+                  UpdateButton(idMessage);
+                }}
+              >
                 <div className={Style.chat_form_button}>
                   <img
                     width={"20px"}
