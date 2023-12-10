@@ -11,11 +11,22 @@ const Chat_list = () => {
     [chatsAll] = useCollectionData(
       query(collection(db, "users", user.uid, "chats"))
     ),
+    [Saved] = useCollectionData(
+      query(collection(db, "users"))
+    ),
     [dataUsersID, setDataUsersID] = useState([]),
     [dataUsersID2, setDataUsersID2] = useState([]),
-    [dataUserTwo, setDataUserTwo] = useState([]);
+    [dataUserTwo, setDataUserTwo] = useState([]),
+    [uids, setUids] = useState([]);
 
   useEffect(() => {
+    if(Saved) {
+      const data4 = Saved.filter((e) => (
+       e.uid === user.uid && e
+      ))   
+      setUids((prev) => (prev = data4));
+    }
+
     if (chatsAll) {
       const data = chatsAll.map(
         (data) => data.participants[0] + data.participants[1]
@@ -30,16 +41,7 @@ const Chat_list = () => {
       );
       setDataUsersID2((prev) => (prev = data3));
     }
-  }, [chatsAll]);
-
-  const data = [
-    {
-      id: "/messages",
-      name: "group chat",
-      photo:
-        "https://storage.needpix.com/rsynced_images/avatar-1577909_1280.png",
-    },
-  ];
+  }, [chatsAll, Saved, user.uid]);
 
   const DeleteChat = async (userTwoUID, value, value2) => {
     const q = query(
@@ -68,18 +70,22 @@ const Chat_list = () => {
 
   return (
     <>
-      {data &&
-        data.map((data, id) => (
-          <Link key={id} to={data.id}>
+      {uids &&
+        uids.map((data, id) => (
+          <Link key={id} to={'/saved'}>
             <div className={Style.data}>
               <div className={Style.data_avatar_block}>
                 <img
                   className={Style.data_avatar}
-                  src={data.photo}
+                  src='../img/Saved/bookmark.svg'
                   alt="avatar_chat"
                 />
               </div>
-              <p className={Style.data_name}>{data.name}</p>
+              <div className={Style.data_content}>
+                <p className={Style.data_name}>Сохраненные сообщения</p>
+                <p className={Style.data_text}>{data.text}</p>
+              </div>
+                <p className={Style.data_time}>{data.time && data.time.toDate().getHours() + ':' + data.time.toDate().getMinutes()}</p>
             </div>
           </Link>
         ))}

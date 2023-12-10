@@ -6,7 +6,6 @@ import { collection, query, onSnapshot, setDoc, doc } from "firebase/firestore";
 import { db, auth } from "..";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
-
 import ModalClose from "../components/ModalClose";
 
 const Menu = () => {

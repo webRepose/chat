@@ -5,7 +5,7 @@ import { auth, db } from "..";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import { collection, query } from "firebase/firestore";
 import { useState, useEffect } from "react";
-import Chat from "./Chat";
+import Saved from "../chats/Saved";
 import ChatUsers from "../chats/Chat";
 import ErrorBoundary from "./ErrorBounds/ErrorBoundary";
 const Preloader = lazy(() => import("./Preloader")),
@@ -19,8 +19,8 @@ const Preloader = lazy(() => import("./Preloader")),
   ],
   privateRoutes = [
     {
-      path: "/messages",
-      Component: Chat,
+      path: "/saved",
+      Component: Saved,
     },
     {
       path: "/",
