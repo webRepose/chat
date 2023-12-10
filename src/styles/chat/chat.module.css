@@ -201,6 +201,46 @@
 .chat_form_input {
   width: 80%;
 }
+.chat_form_change {
+  background-color: #35373b;
+  width: 95%;
+  margin: 0 auto;
+  border-radius: 15px;
+  color: whitesmoke;
+  position: relative;
+  display: flex;
+  margin-top: -50px;
+  z-index: 10;
+  font-size: 14px;
+  padding: 5px 0;
+}
+.chat_form_change_block {
+  margin-left: 20px;
+}
+.chat_form_change_block p {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  width: 90%;
+}
+.chat_form_change_close {
+  margin-left: auto;
+  margin-right: 20px;
+  display: flex;
+  align-items: center;
+}
+.chat_form_change_img {
+  margin-left: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-right: 1px solid #3752fe;
+}
+.chat_form_change_img img {
+  margin-right: 15px;
+}
 .chat_form input {
   outline: none;
   height: 100%;

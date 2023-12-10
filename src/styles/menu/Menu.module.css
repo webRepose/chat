@@ -1,9 +1,12 @@
 .menu_addNew {
   background-color: #5161f9;
   border: 0;
-  width: 100%;
+  width: 80%;
   height: 40px;
+  margin: 15px auto 0 auto;
+  border-radius: 20px;
   color: #fff;
+  display: block;
 }
 
 .modal {

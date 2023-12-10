@@ -1,17 +1,21 @@
 import ChatList from "../chat_list/Chat_list";
 import Section from "../UI_kit/Section";
 import Style from "../styles/menu/Menu.module.css";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { collection, query, onSnapshot, setDoc, doc } from "firebase/firestore";
 import { db, auth } from "..";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
+
+import ModalClose from "../components/ModalClose";
 
 const Menu = () => {
   const [user] = useAuthState(auth),
     [checkHaveChat, setCheckHaveChat] = useState(""),
     [modalChoiceUser, setModalChoiceUser] = useState(false),
     [usersAll, setUsersAll] = useState([]),
+    modalRef = useRef(null),
+    btnModalRef = useRef(null),
     navigate = useNavigate();
 
   useEffect(() => {
@@ -75,11 +79,17 @@ const Menu = () => {
   };
 
   return (
-    <main style={{ height: "98vh" }}>
+    <main>
+      <ModalClose
+        modal={modalChoiceUser}
+        setModal={setModalChoiceUser}
+        refButton={btnModalRef}
+        refModal={modalRef}
+      />
       <Section>
         {modalChoiceUser && (
           <div className={Style.modal}>
-            <div className={Style.modal_choice}>
+            <div ref={modalRef} className={Style.modal_choice}>
               <button
                 onClick={() => {
                   setModalChoiceUser((prev) => (prev = false));
@@ -122,6 +132,7 @@ const Menu = () => {
         )}
         <ChatList />
         <button
+          ref={btnModalRef}
           onClick={() => {
             setModalChoiceUser((prev) => (prev = true));
           }}

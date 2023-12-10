@@ -22,9 +22,35 @@
 .data_name {
   color: #fff;
   margin: 12px 0 0 5px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+.data_text {
+  color: #b6b3b3;
+  margin-left: 5px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  width: 100%;
+  font-size: 15px;
+  margin-top: 3px;
+}
+.data_content {
+  width: 50%;
+}
+.data_time {
+  color: #c0b3b3;
+  margin: 0 15px 0 auto;
+  display: flex;
+  align-items: center;
+  font-size: 15px;
 }
 .data_delete {
-  margin-left: auto;
   margin-right: 5px;
   border: 0;
   padding: 10px;

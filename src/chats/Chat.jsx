@@ -2,6 +2,9 @@ import Section from "../UI_kit/Section";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useRef, useState, useEffect } from "react";
 import { useCollectionData } from "react-firebase-hooks/firestore";
+import Preloader from "../components/Preloader";
+import Style from "../styles/chat/chat.module.css";
+import { db, auth } from "../index";
 import {
   Timestamp,
   orderBy,
@@ -14,9 +17,7 @@ import {
   updateDoc,
   getDoc,
 } from "firebase/firestore";
-import Preloader from "../components/Preloader";
-import Style from "../styles/chat/chat.module.css";
-import { db, auth } from "../index";
+import ModalClose from "../components/ModalClose";
 
 const Chats = ({ dataChats }) => {
   const [user] = useAuthState(auth),
@@ -48,6 +49,7 @@ const Chats = ({ dataChats }) => {
     [pinedIdMessage, setPinedIdMessage] = useState(""),
     [idMessage, setIdMessage] = useState(),
     [togglePined, setTogglePined] = useState(false),
+    modalRef = useRef(null),
     userUid1 = idFromHref.replace(dataChats, ""),
     userUid2 = dataChats,
     chatRefUser1 = query(
@@ -56,6 +58,14 @@ const Chats = ({ dataChats }) => {
     chatRefUser2 = query(
       doc(db, "users", userUid1, "chats", userUid1 + userUid2)
     );
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      bottomRef.current?.scrollIntoView({ block: "end" });
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     const f = onSnapshot(q, (querySnapshot) => {
@@ -73,14 +83,6 @@ const Chats = ({ dataChats }) => {
   };
 
   Pined();
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      bottomRef.current?.scrollIntoView({ block: "end" });
-    }, 1300);
-
-    return () => clearTimeout(timer);
-  }, []);
 
   const Send = async () => {
     if (!value || value.trim().length < 1) {
@@ -103,6 +105,16 @@ const Chats = ({ dataChats }) => {
 
     bottomRef.current.scrollIntoView({ behavior: "smooth", block: "end" });
     setValue("");
+
+    await updateDoc(chatRefUser1, {
+      text: value.trim(),
+      time: Timestamp.fromDate(new Date()),
+    });
+
+    await updateDoc(chatRefUser2, {
+      text: value.trim(),
+      time: Timestamp.fromDate(new Date()),
+    });
   };
 
   const isURL = (str) => {
@@ -187,6 +199,16 @@ const Chats = ({ dataChats }) => {
         changed: false,
       }
     );
+
+    await updateDoc(chatRefUser1, {
+      text: "Привет!",
+      time: Timestamp.fromDate(new Date()),
+    });
+
+    await updateDoc(chatRefUser2, {
+      text: "Привет!",
+      time: Timestamp.fromDate(new Date()),
+    });
   };
 
   const Consolidate = async (pinmess, del, id) => {
@@ -219,11 +241,16 @@ const Chats = ({ dataChats }) => {
     }
   };
 
-  // bottomRef.current.addEventListener('resize', () => bottomRef.current.scrollIntoView({ behavior: "smooth", block: "end" }))
   if (loading) return <Preloader />;
 
   return (
     <main>
+      <ModalClose
+        modal={modalMessage}
+        setModal={setModalMessage}
+        refButton={""}
+        refModal={modalRef}
+      />
       <Section>
         {pined && (
           <div className={Style.chat_consolidate}>
@@ -264,7 +291,7 @@ const Chats = ({ dataChats }) => {
         <div className={Style.chat}>
           {modalMessage && (
             <div className={Style.chat_change_block}>
-              <div className={Style.chat_change}>
+              <div ref={modalRef} className={Style.chat_change}>
                 <h4>Меню взаимодействия</h4>
                 <ul>
                   {uidModal && (
@@ -551,38 +578,57 @@ const Chats = ({ dataChats }) => {
             </div>
           </div>
         ) : (
-          <div className={Style.chat_form}>
-            <div className={Style.chat_form_input}>
-              <input
-                placeholder="Начать писать"
-                value={valueRewrite}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" || e.code === "Enter") {
-                    UpdateButton(idMessage);
-                  }
-                }}
-                onChange={(e) => {
-                  setValueRewrite((prev) => (prev = e.target.value));
-                }}
-              />
-            </div>
-            <div className={Style.chat_form_button_block}>
-              <button
+          <>
+            <div className={Style.chat_form_change}>
+              <div className={Style.chat_form_change_img}>
+                <img width={20} src="../img/edit.svg" alt="edit" />
+              </div>
+              <div className={Style.chat_form_change_block}>
+                <h4>Изменяемое собщение</h4>
+                <p>{copyText}</p>
+              </div>
+              <div
                 onClick={() => {
-                  UpdateButton(idMessage);
+                  setModeType((prev) => !prev);
                 }}
+                className={Style.chat_form_change_close}
               >
-                <div className={Style.chat_form_button}>
-                  <img
-                    width={"20px"}
-                    height={"16.83px"}
-                    src="../../img/send.svg"
-                    alt="send"
-                  />
-                </div>
-              </button>
+                <img width={17} src="../img/close.svg" alt="close" />
+              </div>
             </div>
-          </div>
+            <div className={Style.chat_form}>
+              <div className={Style.chat_form_input}>
+                <input
+                  placeholder="Начать писать"
+                  value={valueRewrite}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.code === "Enter") {
+                      UpdateButton(idMessage);
+                    }
+                  }}
+                  onChange={(e) => {
+                    setValueRewrite((prev) => (prev = e.target.value));
+                  }}
+                />
+              </div>
+              <div className={Style.chat_form_button_block}>
+                <button
+                  onClick={() => {
+                    UpdateButton(idMessage);
+                  }}
+                >
+                  <div className={Style.chat_form_button}>
+                    <img
+                      width={"20px"}
+                      height={"16.83px"}
+                      src="../../img/send.svg"
+                      alt="send"
+                    />
+                  </div>
+                </button>
+              </div>
+            </div>
+          </>
         )}
       </Section>
     </main>

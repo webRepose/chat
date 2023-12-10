@@ -95,8 +95,11 @@ const Chat_list = () => {
                   alt="avatar_chat"
                 />
               </div>
-              <p className={Style.data_name}>{data.displayName}</p>
-              {/* <p>{data.text}</p> */}
+              <div className={Style.data_content}>
+                <p className={Style.data_name}>{data.displayName}</p>
+                <p className={Style.data_text}>{data.text}</p>
+              </div>
+                <p className={Style.data_time}>{data.time && data.time.toDate().getHours() + ':' + data.time.toDate().getMinutes()}</p>
               <button
                 className={Style.data_delete}
                 onClick={(e) => {

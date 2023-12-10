@@ -30,8 +30,8 @@
     display: flex;
 
     &_click {
-        cursor: pointer;
-        width: 100%;
+      cursor: pointer;
+      width: 100%;
     }
 
     h4 {
@@ -45,9 +45,8 @@
       text-overflow: ellipsis;
       margin-left: 10px;
       display: -webkit-box;
-        -webkit-line-clamp: 1;
-        -webkit-box-orient: vertical;
-      
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
     }
 
     button {
@@ -232,6 +231,52 @@
 
     &_input {
       width: 80%;
+    }
+
+    &_change {
+      background-color: #35373b;
+      width: 95%;
+      margin: 0 auto;
+      border-radius: 15px;
+      color: whitesmoke;
+      position: relative;
+      display: flex;
+      margin-top: -50px;
+      z-index: 10;
+      font-size: 14px;
+      padding: 5px 0;
+
+      &_block {
+        margin-left: 20px;
+
+        p {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-line-clamp: 1;
+          -webkit-box-orient: vertical;
+          width: 90%;
+        }
+      }
+
+      &_close {
+        margin-left: auto;
+        margin-right: 20px;
+        display: flex;
+        align-items: center;
+      }
+
+      &_img {
+        margin-left: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-right: 1px solid #3752fe;
+
+        img {
+          margin-right: 15px;
+        }
+      }
     }
 
     input {

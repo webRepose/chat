@@ -101,7 +101,8 @@
     margin: 20px 0 5px 0;
     font-size: var(--font20);
   }
-  .error p, .error h2 {
+  .error p,
+  .error h2 {
     text-align: center;
   }
   .error button {
