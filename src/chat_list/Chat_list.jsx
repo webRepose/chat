@@ -11,19 +11,15 @@ const Chat_list = () => {
     [chatsAll] = useCollectionData(
       query(collection(db, "users", user.uid, "chats"))
     ),
-    [Saved] = useCollectionData(
-      query(collection(db, "users"))
-    ),
+    [Saved] = useCollectionData(query(collection(db, "users"))),
     [dataUsersID, setDataUsersID] = useState([]),
     [dataUsersID2, setDataUsersID2] = useState([]),
     [dataUserTwo, setDataUserTwo] = useState([]),
     [uids, setUids] = useState([]);
 
   useEffect(() => {
-    if(Saved) {
-      const data4 = Saved.filter((e) => (
-       e.uid === user.uid && e
-      ))   
+    if (Saved) {
+      const data4 = Saved.filter((e) => e.uid === user.uid && e);
       setUids((prev) => (prev = data4));
     }
 
@@ -72,12 +68,12 @@ const Chat_list = () => {
     <>
       {uids &&
         uids.map((data, id) => (
-          <Link key={id} to={'/saved'}>
+          <Link key={id} to={"/saved"}>
             <div className={Style.data}>
               <div className={Style.data_avatar_block}>
                 <img
                   className={Style.data_avatar}
-                  src='../img/Saved/bookmark.svg'
+                  src="../img/Saved/bookmark.svg"
                   alt="avatar_chat"
                 />
               </div>
@@ -85,7 +81,25 @@ const Chat_list = () => {
                 <p className={Style.data_name}>Сохраненные сообщения</p>
                 <p className={Style.data_text}>{data.text}</p>
               </div>
-                <p className={Style.data_time}>{data.time && data.time.toDate().getHours() + ':' + data.time.toDate().getMinutes()}</p>
+              <div className={Style.data_time}>
+                <p>
+                  {data.time && data.time.toDate().getHours() < 10
+                    ? "0" + data.time.toDate().getHours()
+                    : data.time.toDate().getHours()}
+                </p>
+                <p>:</p>
+                <p>
+                  {data.time.toDate().getMinutes() !== 0 ? (
+                    <>
+                      {data.time.toDate().getMinutes() < 10
+                        ? "0" + data.time.toDate().getMinutes()
+                        : data.time.toDate().getMinutes()}
+                    </>
+                  ) : (
+                    data.time.toDate().getMinutes() + "0"
+                  )}
+                </p>
+              </div>
             </div>
           </Link>
         ))}
@@ -105,7 +119,25 @@ const Chat_list = () => {
                 <p className={Style.data_name}>{data.displayName}</p>
                 <p className={Style.data_text}>{data.text}</p>
               </div>
-                <p className={Style.data_time}>{data.time && data.time.toDate().getHours() + ':' + data.time.toDate().getMinutes()}</p>
+              <div className={Style.data_time}>
+                <p>
+                  {data.time && data.time.toDate().getHours() < 10
+                    ? "0" + data.time.toDate().getHours()
+                    : data.time.toDate().getHours()}
+                </p>
+                <p>:</p>
+                <p>
+                  {data.time.toDate().getMinutes() !== 0 ? (
+                    <>
+                      {data.time.toDate().getMinutes() < 10
+                        ? "0" + data.time.toDate().getMinutes()
+                        : data.time.toDate().getMinutes()}
+                    </>
+                  ) : (
+                    data.time.toDate().getMinutes() + "0"
+                  )}
+                </p>
+              </div>
               <button
                 className={Style.data_delete}
                 onClick={(e) => {

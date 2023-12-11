@@ -21,7 +21,7 @@ import ModalClose from "../components/ModalClose";
 
 const Saved = () => {
   const [user] = useAuthState(auth),
-  [messages, loading] = useCollectionData(
+    [messages, loading] = useCollectionData(
       query(
         collection(db, "users", user.uid, "saved"),
         orderBy("createdAt", "asc")
@@ -45,9 +45,7 @@ const Saved = () => {
     [idMessage, setIdMessage] = useState(),
     [togglePined, setTogglePined] = useState(false),
     modalRef = useRef(null),
-    chatsRef = query(
-      doc(db, "users", user.uid)
-    );
+    chatsRef = query(doc(db, "users", user.uid));
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -61,7 +59,7 @@ const Saved = () => {
     const f = onSnapshot(q, (querySnapshot) => {
       const data = querySnapshot.docs.map((e) => e.id);
       data.length > idMessageList.length &&
-        setIdMessageList((prev) => (prev = data)); 
+        setIdMessageList((prev) => (prev = data));
       return () => f();
     });
   }, [q, idMessageList]);
@@ -81,14 +79,11 @@ const Saved = () => {
       return 0;
     }
 
-    await addDoc(
-      collection(db, "users", user.uid, "saved"),
-      {
-        text: value.trim(),
-        createdAt: Timestamp.fromDate(new Date()),
-        changed: false,
-      }
-    );
+    await addDoc(collection(db, "users", user.uid, "saved"), {
+      text: value.trim(),
+      createdAt: Timestamp.fromDate(new Date()),
+      changed: false,
+    });
 
     bottomRef.current.scrollIntoView({ behavior: "smooth", block: "end" });
     setValue("");
@@ -109,9 +104,7 @@ const Saved = () => {
   };
 
   const Delete = async (value) => {
-    await deleteDoc(
-      doc(db, "users", user.uid, "saved", value)
-    );
+    await deleteDoc(doc(db, "users", user.uid, "saved", value));
   };
 
   const DeleteButton = async () => {
@@ -124,7 +117,6 @@ const Saved = () => {
         pined: "",
         idMessage: "",
       });
-
     }
     setModalMessage((prev) => (prev = false));
   };
@@ -141,13 +133,10 @@ const Saved = () => {
 
   const UpdateButton = async (id) => {
     if (valueRewrite.length === 0) return 0;
-    await updateDoc(
-      doc(db, "users", user.uid, "saved", idDoc),
-      {
-        text: valueRewrite.trim(),
-        changed: true,
-      }
-    );
+    await updateDoc(doc(db, "users", user.uid, "saved", idDoc), {
+      text: valueRewrite.trim(),
+      changed: true,
+    });
 
     if (idMessage === pinedIdMessage) {
       await updateDoc(chatsRef, {
@@ -331,66 +320,63 @@ const Saved = () => {
                     }}
                   >
                     <div>
-                          <div className={Style.chat_messageYou}>
-                            <div
-                              id={id}
-                              onClick={() => {
-                                setUidModal((prev) => (prev = true));
-                                setModalMessage((prev) => (prev = true));
-                                setIdDoc((prev) => (prev = idMessageList[id]));
-                                setCopyText((prev) => (prev = message.text));
-                              }}
-                              className={Style.chat_message_blockYou}
-                            >
-                              <p className={Style.chat_message_textYou}>
-                                {message.text.split(" ").map((data, id) =>
-                                  isURL(data) ? (
-                                    <a
-                                      style={{
-                                        textDecoration: "underline",
-                                        color: "#fff",
-                                      }}
-                                      key={id}
-                                      rel="noreferrer"
-                                      target="_blank"
-                                      href={data}
-                                    >
-                                      {" "}
-                                      {data}{" "}
-                                    </a>
-                                  ) : (
-                                    `${data} `
-                                  )
-                                )}
-                              </p>
-                              <span className={Style.chat_message_dateYou}>
-                                {message.changed && (
-                                  <p style={{ marginRight: "3px" }}>Изменено</p>
-                                )}
-                                <p>{message.createdAt.toDate().getHours()}</p>
-                                <p>:</p>
-                                <p>
-                                  {message.createdAt.toDate().getMinutes() !==
-                                  0 ? (
-                                    <>
-                                      {message.createdAt.toDate().getMinutes() <
-                                      10
-                                        ? "0" +
-                                          message.createdAt
-                                            .toDate()
-                                            .getMinutes()
-                                        : message.createdAt
-                                            .toDate()
-                                            .getMinutes()}
-                                    </>
-                                  ) : (
-                                    message.createdAt.toDate().getMinutes() +
-                                    "0"
-                                  )}
-                                </p>
-                              </span>
-                            </div>
-                          </div>
+                      <div className={Style.chat_messageYou}>
+                        <div
+                          id={id}
+                          onClick={() => {
+                            setUidModal((prev) => (prev = true));
+                            setModalMessage((prev) => (prev = true));
+                            setIdDoc((prev) => (prev = idMessageList[id]));
+                            setCopyText((prev) => (prev = message.text));
+                          }}
+                          className={Style.chat_message_blockYou}
+                        >
+                          <p className={Style.chat_message_textYou}>
+                            {message.text.split(" ").map((data, id) =>
+                              isURL(data) ? (
+                                <a
+                                  style={{
+                                    textDecoration: "underline",
+                                    color: "#fff",
+                                  }}
+                                  key={id}
+                                  rel="noreferrer"
+                                  target="_blank"
+                                  href={data}
+                                >
+                                  {" "}
+                                  {data}{" "}
+                                </a>
+                              ) : (
+                                `${data} `
+                              )
+                            )}
+                          </p>
+                          <span className={Style.chat_message_dateYou}>
+                            {message.changed && (
+                              <p style={{ marginRight: "3px" }}>Изменено</p>
+                            )}
+                            <p>
+                              {message.createdAt.toDate().getHours() < 10
+                                ? "0" + message.createdAt.toDate().getHours()
+                                : message.createdAt.toDate().getHours()}
+                            </p>
+                            <p>:</p>
+                            <p>
+                              {message.createdAt.toDate().getMinutes() !== 0 ? (
+                                <>
+                                  {message.createdAt.toDate().getMinutes() < 10
+                                    ? "0" +
+                                      message.createdAt.toDate().getMinutes()
+                                    : message.createdAt.toDate().getMinutes()}
+                                </>
+                              ) : (
+                                message.createdAt.toDate().getMinutes() + "0"
+                              )}
+                            </p>
+                          </span>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -401,7 +387,7 @@ const Saved = () => {
                   <h4>Ваши закладки</h4>
                   <p>Здесь можно хранить ваши данные</p>
                   <p>
-                  Например: 
+                    Например:
                     <b> Ссылки, Фото, Сообщения и тд.</b>
                   </p>
                 </div>

@@ -430,7 +430,12 @@ const Chats = ({ dataChats }) => {
                                 {message.changed && (
                                   <p style={{ marginRight: "3px" }}>Изменено</p>
                                 )}
-                                <p>{message.createdAt.toDate().getHours()}</p>
+                                <p>
+                                  {message.createdAt.toDate().getHours() < 10
+                                    ? "0" +
+                                      message.createdAt.toDate().getHours()
+                                    : message.createdAt.toDate().getHours()}
+                                </p>
                                 <p>:</p>
                                 <p>
                                   {message.createdAt.toDate().getMinutes() !==
@@ -505,7 +510,12 @@ const Chats = ({ dataChats }) => {
                                 {message.changed && (
                                   <p style={{ marginRight: "3px" }}>Изменено</p>
                                 )}
-                                <p>{message.createdAt.toDate().getHours()}</p>
+                                <p>
+                                  {message.createdAt.toDate().getHours() < 10
+                                    ? "0" +
+                                      message.createdAt.toDate().getHours()
+                                    : message.createdAt.toDate().getHours()}
+                                </p>
                                 <p>:</p>
                                 <p>
                                   {message.createdAt.toDate().getMinutes() !==
