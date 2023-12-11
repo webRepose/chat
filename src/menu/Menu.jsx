@@ -78,7 +78,7 @@ const Menu = () => {
   };
 
   return (
-    <main style={{height: '98svh'}}>
+    <main style={{height: '98svh', overflowX: 'hidden', overflowY:'auto'}}>
       <ModalClose
         modal={modalChoiceUser}
         setModal={setModalChoiceUser}
