@@ -78,7 +78,7 @@ const Menu = () => {
   };
 
   return (
-    <main>
+    <main style={{height: '98svh'}}>
       <ModalClose
         modal={modalChoiceUser}
         setModal={setModalChoiceUser}
