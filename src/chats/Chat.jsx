@@ -597,14 +597,14 @@ const Chats = ({ dataChats }) => {
                 <h4>Изменяемое собщение</h4>
                 <p>{copyText}</p>
               </div>
-              <div
+              <button
                 onClick={() => {
                   setModeType((prev) => !prev);
                 }}
                 className={Style.chat_form_change_close}
               >
                 <img width={17} src="../img/close.svg" alt="close" />
-              </div>
+              </button>
             </div>
             <div className={Style.chat_form}>
               <div className={Style.chat_form_input}>

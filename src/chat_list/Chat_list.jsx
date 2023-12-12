@@ -1,6 +1,6 @@
 import Style from "../styles/data/data.module.css";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { collection, query, doc, deleteDoc, getDocs } from "firebase/firestore";
 import { db, auth } from "..";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -68,99 +68,113 @@ const Chat_list = () => {
     <>
       {uids &&
         uids.map((data, id) => (
-          <Link key={id} to={"/saved"}>
-            <div className={Style.data}>
-              <div className={Style.data_avatar_block}>
-                <img
-                  className={Style.data_avatar}
-                  src="../img/Saved/bookmark.svg"
-                  alt="avatar_chat"
-                />
+          <div key={id} className={Style.data_l}>
+            <NavLink
+              className={({ isActive }) =>
+                [isActive && Style.active, Style.data].join(" ")
+              }
+              to={"/saved"}
+            >
+              <div className={Style.data_sub}>
+                <div className={Style.data_avatar_block}>
+                  <img
+                    className={Style.data_avatar}
+                    src="../img/Saved/bookmark.svg"
+                    alt="avatar_chat"
+                  />
+                </div>
+                <div className={Style.data_content}>
+                  <p className={Style.data_name}>Сохраненные сообщения</p>
+                  <p className={Style.data_text}>{data.text}</p>
+                </div>
+                <div className={Style.data_time}>
+                  <p>
+                    {data.time && data.time.toDate().getHours() < 10
+                      ? "0" + data.time.toDate().getHours()
+                      : data.time.toDate().getHours()}
+                  </p>
+                  <p>:</p>
+                  <p>
+                    {data.time.toDate().getMinutes() !== 0 ? (
+                      <>
+                        {data.time.toDate().getMinutes() < 10
+                          ? "0" + data.time.toDate().getMinutes()
+                          : data.time.toDate().getMinutes()}
+                      </>
+                    ) : (
+                      data.time.toDate().getMinutes() + "0"
+                    )}
+                  </p>
+                </div>
               </div>
-              <div className={Style.data_content}>
-                <p className={Style.data_name}>Сохраненные сообщения</p>
-                <p className={Style.data_text}>{data.text}</p>
-              </div>
-              <div className={Style.data_time}>
-                <p>
-                  {data.time && data.time.toDate().getHours() < 10
-                    ? "0" + data.time.toDate().getHours()
-                    : data.time.toDate().getHours()}
-                </p>
-                <p>:</p>
-                <p>
-                  {data.time.toDate().getMinutes() !== 0 ? (
-                    <>
-                      {data.time.toDate().getMinutes() < 10
-                        ? "0" + data.time.toDate().getMinutes()
-                        : data.time.toDate().getMinutes()}
-                    </>
-                  ) : (
-                    data.time.toDate().getMinutes() + "0"
-                  )}
-                </p>
-              </div>
-            </div>
-          </Link>
+            </NavLink>
+          </div>
         ))}
 
       {chatsAll &&
         chatsAll.map((data, id) => (
-          <Link key={id} to={data.id}>
-            <div className={Style.data}>
-              <div className={Style.data_avatar_block}>
-                <img
-                  className={Style.data_avatar}
-                  src={data.photoURL}
-                  alt="avatar_chat"
-                />
-              </div>
-              <div className={Style.data_content}>
-                <p className={Style.data_name}>{data.displayName}</p>
-                <p className={Style.data_text}>{data.text}</p>
-              </div>
-              <div className={Style.data_time}>
-                <p>
-                  {data.time && data.time.toDate().getHours() < 10
-                    ? "0" + data.time.toDate().getHours()
-                    : data.time.toDate().getHours()}
-                </p>
-                <p>:</p>
-                <p>
-                  {data.time.toDate().getMinutes() !== 0 ? (
-                    <>
-                      {data.time.toDate().getMinutes() < 10
-                        ? "0" + data.time.toDate().getMinutes()
-                        : data.time.toDate().getMinutes()}
-                    </>
-                  ) : (
-                    data.time.toDate().getMinutes() + "0"
-                  )}
-                </p>
-              </div>
-              <button
-                className={Style.data_delete}
-                onClick={(e) => {
-                  e.preventDefault();
-                  const resDel = window.confirm(
-                    "Вы действительно хотите удалить этот чат?"
-                  );
-                  resDel &&
-                    DeleteChat(
-                      dataUserTwo[id],
-                      dataUsersID[id],
-                      dataUsersID2[id]
+          <div className={Style.data_l} key={id}>
+            <NavLink
+              className={({ isActive }) =>
+                [isActive && Style.active, Style.data].join(" ")
+              }
+              to={data.id}
+            >
+              <div className={Style.data_sub}>
+                <div className={Style.data_avatar_block}>
+                  <img
+                    className={Style.data_avatar}
+                    src={data.photoURL}
+                    alt="avatar_chat"
+                  />
+                </div>
+                <div className={Style.data_content}>
+                  <p className={Style.data_name}>{data.displayName}</p>
+                  <p className={Style.data_text}>{data.text}</p>
+                </div>
+                <div className={Style.data_time}>
+                  <p>
+                    {data.time && data.time.toDate().getHours() < 10
+                      ? "0" + data.time.toDate().getHours()
+                      : data.time.toDate().getHours()}
+                  </p>
+                  <p>:</p>
+                  <p>
+                    {data.time.toDate().getMinutes() !== 0 ? (
+                      <>
+                        {data.time.toDate().getMinutes() < 10
+                          ? "0" + data.time.toDate().getMinutes()
+                          : data.time.toDate().getMinutes()}
+                      </>
+                    ) : (
+                      data.time.toDate().getMinutes() + "0"
+                    )}
+                  </p>
+                </div>
+                <button
+                  className={Style.data_delete}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    const resDel = window.confirm(
+                      "Вы действительно хотите удалить этот чат?"
                     );
-                }}
-              >
-                <img
-                  src="../../img/deleteChat.svg"
-                  width={18}
-                  alt="delete_chat"
-                />
-              </button>
-            </div>
-          </Link>
+                    resDel &&
+                      DeleteChat(
+                        dataUserTwo[id],
+                        dataUsersID[id],
+                        dataUsersID2[id]
+                      );
+                  }}
+                >
+                  <img
+                    src="../../img/deleteChat.svg"
+                    width={18}
+                    alt="delete_chat"
+                  />
+                </button>
+              </div>
+            </NavLink>
+          </div>
         ))}
     </>
   );

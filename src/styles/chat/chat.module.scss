@@ -110,20 +110,6 @@
     }
   }
 
-  &::-webkit-scrollbar {
-    width: 8px;
-    background-color: transparent;
-  }
-
-  &::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: #686868;
-    border-radius: 1.17vw;
-  }
-
   &_empty {
     display: grid;
     place-items: center;
@@ -242,7 +228,7 @@
       color: whitesmoke;
       position: relative;
       display: flex;
-      margin-top: -45px;
+      margin-top: -48px;
       z-index: 10;
       font-size: 14px;
       padding: 5px 0;
@@ -265,6 +251,9 @@
         margin-right: 20px;
         display: flex;
         align-items: center;
+        cursor: pointer;
+        background-color: transparent;
+        border: 0;
       }
 
       &_img {
@@ -327,5 +316,16 @@
     &::-webkit-scrollbar {
       width: 3px;
     }
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  section {
+    width: calc(100% - 350px) !important;
+    margin-left: auto;
+  }
+
+  .chat_consolidate {
+    width: calc(100% - 350px);
   }
 }
