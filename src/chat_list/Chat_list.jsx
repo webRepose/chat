@@ -87,25 +87,27 @@ const Chat_list = () => {
                   <p className={Style.data_name}>Сохраненные сообщения</p>
                   <p className={Style.data_text}>{data.text}</p>
                 </div>
-                <div className={Style.data_time}>
-                  <p>
-                    {data.time && data.time.toDate().getHours() < 10
-                      ? "0" + data.time.toDate().getHours()
-                      : data.time.toDate().getHours()}
-                  </p>
-                  <p>:</p>
-                  <p>
-                    {data.time && data.time.toDate().getMinutes() !== 0 ? (
-                      <>
-                        {data.time.toDate().getMinutes() < 10
-                          ? "0" + data.time.toDate().getMinutes()
-                          : data.time.toDate().getMinutes()}
-                      </>
-                    ) : (
-                      data.time.toDate().getMinutes() + "0"
-                    )}
-                  </p>
-                </div>
+                {data.time &&
+                                  <div className={Style.data_time}>
+                                  <p>
+                                    {data.time && data.time.toDate().getHours() < 10
+                                      ? "0" + data.time.toDate().getHours()
+                                      : data.time.toDate().getHours()}
+                                  </p>
+                                  <p>:</p>
+                                  <p>
+                                    {data.time && data.time.toDate().getMinutes() !== 0 ? (
+                                      <>
+                                        {data.time.toDate().getMinutes() < 10
+                                          ? "0" + data.time.toDate().getMinutes()
+                                          : data.time.toDate().getMinutes()}
+                                      </>
+                                    ) : (
+                                      data.time.toDate().getMinutes() + "0"
+                                    )}
+                                  </p>
+                                </div>
+                }
               </div>
             </NavLink>
           </div>
