@@ -13,14 +13,15 @@ const Navbar = () => {
     btnModalRef = useRef(null);
 
   const signOut = () => {
-    auth.signOut().then(() => {
-      console.log("sign out");
-    });
+    const resExit = window.confirm("Вы действительно хотите выйти?");
+    resExit && auth.signOut();
   };
 
   return (
     <>
-      <AddChat setToggle={setAddChat} toggle={addChat} btnRef={btnModalRef} />
+      {user && (
+        <AddChat setToggle={setAddChat} toggle={addChat} btnRef={btnModalRef} />
+      )}
       <header className={Style.header}>
         <Back />
         <button
@@ -42,7 +43,7 @@ const Navbar = () => {
           </Link>
         )}
       </header>
-      {window.innerWidth >= 768 && (
+      {window.innerWidth >= 768 && user && (
         <div className={Style.menu_aside}>
           <ChatList />
           <button
