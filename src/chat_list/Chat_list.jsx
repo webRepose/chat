@@ -1,3 +1,4 @@
+import Preloader from "../components/Preloader";
 import Style from "../styles/data/data.module.css";
 import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
@@ -8,7 +9,7 @@ import { useCollectionData } from "react-firebase-hooks/firestore";
 
 const Chat_list = () => {
   const [user] = useAuthState(auth),
-    [chatsAll] = useCollectionData(
+    [chatsAll, loading] = useCollectionData(
       query(collection(db, "users", user.uid, "chats"))
     ),
     [Saved] = useCollectionData(query(collection(db, "users"))),
@@ -64,32 +65,7 @@ const Chat_list = () => {
     await deleteDoc(doc(db, "users", userTwoUID, "chats", value2));
   };
 
-  // const millisecToTimeStruct = (ms) => {
-  //   var d, h, m, s;
-  //   if (isNaN(ms)) {
-  //       return {};
-  //   }
-  //   d = ms / (1000 * 60 * 60 * 24);
-  //   h = (d - ~~d) * 24;
-  //   m = (h - ~~h) * 60;
-  //   s = (m - ~~m) * 60;
-  //   return {d: ~~d, h: ~~h, m: ~~m, s: ~~s};
-  // };
-
-  //  const toFormattedStr = (tStruct) => {
-  //   var res = '';
-  //   if (typeof tStruct === 'object'){
-  //       res += tStruct.h + ' h. ' + tStruct.m + ' m.';
-  //   }
-  //   return res;
-  // };
-
-  // const ms = new Date().getTime();
-  // const timeStruct = millisecToTimeStruct(ms);
-  // const formattedString = toFormattedStr(timeStruct);
-
-  // console.log(formattedString)
-
+  if (loading) return <Preloader />;
   return (
     <>
       {uids &&
