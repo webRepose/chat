@@ -84,6 +84,8 @@ const Chats = ({ dataChats }) => {
 
   Pined();
 
+  // console.log(Timestamp.fromDate(new Date()))
+
   const Send = async () => {
     if (!value || value.trim().length < 1) {
       setValue("");

@@ -64,6 +64,32 @@ const Chat_list = () => {
     await deleteDoc(doc(db, "users", userTwoUID, "chats", value2));
   };
 
+  // const millisecToTimeStruct = (ms) => {
+  //   var d, h, m, s;
+  //   if (isNaN(ms)) {
+  //       return {};
+  //   }
+  //   d = ms / (1000 * 60 * 60 * 24);
+  //   h = (d - ~~d) * 24;
+  //   m = (h - ~~h) * 60;
+  //   s = (m - ~~m) * 60;
+  //   return {d: ~~d, h: ~~h, m: ~~m, s: ~~s};
+  // };
+
+  //  const toFormattedStr = (tStruct) => {
+  //   var res = '';
+  //   if (typeof tStruct === 'object'){
+  //       res += tStruct.h + ' h. ' + tStruct.m + ' m.';
+  //   }
+  //   return res;
+  // };
+
+  // const ms = new Date().getTime();
+  // const timeStruct = millisecToTimeStruct(ms);
+  // const formattedString = toFormattedStr(timeStruct);
+
+  // console.log(formattedString)
+
   return (
     <>
       {uids &&
@@ -87,27 +113,26 @@ const Chat_list = () => {
                   <p className={Style.data_name}>Сохраненные сообщения</p>
                   <p className={Style.data_text}>{data.text}</p>
                 </div>
-                {data.time &&
-                                  <div className={Style.data_time}>
-                                  <p>
-                                    {data.time && data.time?.toDate().getHours() < 10
-                                      ? "0" + data.time?.toDate().getHours()
-                                      : data.time?.toDate().getHours()}
-                                  </p>
-                                  <p>:</p>
-                                  <p>
-                                    {data.time && data.time?.toDate().getMinutes() !== 0 ? (
-                                      <>
-                                        {data.time.toDate().getMinutes() < 10
-                                          ? "0" + data.time?.toDate().getMinutes()
-                                          : data.time?.toDate().getMinutes()}
-                                      </>
-                                    ) : (
-                                      data.time?.toDate().getMinutes() + "0"
-                                    )}
-                                  </p>
-                                </div>
-                }
+                {data.time && 
+                                <div className={Style.data_time}>
+                                <p>
+                                  {data.time && data.time?.toDate().getHours() < 10
+                                    ? "0" + data.time?.toDate().getHours()
+                                    : data.time?.toDate().getHours()}
+                                </p>
+                                <p>:</p>
+                                <p>
+                                  {data.time && data.time?.toDate().getMinutes() !== 0 ? (
+                                    <>
+                                      {data.time.toDate().getMinutes() < 10
+                                        ? "0" + data.time?.toDate().getMinutes()
+                                        : data.time?.toDate().getMinutes()}
+                                    </>
+                                  ) : (
+                                    data.time?.toDate().getMinutes() + "0"
+                                  )}
+                                </p>
+                              </div>}
               </div>
             </NavLink>
           </div>
@@ -134,25 +159,26 @@ const Chat_list = () => {
                   <p className={Style.data_name}>{data.displayName}</p>
                   <p className={Style.data_text}>{data.text}</p>
                 </div>
-                <div className={Style.data_time}>
-                  <p>
-                    {data.time && data.time.toDate().getHours() < 10
-                      ? "0" + data.time.toDate().getHours()
-                      : data.time.toDate().getHours()}
-                  </p>
-                  <p>:</p>
-                  <p>
-                    {data.time && data.time.toDate().getMinutes() !== 0 ? (
-                      <>
-                        {data.time.toDate().getMinutes() < 10
-                          ? "0" + data.time.toDate().getMinutes()
-                          : data.time.toDate().getMinutes()}
-                      </>
-                    ) : (
-                      data.time.toDate().getMinutes() + "0"
-                    )}
-                  </p>
-                </div>
+                {data.time && 
+                                <div className={Style.data_time}>
+                                <p>
+                                  {data.time && data.time.toDate().getHours() < 10
+                                    ? "0" + data.time.toDate().getHours()
+                                    : data.time.toDate().getHours()}
+                                </p>
+                                <p>:</p>
+                                <p>
+                                  {data.time && data.time.toDate().getMinutes() !== 0 ? (
+                                    <>
+                                      {data.time.toDate().getMinutes() < 10
+                                        ? "0" + data.time.toDate().getMinutes()
+                                        : data.time.toDate().getMinutes()}
+                                    </>
+                                  ) : (
+                                    data.time.toDate().getMinutes() + "0"
+                                  )}
+                                </p>
+                              </div>}
                 <button
                   className={Style.data_delete}
                   onClick={(e) => {
