@@ -90,20 +90,20 @@ const Chat_list = () => {
                 {data.time &&
                                   <div className={Style.data_time}>
                                   <p>
-                                    {data.time && data.time.toDate().getHours() < 10
-                                      ? "0" + data.time.toDate().getHours()
-                                      : data.time.toDate().getHours()}
+                                    {data.time && data.time?.toDate().getHours() < 10
+                                      ? "0" + data.time?.toDate().getHours()
+                                      : data.time?.toDate().getHours()}
                                   </p>
                                   <p>:</p>
                                   <p>
-                                    {data.time && data.time.toDate().getMinutes() !== 0 ? (
+                                    {data.time && data.time?.toDate().getMinutes() !== 0 ? (
                                       <>
                                         {data.time.toDate().getMinutes() < 10
-                                          ? "0" + data.time.toDate().getMinutes()
-                                          : data.time.toDate().getMinutes()}
+                                          ? "0" + data.time?.toDate().getMinutes()
+                                          : data.time?.toDate().getMinutes()}
                                       </>
                                     ) : (
-                                      data.time.toDate().getMinutes() + "0"
+                                      data.time?.toDate().getMinutes() + "0"
                                     )}
                                   </p>
                                 </div>
