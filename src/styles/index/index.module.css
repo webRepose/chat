@@ -9,7 +9,8 @@
 
 .html,
 body {
-  overflow: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
   background-color: #242627;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   height: 100vh;

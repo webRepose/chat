@@ -136,6 +136,9 @@ const Chats = ({ dataChats }) => {
     const resDel = window.confirm(
       "Вы действительно хотите удалить это сообщение?"
     );
+
+    // console.log(Number(idMessage.replace("#", "")) + 1);
+
     resDel && Delete(idDoc);
     if (idMessage === pinedIdMessage) {
       await updateDoc(chatRefUser1, {
@@ -147,6 +150,18 @@ const Chats = ({ dataChats }) => {
         pined: "",
         idMessage: "",
       });
+
+      // if (document.getElementById(Number(idMessage.replace("#", "")) + 1)) {
+      //   await updateDoc(chatRefUser1, {
+      //     text: messages[messages.length - 1].text,
+      //     time: Timestamp.fromDate(new Date()),
+      //   });
+
+      //   await updateDoc(chatRefUser2, {
+      //     text: messages[messages.length - 1].text,
+      //     time: Timestamp.fromDate(new Date()),
+      //   });
+      // }
     }
     setModalMessage((prev) => (prev = false));
   };
@@ -170,6 +185,16 @@ const Chats = ({ dataChats }) => {
         changed: true,
       }
     );
+
+    // await updateDoc(chatRefUser1, {
+    //   text: valueRewrite.trim(),
+    //   time: Timestamp.fromDate(new Date()),
+    // });
+
+    // await updateDoc(chatRefUser2, {
+    //   text: valueRewrite.trim(),
+    //   time: Timestamp.fromDate(new Date()),
+    // });
 
     if (idMessage === pinedIdMessage) {
       await updateDoc(chatRefUser1, {

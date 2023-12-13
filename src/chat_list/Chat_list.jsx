@@ -95,7 +95,7 @@ const Chat_list = () => {
                   </p>
                   <p>:</p>
                   <p>
-                    {data.time.toDate().getMinutes() !== 0 ? (
+                    {data.time && data.time.toDate().getMinutes() !== 0 ? (
                       <>
                         {data.time.toDate().getMinutes() < 10
                           ? "0" + data.time.toDate().getMinutes()
@@ -140,7 +140,7 @@ const Chat_list = () => {
                   </p>
                   <p>:</p>
                   <p>
-                    {data.time.toDate().getMinutes() !== 0 ? (
+                    {data.time && data.time.toDate().getMinutes() !== 0 ? (
                       <>
                         {data.time.toDate().getMinutes() < 10
                           ? "0" + data.time.toDate().getMinutes()
