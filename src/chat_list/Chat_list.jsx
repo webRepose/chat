@@ -65,7 +65,8 @@ const Chat_list = () => {
     await deleteDoc(doc(db, "users", userTwoUID, "chats", value2));
   };
 
-  if (loading) return <Preloader />;
+  if (loading && uids) return <Preloader />;
+
   return (
     <>
       {uids &&
