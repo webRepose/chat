@@ -7,6 +7,7 @@ import AddChat from "../components/AddChat";
 const Menu = () => {
   const [modalChoiceUser, setModalChoiceUser] = useState(false),
     btnModalRef = useRef(null);
+    document.querySelector('body').style.overflow = 'auto';
 
   if (window.innerWidth >= 768) return false;
 

@@ -58,6 +58,7 @@ const Chats = ({ dataChats }) => {
     chatRefUser2 = query(
       doc(db, "users", userUid1, "chats", userUid1 + userUid2)
     );
+    document.querySelector('body').style.overflow = 'hidden';
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -83,8 +84,6 @@ const Chats = ({ dataChats }) => {
   };
 
   Pined();
-
-  // console.log(Timestamp.fromDate(new Date()))
 
   const Send = async () => {
     if (!value || value.trim().length < 1) {
@@ -174,7 +173,7 @@ const Chats = ({ dataChats }) => {
       idDoc === idMessageList[i] &&
         setValueRewrite((prev) => (prev = data.text));
     });
-
+    
     setModalMessage((prev) => (prev = false));
   };
 

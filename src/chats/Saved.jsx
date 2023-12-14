@@ -46,6 +46,7 @@ const Saved = () => {
     [togglePined, setTogglePined] = useState(false),
     modalRef = useRef(null),
     chatsRef = query(doc(db, "users", user.uid));
+    document.querySelector('body').style.overflow = 'hidden';
 
   useEffect(() => {
     const timer = setTimeout(() => {
