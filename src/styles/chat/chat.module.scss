@@ -1,7 +1,13 @@
+.html,
+body {
+  overflow: hidden;
+}
+
 .chat {
   width: calc(100% - 1px);
   height: calc(100svh - 130px);
   overflow-y: auto;
+  overflow-x: hidden;
   margin: 0 auto;
   border-bottom: 0;
   position: relative;
