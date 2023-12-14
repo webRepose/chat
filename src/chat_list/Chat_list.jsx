@@ -1,4 +1,3 @@
-import Preloader from "../components/Preloader";
 import Style from "../styles/data/data.module.css";
 import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
@@ -9,7 +8,7 @@ import { useCollectionData } from "react-firebase-hooks/firestore";
 
 const Chat_list = () => {
   const [user] = useAuthState(auth),
-    [chatsAll, loading] = useCollectionData(
+    [chatsAll] = useCollectionData(
       query(collection(db, "users", user.uid, "chats"))
     ),
     [Saved] = useCollectionData(query(collection(db, "users"))),
@@ -20,8 +19,16 @@ const Chat_list = () => {
 
   useEffect(() => {
     if (Saved) {
-      const data4 = Saved.filter((e) => e.uid === user.uid && e);
-      setUids((prev) => (prev = data4));
+      // const data4 = Saved.filter((e) => e.uid === user.uid && e);
+      // setUids((prev) => (prev = data4));
+
+      let d;
+      const data4 = Saved.map((e) => (
+        e.uid === user.uid && e
+      ));
+      data4.map(e => e !== false && (d = e))
+      setUids((prev) => (prev = [d]));
+
     }
 
     if (chatsAll) {
@@ -65,11 +72,23 @@ const Chat_list = () => {
     await deleteDoc(doc(db, "users", userTwoUID, "chats", value2));
   };
 
-  if (loading && uids) return <Preloader />;
+  const DateFun = (data) => {
+    const hours =
+      data && data.toDate().getHours() < 10
+        ? "0" + data.toDate().getHours()
+        : data.toDate().getHours();
+    const minutes =
+      data && data.toDate().getMinutes() !== 0
+        ? data.toDate().getMinutes() < 10
+          ? "0" + data.toDate().getMinutes()
+          : data.toDate().getMinutes()
+        : data.toDate().getMinutes() + "0";
+    return hours + ":" + minutes;
+  };
 
   return (
     <>
-      {uids &&
+  {uids &&
         uids.map((data, id) => (
           <div key={id} className={Style.data_l}>
             <NavLink
@@ -91,24 +110,8 @@ const Chat_list = () => {
                   <p className={Style.data_text}>{data.text}</p>
                 </div>
                 <div className={Style.data_time}>
-                  <p>
-                    {data.time && data.time?.toDate().getHours() < 10
-                      ? "0" + data.time?.toDate().getHours()
-                      : data.time?.toDate().getHours()}
-                  </p>
-                  <p>:</p>
-                  <p>
-                    {data.time && data.time?.toDate().getMinutes() !== 0 ? (
-                      <>
-                        {data.time.toDate().getMinutes() < 10
-                          ? "0" + data.time?.toDate().getMinutes()
-                          : data.time?.toDate().getMinutes()}
-                      </>
-                    ) : (
-                      data.time?.toDate().getMinutes() + "0"
-                    )}
-                  </p>
-                </div>
+                  <p>{DateFun(data.time)}</p>
+                 </div>
               </div>
             </NavLink>
           </div>
@@ -136,23 +139,7 @@ const Chat_list = () => {
                   <p className={Style.data_text}>{data.text}</p>
                 </div>
                 <div className={Style.data_time}>
-                  <p>
-                    {data.time && data.time.toDate().getHours() < 10
-                      ? "0" + data.time.toDate().getHours()
-                      : data.time.toDate().getHours()}
-                  </p>
-                  <p>:</p>
-                  <p>
-                    {data.time && data.time.toDate().getMinutes() !== 0 ? (
-                      <>
-                        {data.time.toDate().getMinutes() < 10
-                          ? "0" + data.time.toDate().getMinutes()
-                          : data.time.toDate().getMinutes()}
-                      </>
-                    ) : (
-                      data.time.toDate().getMinutes() + "0"
-                    )}
-                  </p>
+                  <p>{DateFun(data.time)}</p>
                 </div>
                 <button
                   className={Style.data_delete}
