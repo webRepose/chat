@@ -94,7 +94,7 @@ const Chat_list = () => {
                   <p className={Style.data_text}>{data.text}</p>
                 </div>
                 <div className={Style.data_time}>
-                  <p>{DateFun(data.time)}</p>
+                  {/* <p>{DateFun(data.time)}</p> */}
                 </div>
               </div>
             </NavLink>
