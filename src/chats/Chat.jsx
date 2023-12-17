@@ -460,6 +460,8 @@ const Chats = ({ dataChats }) => {
           <div className={Style.chat_form}>
             <div className={Style.chat_form_input}>
               <input
+                // autoFocus
+                type="text"
                 placeholder="Начать писать"
                 value={value}
                 onKeyDown={(e) => {
@@ -507,6 +509,8 @@ const Chats = ({ dataChats }) => {
             <div className={Style.chat_form}>
               <div className={Style.chat_form_input}>
                 <input
+                  // autoFocus
+                  type="text"
                   placeholder="Начать писать"
                   value={valueRewrite}
                   onKeyDown={(e) => {

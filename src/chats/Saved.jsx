@@ -388,6 +388,8 @@ const Saved = () => {
           <div className={Style.chat_form}>
             <div className={Style.chat_form_input}>
               <input
+                type="text"
+                // autoFocus
                 placeholder="Начать писать"
                 value={value}
                 onKeyDown={(e) => {
@@ -435,6 +437,8 @@ const Saved = () => {
             <div className={Style.chat_form}>
               <div className={Style.chat_form_input}>
                 <input
+                  // autoFocus
+                  type="text"
                   placeholder="Начать писать"
                   value={valueRewrite}
                   onKeyDown={(e) => {

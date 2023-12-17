@@ -18,7 +18,8 @@ const AddChat = ({ setToggle, toggle, btnRef }) => {
     [checkHaveChat, setCheckHaveChat] = useState(""),
     [usersAll, setUsersAll] = useState([]),
     modalRef = useRef(null),
-    navigate = useNavigate();
+    navigate = useNavigate(),
+    [search, setSearch] = useState("");
 
   useEffect(() => {
     const f = onSnapshot(
@@ -104,11 +105,20 @@ const AddChat = ({ setToggle, toggle, btnRef }) => {
               <img src="../../img/close.svg" width={18} alt="close" />
             </button>
             <h4>Кому написать?</h4>
+            <input
+              type="search"
+              placeholder="Поиск"
+              value={search}
+              onChange={(e) => {
+                setSearch((prev) => (prev = e.target.value));
+              }}
+            />
             <div className={Style.modal_choice_scroll}>
               {usersAll &&
                 usersAll.map(
                   (data, id) =>
-                    user.uid !== data.uid && (
+                    user.uid !== data.uid &&
+                    data.displayName.includes(search) && (
                       <div
                         onClick={() => {
                           addNewChat(
@@ -122,11 +132,14 @@ const AddChat = ({ setToggle, toggle, btnRef }) => {
                         className={Style.modal_choice_data}
                         key={id}
                       >
-                        <img
-                          width={50}
-                          src={data.photoURL && data.photoURL}
-                          alt="avatar"
-                        />
+                        <div className={Style.modal_choice_data__img}>
+                          <img
+                            width={50}
+                            height={50}
+                            src={data.photoURL && data.photoURL}
+                            alt="avatar"
+                          />
+                        </div>
                         <p>{data.displayName}</p>
                       </div>
                     )
