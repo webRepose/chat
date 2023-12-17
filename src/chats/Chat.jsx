@@ -2,7 +2,7 @@ import Section from "../UI_kit/Section";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useRef, useState, useEffect } from "react";
 import { useCollectionData } from "react-firebase-hooks/firestore";
-import Preloader from "../components/Preloader";
+import Preloader from "../components/Preloaders/Preloader";
 import Style from "../styles/chat/chat.module.css";
 import { db, auth } from "../index";
 import {
@@ -17,6 +17,16 @@ import {
   updateDoc,
   getDoc,
 } from "firebase/firestore";
+import {
+  isURL,
+  Consolidate,
+  UpdateButton,
+  Update,
+  DeleteButton,
+  Send,
+  Pined,
+  DateFun,
+} from "./Components";
 import ModalClose from "../components/ModalClose";
 
 const Chats = ({ dataChats }) => {
@@ -58,7 +68,7 @@ const Chats = ({ dataChats }) => {
     chatRefUser2 = query(
       doc(db, "users", userUid1, "chats", userUid1 + userUid2)
     );
-    document.querySelector('body').style.overflow = 'hidden';
+  document.querySelector("body").style.overflow = "hidden";
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -77,140 +87,42 @@ const Chats = ({ dataChats }) => {
     });
   }, [q, idMessageList]);
 
-  const Pined = async () => {
-    const e = await getDoc(doc(db, "users", dataChats, "chats", idFromHref));
-    setPined((prev) => (prev = e.data().pined));
-    setPinedIdMessage((prev) => (prev = e.data().idMessage));
-  };
+  Pined(getDoc, doc, db, dataChats, idFromHref, setPined, setPinedIdMessage);
 
-  Pined();
-
-  const Send = async () => {
-    if (!value || value.trim().length < 1) {
-      setValue("");
-      bottomRef.current.scrollIntoView({ behavior: "smooth", block: "end" });
-      return 0;
-    }
-
-    await addDoc(
-      collection(db, "users", dataChats, "chats", idFromHref, "messages"),
-      {
-        uid: user.uid,
-        displayName: user.displayName,
-        photoURL: user.photoURL,
-        text: value.trim(),
-        createdAt: Timestamp.fromDate(new Date()),
-        changed: false,
-      }
-    );
-
-    bottomRef.current.scrollIntoView({ behavior: "smooth", block: "end" });
-    setValue("");
-
-    await updateDoc(chatRefUser1, {
-      text: value.trim(),
-      time: Timestamp.fromDate(new Date()),
-    });
-
-    await updateDoc(chatRefUser2, {
-      text: value.trim(),
-      time: Timestamp.fromDate(new Date()),
-    });
-  };
-
-  const isURL = (str) => {
-    try {
-      new URL(str);
-      return true;
-    } catch {
-      return false;
-    }
-  };
-
-  const Delete = async (value) => {
-    await deleteDoc(
-      doc(db, "users", dataChats, "chats", idFromHref, "messages", value)
+  const SendClick = async () => {
+    Send(
+      value,
+      setValue,
+      bottomRef,
+      addDoc,
+      collection,
+      db,
+      dataChats,
+      idFromHref,
+      user,
+      Timestamp.fromDate(new Date()),
+      updateDoc,
+      chatRefUser1,
+      chatRefUser2
     );
   };
 
-  const DeleteButton = async () => {
-    const resDel = window.confirm(
-      "Вы действительно хотите удалить это сообщение?"
+  const UpdateClick = () => {
+    UpdateButton(
+      valueRewrite,
+      updateDoc,
+      doc,
+      db,
+      dataChats,
+      idFromHref,
+      idDoc,
+      idMessage,
+      pinedIdMessage,
+      chatRefUser1,
+      chatRefUser2,
+      setValueRewrite,
+      setModeType
     );
-
-    // console.log(Number(idMessage.replace("#", "")) + 1);
-
-    resDel && Delete(idDoc);
-    if (idMessage === pinedIdMessage) {
-      await updateDoc(chatRefUser1, {
-        pined: "",
-        idMessage: "",
-      });
-
-      await updateDoc(chatRefUser2, {
-        pined: "",
-        idMessage: "",
-      });
-
-      // if (document.getElementById(Number(idMessage.replace("#", "")) + 1)) {
-      //   await updateDoc(chatRefUser1, {
-      //     text: messages[messages.length - 1].text,
-      //     time: Timestamp.fromDate(new Date()),
-      //   });
-
-      //   await updateDoc(chatRefUser2, {
-      //     text: messages[messages.length - 1].text,
-      //     time: Timestamp.fromDate(new Date()),
-      //   });
-      // }
-    }
-    setModalMessage((prev) => (prev = false));
-  };
-
-  const Update = () => {
-    setModeType((prev) => (prev = false));
-    messages.forEach((data, i) => {
-      idDoc === idMessageList[i] &&
-        setValueRewrite((prev) => (prev = data.text));
-    });
-    
-    setModalMessage((prev) => (prev = false));
-  };
-
-  const UpdateButton = async (id) => {
-    if (valueRewrite.length === 0) return 0;
-    await updateDoc(
-      doc(db, "users", dataChats, "chats", idFromHref, "messages", idDoc),
-      {
-        text: valueRewrite.trim(),
-        changed: true,
-      }
-    );
-
-    // await updateDoc(chatRefUser1, {
-    //   text: valueRewrite.trim(),
-    //   time: Timestamp.fromDate(new Date()),
-    // });
-
-    // await updateDoc(chatRefUser2, {
-    //   text: valueRewrite.trim(),
-    //   time: Timestamp.fromDate(new Date()),
-    // });
-
-    if (idMessage === pinedIdMessage) {
-      await updateDoc(chatRefUser1, {
-        pined: valueRewrite.trim(),
-        idMessage: id,
-      });
-
-      await updateDoc(chatRefUser2, {
-        pined: valueRewrite.trim(),
-        idMessage: id,
-      });
-    }
-
-    setValueRewrite("");
-    setModeType((prev) => (prev = true));
   };
 
   const sendFirstMessage = async () => {
@@ -235,36 +147,6 @@ const Chats = ({ dataChats }) => {
       text: "Привет!",
       time: Timestamp.fromDate(new Date()),
     });
-  };
-
-  const Consolidate = async (pinmess, del, id) => {
-    setModalMessage((prev) => (prev = false));
-    if (!del) {
-      await updateDoc(chatRefUser1, {
-        pined: pinmess,
-        idMessage: id,
-      });
-
-      await updateDoc(chatRefUser2, {
-        pined: pinmess,
-        idMessage: id,
-      });
-    } else {
-      const resDel = window.confirm(
-        "Вы действительно хотите удалить закрепленное сообщение?"
-      );
-      if (resDel) {
-        await updateDoc(chatRefUser1, {
-          pined: "",
-          idMessage: "",
-        });
-
-        await updateDoc(chatRefUser2, {
-          pined: "",
-          idMessage: "",
-        });
-      }
-    }
   };
 
   if (loading) return <Preloader />;
@@ -307,7 +189,15 @@ const Chats = ({ dataChats }) => {
             </div>
             <button
               onClick={() => {
-                Consolidate(copyText, true, idMessage);
+                Consolidate(
+                  copyText,
+                  true,
+                  idMessage,
+                  updateDoc,
+                  chatRefUser1,
+                  chatRefUser2,
+                  setModalMessage
+                );
               }}
             >
               <img src="../../img/close.svg" width={15} alt="unpined" />
@@ -323,7 +213,14 @@ const Chats = ({ dataChats }) => {
                   {uidModal && (
                     <li
                       onClick={() => {
-                        Update();
+                        Update(
+                          setModeType,
+                          messages,
+                          idDoc,
+                          idMessageList,
+                          setValueRewrite,
+                          setModalMessage
+                        );
                       }}
                     >
                       <button>
@@ -353,7 +250,24 @@ const Chats = ({ dataChats }) => {
                     </button>
                   </li>
                   {uidModal && (
-                    <li onClick={DeleteButton}>
+                    <li
+                      onClick={() => {
+                        DeleteButton(
+                          deleteDoc,
+                          doc,
+                          db,
+                          dataChats,
+                          idFromHref,
+                          idDoc,
+                          idMessage,
+                          pinedIdMessage,
+                          updateDoc,
+                          chatRefUser1,
+                          chatRefUser2,
+                          setModalMessage
+                        );
+                      }}
+                    >
                       <button>
                         <div>
                           <img
@@ -368,7 +282,15 @@ const Chats = ({ dataChats }) => {
                   )}
                   <li
                     onClick={() => {
-                      Consolidate(copyText, false, idMessage);
+                      Consolidate(
+                        copyText,
+                        false,
+                        idMessage,
+                        updateDoc,
+                        chatRefUser1,
+                        chatRefUser2,
+                        setModalMessage
+                      );
                     }}
                   >
                     <button>
@@ -456,32 +378,7 @@ const Chats = ({ dataChats }) => {
                                 {message.changed && (
                                   <p style={{ marginRight: "3px" }}>Изменено</p>
                                 )}
-                                <p>
-                                  {message.createdAt.toDate().getHours() < 10
-                                    ? "0" +
-                                      message.createdAt.toDate().getHours()
-                                    : message.createdAt.toDate().getHours()}
-                                </p>
-                                <p>:</p>
-                                <p>
-                                  {message.createdAt.toDate().getMinutes() !==
-                                  0 ? (
-                                    <>
-                                      {message.createdAt.toDate().getMinutes() <
-                                      10
-                                        ? "0" +
-                                          message.createdAt
-                                            .toDate()
-                                            .getMinutes()
-                                        : message.createdAt
-                                            .toDate()
-                                            .getMinutes()}
-                                    </>
-                                  ) : (
-                                    message.createdAt.toDate().getMinutes() +
-                                    "0"
-                                  )}
-                                </p>
+                                <p>{DateFun(message.createdAt)}</p>
                               </span>
                             </div>
                           </div>
@@ -536,32 +433,7 @@ const Chats = ({ dataChats }) => {
                                 {message.changed && (
                                   <p style={{ marginRight: "3px" }}>Изменено</p>
                                 )}
-                                <p>
-                                  {message.createdAt.toDate().getHours() < 10
-                                    ? "0" +
-                                      message.createdAt.toDate().getHours()
-                                    : message.createdAt.toDate().getHours()}
-                                </p>
-                                <p>:</p>
-                                <p>
-                                  {message.createdAt.toDate().getMinutes() !==
-                                  0 ? (
-                                    <>
-                                      {message.createdAt.toDate().getMinutes() <
-                                      10
-                                        ? "0" +
-                                          message.createdAt
-                                            .toDate()
-                                            .getMinutes()
-                                        : message.createdAt
-                                            .toDate()
-                                            .getMinutes()}
-                                    </>
-                                  ) : (
-                                    message.createdAt.toDate().getMinutes() +
-                                    "0"
-                                  )}
-                                </p>
+                                <p>{DateFun(message.createdAt)}</p>
                               </span>
                             </span>
                           </div>
@@ -592,7 +464,7 @@ const Chats = ({ dataChats }) => {
                 value={value}
                 onKeyDown={(e) => {
                   if (e.key === "Enter" || e.code === "Enter") {
-                    Send();
+                    SendClick();
                   }
                 }}
                 onChange={(e) => {
@@ -601,7 +473,7 @@ const Chats = ({ dataChats }) => {
               />
             </div>
             <div className={Style.chat_form_button_block}>
-              <button onClick={Send}>
+              <button onClick={SendClick}>
                 <div className={Style.chat_form_button}>
                   <img
                     width={"20px"}
@@ -639,7 +511,7 @@ const Chats = ({ dataChats }) => {
                   value={valueRewrite}
                   onKeyDown={(e) => {
                     if (e.key === "Enter" || e.code === "Enter") {
-                      UpdateButton(idMessage);
+                      UpdateClick();
                     }
                   }}
                   onChange={(e) => {
@@ -648,11 +520,7 @@ const Chats = ({ dataChats }) => {
                 />
               </div>
               <div className={Style.chat_form_button_block}>
-                <button
-                  onClick={() => {
-                    UpdateButton(idMessage);
-                  }}
-                >
+                <button onClick={UpdateClick}>
                   <div className={Style.chat_form_button}>
                     <img
                       width={"20px"}

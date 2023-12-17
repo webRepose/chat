@@ -2,7 +2,7 @@ import Section from "../UI_kit/Section";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useRef, useState, useEffect } from "react";
 import { useCollectionData } from "react-firebase-hooks/firestore";
-import Preloader from "../components/Preloader";
+import Preloader from "../components/Preloaders/Preloader";
 import Style from "../styles/chat/chat.module.css";
 import { db, auth } from "../index";
 import {
@@ -17,6 +17,7 @@ import {
   updateDoc,
   getDoc,
 } from "firebase/firestore";
+import { isURL, Consolidate, Update, DateFun } from "./Components";
 import ModalClose from "../components/ModalClose";
 
 const Saved = () => {
@@ -46,7 +47,7 @@ const Saved = () => {
     [togglePined, setTogglePined] = useState(false),
     modalRef = useRef(null),
     chatsRef = query(doc(db, "users", user.uid));
-    document.querySelector('body').style.overflow = 'hidden';
+  document.querySelector("body").style.overflow = "hidden";
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -95,15 +96,6 @@ const Saved = () => {
     });
   };
 
-  const isURL = (str) => {
-    try {
-      new URL(str);
-      return true;
-    } catch {
-      return false;
-    }
-  };
-
   const Delete = async (value) => {
     await deleteDoc(doc(db, "users", user.uid, "saved", value));
   };
@@ -112,23 +104,25 @@ const Saved = () => {
     const resDel = window.confirm(
       "Вы действительно хотите удалить это сообщение?"
     );
-    resDel && Delete(idDoc);
-    if (idMessage === pinedIdMessage) {
-      await updateDoc(chatsRef, {
-        pined: "",
-        idMessage: "",
-      });
+    if (resDel) {
+      Delete(idDoc);
+
+      if (
+        document.getElementById(Number(idMessage.replace("#", "")) + 1) === null
+      ) {
+        await updateDoc(chatsRef, {
+          text: document.getElementById(Number(idMessage.replace("#", "")) - 1)
+            .children[0].textContent,
+        });
+      }
+
+      if (idMessage === pinedIdMessage) {
+        await updateDoc(chatsRef, {
+          pined: "",
+          idMessage: "",
+        });
+      }
     }
-    setModalMessage((prev) => (prev = false));
-  };
-
-  const Update = () => {
-    setModeType((prev) => (prev = false));
-    messages.forEach((data, i) => {
-      idDoc === idMessageList[i] &&
-        setValueRewrite((prev) => (prev = data.text));
-    });
-
     setModalMessage((prev) => (prev = false));
   };
 
@@ -139,6 +133,14 @@ const Saved = () => {
       changed: true,
     });
 
+    if (
+      document.getElementById(Number(idMessage.replace("#", "")) + 1) === null
+    ) {
+      await updateDoc(chatsRef, {
+        text: valueRewrite.trim(),
+      });
+    }
+
     if (idMessage === pinedIdMessage) {
       await updateDoc(chatsRef, {
         pined: valueRewrite.trim(),
@@ -148,26 +150,6 @@ const Saved = () => {
 
     setValueRewrite("");
     setModeType((prev) => (prev = true));
-  };
-
-  const Consolidate = async (pinmess, del, id) => {
-    setModalMessage((prev) => (prev = false));
-    if (!del) {
-      await updateDoc(chatsRef, {
-        pined: pinmess,
-        idMessage: id,
-      });
-    } else {
-      const resDel = window.confirm(
-        "Вы действительно хотите удалить закрепленное сообщение?"
-      );
-      if (resDel) {
-        await updateDoc(chatsRef, {
-          pined: "",
-          idMessage: "",
-        });
-      }
-    }
   };
 
   if (loading) return <Preloader />;
@@ -210,7 +192,15 @@ const Saved = () => {
             </div>
             <button
               onClick={() => {
-                Consolidate(copyText, true, idMessage);
+                Consolidate(
+                  copyText,
+                  true,
+                  idMessage,
+                  updateDoc,
+                  chatsRef,
+                  "",
+                  setModalMessage
+                );
               }}
             >
               <img src="../../img/close.svg" width={15} alt="unpined" />
@@ -226,7 +216,14 @@ const Saved = () => {
                   {uidModal && (
                     <li
                       onClick={() => {
-                        Update();
+                        Update(
+                          setModeType,
+                          messages,
+                          idDoc,
+                          idMessageList,
+                          setValueRewrite,
+                          setModalMessage
+                        );
                       }}
                     >
                       <button>
@@ -271,7 +268,15 @@ const Saved = () => {
                   )}
                   <li
                     onClick={() => {
-                      Consolidate(copyText, false, idMessage);
+                      Consolidate(
+                        copyText,
+                        false,
+                        idMessage,
+                        updateDoc,
+                        chatsRef,
+                        "",
+                        setModalMessage
+                      );
                     }}
                   >
                     <button>
@@ -357,24 +362,7 @@ const Saved = () => {
                             {message.changed && (
                               <p style={{ marginRight: "3px" }}>Изменено</p>
                             )}
-                            <p>
-                              {message.createdAt.toDate().getHours() < 10
-                                ? "0" + message.createdAt.toDate().getHours()
-                                : message.createdAt.toDate().getHours()}
-                            </p>
-                            <p>:</p>
-                            <p>
-                              {message.createdAt.toDate().getMinutes() !== 0 ? (
-                                <>
-                                  {message.createdAt.toDate().getMinutes() < 10
-                                    ? "0" +
-                                      message.createdAt.toDate().getMinutes()
-                                    : message.createdAt.toDate().getMinutes()}
-                                </>
-                              ) : (
-                                message.createdAt.toDate().getMinutes() + "0"
-                              )}
-                            </p>
+                            <p>{DateFun(message.createdAt)}</p>
                           </span>
                         </div>
                       </div>

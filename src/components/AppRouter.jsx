@@ -8,7 +8,7 @@ import { useState, useEffect } from "react";
 import Saved from "../chats/Saved";
 import ChatUsers from "../chats/Chat";
 import ErrorBoundary from "./ErrorBounds/ErrorBoundary";
-const Preloader = lazy(() => import("./Preloader")),
+const Preloader = lazy(() => import("./Preloaders/Preloader")),
   Login = lazy(() => import("./Login")),
   Menu = lazy(() => import("../menu/Menu")),
   publicRoutes = [

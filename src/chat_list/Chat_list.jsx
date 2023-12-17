@@ -1,3 +1,4 @@
+import PreloaderChatList from "../components/Preloaders/PreloaderChatList";
 import Style from "../styles/data/data.module.css";
 import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
@@ -5,10 +6,11 @@ import { collection, query, doc, deleteDoc, getDocs } from "firebase/firestore";
 import { db, auth } from "..";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useCollectionData } from "react-firebase-hooks/firestore";
+import { DateFun } from "../chats/Components";
 
 const Chat_list = () => {
   const [user] = useAuthState(auth),
-    [chatsAll] = useCollectionData(
+    [chatsAll, loading] = useCollectionData(
       query(collection(db, "users", user.uid, "chats"))
     ),
     [Saved] = useCollectionData(query(collection(db, "users"))),
@@ -19,16 +21,10 @@ const Chat_list = () => {
 
   useEffect(() => {
     if (Saved) {
-      // const data4 = Saved.filter((e) => e.uid === user.uid && e);
-      // setUids((prev) => (prev = data4));
-
       let d;
-      const data4 = Saved.map((e) => (
-        e.uid === user.uid && e
-      ));
-      data4.map(e => e !== false && (d = e))
+      const data4 = Saved.map((e) => e.uid === user.uid && e);
+      data4.map((e) => e !== false && (d = e));
       setUids((prev) => (prev = [d]));
-
     }
 
     if (chatsAll) {
@@ -72,23 +68,11 @@ const Chat_list = () => {
     await deleteDoc(doc(db, "users", userTwoUID, "chats", value2));
   };
 
-  const DateFun = (data) => {
-    const hours =
-      data && data.toDate().getHours() < 10
-        ? "0" + data.toDate().getHours()
-        : data.toDate().getHours();
-    const minutes =
-      data && data.toDate().getMinutes() !== 0
-        ? data.toDate().getMinutes() < 10
-          ? "0" + data.toDate().getMinutes()
-          : data.toDate().getMinutes()
-        : data.toDate().getMinutes() + "0";
-    return hours + ":" + minutes;
-  };
+  if(loading) return <PreloaderChatList/>
 
   return (
     <>
-  {uids &&
+      {uids &&
         uids.map((data, id) => (
           <div key={id} className={Style.data_l}>
             <NavLink
@@ -111,7 +95,7 @@ const Chat_list = () => {
                 </div>
                 <div className={Style.data_time}>
                   <p>{DateFun(data.time)}</p>
-                 </div>
+                </div>
               </div>
             </NavLink>
           </div>
