@@ -47,13 +47,20 @@ const Navbar = () => {
         <div className={Style.menu_aside}>
           <ChatList />
           <button
+            title="Добавить чат"
             ref={btnModalRef}
             onClick={() => {
               setAddChat((prev) => (prev = true));
             }}
             className={Style.menu_addNew}
           >
-            Добавить чат
+            <img
+              width={25}
+              height={25}
+              src="../../img/Menu/chat.svg"
+              alt="add chat"
+            />
+            <p>Добавить чат</p>
           </button>
         </div>
       )}

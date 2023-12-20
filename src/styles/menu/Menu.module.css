@@ -1,10 +1,10 @@
 .menu_addNew {
   background-color: #5161f9;
   border: 0;
-  width: 80%;
-  height: 40px;
-  margin: 15px auto 0 auto;
-  border-radius: 20px;
+  width: 60px;
+  height: 60px;
+  margin: 15px 15px 0 auto;
+  border-radius: 40%;
   color: #fff;
   display: block;
 }

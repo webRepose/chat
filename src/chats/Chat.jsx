@@ -89,10 +89,9 @@ const Chats = ({ dataChats }) => {
 
   Pined(getDoc, doc, db, dataChats, idFromHref, setPined, setPinedIdMessage);
 
-
-  const [countSend , setCountSend] = useState(false);
+  const [countSend, setCountSend] = useState(false);
   const SendClick = async () => {
-    if(countSend) return false; 
+    if (countSend) return false;
     Send(
       value,
       setValue,
@@ -108,17 +107,15 @@ const Chats = ({ dataChats }) => {
       chatRefUser1,
       chatRefUser2
     );
-    setCountSend(prev => prev = true);
+    setCountSend((prev) => (prev = true));
 
-    setTimeout(()=>{
-      setCountSend(prev => prev = false);
-    },[500])
+    setTimeout(() => {
+      setCountSend((prev) => (prev = false));
+    }, [700]);
   };
-;
-
-  const [countUpdate , setCountUpdate] = useState(false);
+  const [countUpdate, setCountUpdate] = useState(false);
   const UpdateClick = () => {
-    if(countUpdate) return false; 
+    if (countUpdate) return false;
     UpdateButton(
       valueRewrite,
       updateDoc,
@@ -135,11 +132,11 @@ const Chats = ({ dataChats }) => {
       setModeType
     );
 
-    setCountUpdate(prev => prev = true);
+    setCountUpdate((prev) => (prev = true));
 
-    setTimeout(()=>{
-      setCountUpdate(prev => prev = false);
-    },[500])
+    setTimeout(() => {
+      setCountUpdate((prev) => (prev = false));
+    }, [700]);
   };
 
   const sendFirstMessage = async () => {

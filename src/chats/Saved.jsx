@@ -74,10 +74,7 @@ const Saved = () => {
 
   Pined();
 
-  // const [countSend , setCountSend] = useState(false);
   const Send = async () => {
-    // if(countSend) return false; 
-
     if (!value || value.trim().length < 1) {
       setValue("");
       bottomRef.current.scrollIntoView({ behavior: "smooth", block: "end" });
@@ -97,13 +94,18 @@ const Saved = () => {
       text: value.trim(),
       time: Timestamp.fromDate(new Date()),
     });
-
-    // setCountSend(prev => prev = true);
-
-    // setTimeout(()=>{
-    //   setCountSend(prev => prev = false);
-    // },[500])
   };
+
+  const [countSend , setCountSend] = useState(false);
+  const debugSend = () => {
+    if(countSend) return false; 
+    Send();
+    setCountSend(prev => prev = true);
+
+    setTimeout(()=>{
+      setCountSend(prev => prev = false);
+    },[700])
+  }
 
   const Delete = async (value) => {
     await deleteDoc(doc(db, "users", user.uid, "saved", value));
@@ -135,9 +137,7 @@ const Saved = () => {
     setModalMessage((prev) => (prev = false));
   };
 
-  // const [countUpdate , setCountUpdate] = useState(false);
   const UpdateButton = async (id) => {
-    // if(countUpdate) return false; 
     if (valueRewrite.length === 0) return 0;
     await updateDoc(doc(db, "users", user.uid, "saved", idDoc), {
       text: valueRewrite.trim(),
@@ -161,13 +161,18 @@ const Saved = () => {
 
     setValueRewrite("");
     setModeType((prev) => (prev = true));
-
-    // setCountUpdate(prev => prev = true);
-
-    // setTimeout(()=>{
-    //   setCountUpdate(prev => prev = false);
-    // },[500])
   };
+
+  const [countUpdate , setCountUpdate] = useState(false);
+  const debugUpdate = (idmMess) => {
+    if(countUpdate) return false; 
+    setCountUpdate(prev => prev = true);
+    UpdateButton(idmMess);
+
+    setTimeout(()=>{
+      setCountUpdate(prev => prev = false);
+    },[700])
+  }
 
   if (loading) return <Preloader />;
 
@@ -410,7 +415,7 @@ const Saved = () => {
                 value={value}
                 onKeyUp={(e) => {
                   if (e.key === "Enter" || e.code === "Enter") {
-                    Send();
+                    debugSend();
                   }
                 }}
                 onChange={(e) => {
@@ -419,7 +424,7 @@ const Saved = () => {
               />
             </div>
             <div className={Style.chat_form_button_block}>
-              <button onClick={Send}>
+              <button onClick={debugSend}>
                 <div className={Style.chat_form_button}>
                   <img
                     width={"20px"}
@@ -459,7 +464,7 @@ const Saved = () => {
                   value={valueRewrite}
                   onKeyUp={(e) => {
                     if (e.key === "Enter" || e.code === "Enter") {
-                      UpdateButton(idMessage);
+                      debugUpdate(idMessage);
                     }
                   }}
                   onChange={(e) => {
@@ -470,7 +475,7 @@ const Saved = () => {
               <div className={Style.chat_form_button_block}>
                 <button
                   onClick={() => {
-                    UpdateButton(idMessage);
+                    debugUpdate(idMessage);
                   }}
                 >
                   <div className={Style.chat_form_button}>

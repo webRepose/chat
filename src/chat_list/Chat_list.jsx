@@ -100,9 +100,9 @@ const Chat_list = () => {
                   <p className={Style.data_name}>Сохраненные сообщения</p>
                   <p className={Style.data_text}>{data.text}</p>
                 </div>
-                <div className={Style.data_time}>
+                {/* <div className={Style.data_time}> */}
                   {/* <p>{DateFun(data.time)}</p> */}
-                </div>
+                {/* </div> */}
               </div>
             </NavLink>
           </div>

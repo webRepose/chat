@@ -7,7 +7,7 @@ import AddChat from "../components/AddChat";
 const Menu = () => {
   const [modalChoiceUser, setModalChoiceUser] = useState(false),
     btnModalRef = useRef(null);
-    document.querySelector('body').style.overflow = 'auto';
+  document.querySelector("body").style.overflow = "auto";
 
   if (window.innerWidth >= 768) return false;
 
@@ -21,13 +21,19 @@ const Menu = () => {
       <Section>
         <ChatList />
         <button
+          title="Добавить чат"
           ref={btnModalRef}
           onClick={() => {
             setModalChoiceUser((prev) => (prev = true));
           }}
           className={Style.menu_addNew}
         >
-          Добавить чат
+          <img
+            width={30}
+            height={30}
+            src="../../img/Menu/chat.svg"
+            alt="add chat"
+          />
         </button>
       </Section>
     </main>
