@@ -89,7 +89,10 @@ const Chats = ({ dataChats }) => {
 
   Pined(getDoc, doc, db, dataChats, idFromHref, setPined, setPinedIdMessage);
 
+
+  const [countSend , setCountSend] = useState(false);
   const SendClick = async () => {
+    if(countSend) return false; 
     Send(
       value,
       setValue,
@@ -105,9 +108,17 @@ const Chats = ({ dataChats }) => {
       chatRefUser1,
       chatRefUser2
     );
-  };
+    setCountSend(prev => prev = true);
 
+    setTimeout(()=>{
+      setCountSend(prev => prev = false);
+    },[500])
+  };
+;
+
+  const [countUpdate , setCountUpdate] = useState(false);
   const UpdateClick = () => {
+    if(countUpdate) return false; 
     UpdateButton(
       valueRewrite,
       updateDoc,
@@ -123,6 +134,12 @@ const Chats = ({ dataChats }) => {
       setValueRewrite,
       setModeType
     );
+
+    setCountUpdate(prev => prev = true);
+
+    setTimeout(()=>{
+      setCountUpdate(prev => prev = false);
+    },[500])
   };
 
   const sendFirstMessage = async () => {
@@ -460,11 +477,10 @@ const Chats = ({ dataChats }) => {
           <div className={Style.chat_form}>
             <div className={Style.chat_form_input}>
               <input
-                // autoFocus
                 type="text"
                 placeholder="Начать писать"
                 value={value}
-                onKeyDown={(e) => {
+                onKeyUp={(e) => {
                   if (e.key === "Enter" || e.code === "Enter") {
                     SendClick();
                   }
@@ -509,11 +525,11 @@ const Chats = ({ dataChats }) => {
             <div className={Style.chat_form}>
               <div className={Style.chat_form_input}>
                 <input
-                  // autoFocus
+                  autoFocus
                   type="text"
                   placeholder="Начать писать"
                   value={valueRewrite}
-                  onKeyDown={(e) => {
+                  onKeyUp={(e) => {
                     if (e.key === "Enter" || e.code === "Enter") {
                       UpdateClick();
                     }

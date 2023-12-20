@@ -74,7 +74,10 @@ const Saved = () => {
 
   Pined();
 
+  // const [countSend , setCountSend] = useState(false);
   const Send = async () => {
+    // if(countSend) return false; 
+
     if (!value || value.trim().length < 1) {
       setValue("");
       bottomRef.current.scrollIntoView({ behavior: "smooth", block: "end" });
@@ -94,6 +97,12 @@ const Saved = () => {
       text: value.trim(),
       time: Timestamp.fromDate(new Date()),
     });
+
+    // setCountSend(prev => prev = true);
+
+    // setTimeout(()=>{
+    //   setCountSend(prev => prev = false);
+    // },[500])
   };
 
   const Delete = async (value) => {
@@ -126,7 +135,9 @@ const Saved = () => {
     setModalMessage((prev) => (prev = false));
   };
 
+  // const [countUpdate , setCountUpdate] = useState(false);
   const UpdateButton = async (id) => {
+    // if(countUpdate) return false; 
     if (valueRewrite.length === 0) return 0;
     await updateDoc(doc(db, "users", user.uid, "saved", idDoc), {
       text: valueRewrite.trim(),
@@ -150,6 +161,12 @@ const Saved = () => {
 
     setValueRewrite("");
     setModeType((prev) => (prev = true));
+
+    // setCountUpdate(prev => prev = true);
+
+    // setTimeout(()=>{
+    //   setCountUpdate(prev => prev = false);
+    // },[500])
   };
 
   if (loading) return <Preloader />;
@@ -389,10 +406,9 @@ const Saved = () => {
             <div className={Style.chat_form_input}>
               <input
                 type="text"
-                // autoFocus
                 placeholder="Начать писать"
                 value={value}
-                onKeyDown={(e) => {
+                onKeyUp={(e) => {
                   if (e.key === "Enter" || e.code === "Enter") {
                     Send();
                   }
@@ -437,11 +453,11 @@ const Saved = () => {
             <div className={Style.chat_form}>
               <div className={Style.chat_form_input}>
                 <input
-                  // autoFocus
+                  autoFocus
                   type="text"
                   placeholder="Начать писать"
                   value={valueRewrite}
-                  onKeyDown={(e) => {
+                  onKeyUp={(e) => {
                     if (e.key === "Enter" || e.code === "Enter") {
                       UpdateButton(idMessage);
                     }

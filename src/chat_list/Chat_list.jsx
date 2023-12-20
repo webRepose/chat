@@ -2,7 +2,14 @@ import PreloaderChatList from "../components/Preloaders/PreloaderChatList";
 import Style from "../styles/data/data.module.css";
 import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
-import { collection, query, doc, deleteDoc, getDocs } from "firebase/firestore";
+import {
+  collection,
+  query,
+  doc,
+  deleteDoc,
+  getDocs,
+  orderBy,
+} from "firebase/firestore";
 import { db, auth } from "..";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useCollectionData } from "react-firebase-hooks/firestore";
@@ -11,7 +18,7 @@ import { DateFun } from "../chats/Components";
 const Chat_list = () => {
   const [user] = useAuthState(auth),
     [chatsAll, loading] = useCollectionData(
-      query(collection(db, "users", user.uid, "chats"))
+      query(collection(db, "users", user.uid, "chats"), orderBy("time", "desc"))
     ),
     [Saved] = useCollectionData(query(collection(db, "users"))),
     [dataUsersID, setDataUsersID] = useState([]),
@@ -68,7 +75,7 @@ const Chat_list = () => {
     await deleteDoc(doc(db, "users", userTwoUID, "chats", value2));
   };
 
-  if(loading) return <PreloaderChatList/>
+  if (loading) return <PreloaderChatList />;
 
   return (
     <>
