@@ -55,8 +55,8 @@ const Navbar = () => {
             className={Style.menu_addNew}
           >
             <img
-              width={25}
-              height={25}
+              width={20}
+              height={20}
               src="../../img/Menu/chat.svg"
               alt="add chat"
             />
