@@ -102,12 +102,21 @@
       margin: 0 auto;
       width: 90%;
       font-size: 16px;
+
+      div {
+        &:first-child {
+          width: 15px;
+          height: 19px;
+          position: relative;
+          margin-right: 20px;
+        }
+      }
     }
 
     img {
-      margin-top: 2px;
+      position: absolute;
+      margin-top: 1px;
       width: 15px;
-      margin-right: 15px;
     }
   }
 
@@ -327,6 +336,10 @@
   }
 
   .chat_consolidate {
+    width: calc(100% - 350px);
+  }
+
+  .chat_change_block {
     width: calc(100% - 350px);
   }
 }
