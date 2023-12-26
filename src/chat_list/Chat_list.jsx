@@ -91,6 +91,7 @@ const Chat_list = () => {
               <div className={Style.data_sub}>
                 <div className={Style.data_avatar_block}>
                   <img
+                    loading="lazy"
                     className={Style.data_avatar}
                     src="../img/Saved/bookmark.svg"
                     alt="avatar_chat"
@@ -101,7 +102,7 @@ const Chat_list = () => {
                   <p className={Style.data_text}>{data.text}</p>
                 </div>
                 {/* <div className={Style.data_time}> */}
-                  {/* <p>{DateFun(data.time)}</p> */}
+                {/* <p>{DateFun(data.time)}</p> */}
                 {/* </div> */}
               </div>
             </NavLink>
@@ -120,6 +121,7 @@ const Chat_list = () => {
               <div className={Style.data_sub}>
                 <div className={Style.data_avatar_block}>
                   <img
+                    loading="lazy"
                     className={Style.data_avatar}
                     src={data.photoURL}
                     alt="avatar_chat"
@@ -148,6 +150,7 @@ const Chat_list = () => {
                   }}
                 >
                   <img
+                    loading="lazy"
                     src="../../img/deleteChat.svg"
                     width={18}
                     alt="delete_chat"

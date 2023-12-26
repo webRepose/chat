@@ -240,6 +240,7 @@ const Chats = ({ dataChats }) => {
                       <button>
                         <div>
                           <img
+                            loading="lazy"
                             width={15}
                             src="../../img/edit.svg"
                             alt="close"
@@ -258,7 +259,12 @@ const Chats = ({ dataChats }) => {
                   >
                     <button>
                       <div>
-                        <img width={15} src="../../img/copy.svg" alt="copy" />
+                        <img
+                          loading="lazy"
+                          width={15}
+                          src="../../img/copy.svg"
+                          alt="copy"
+                        />
                       </div>
                       <div>Копировать</div>
                     </button>
@@ -285,6 +291,7 @@ const Chats = ({ dataChats }) => {
                       <button>
                         <div>
                           <img
+                            loading="lazy"
                             width={15}
                             src="../../img/delete.svg"
                             alt="delete"
@@ -310,6 +317,7 @@ const Chats = ({ dataChats }) => {
                     <button>
                       <div>
                         <img
+                          loading="lazy"
                           height={18}
                           width={15}
                           src="../../img/Chat/pin.svg"
@@ -326,7 +334,12 @@ const Chats = ({ dataChats }) => {
                   >
                     <button>
                       <div>
-                        <img width={15} src="../../img/close.svg" alt="close" />
+                        <img
+                          loading="lazy"
+                          width={15}
+                          src="../../img/close.svg"
+                          alt="close"
+                        />
                       </div>
                       <div>Отменить</div>
                     </button>
@@ -401,6 +414,7 @@ const Chats = ({ dataChats }) => {
                         <div className={Style.chat_message}>
                           <div className={Style.chat_message_ava}>
                             <img
+                              loading="lazy"
                               alt="avatar"
                               src={
                                 message.photoURL
@@ -495,6 +509,7 @@ const Chats = ({ dataChats }) => {
                     height={"16.83px"}
                     src="../../img/send.svg"
                     alt="send"
+                    loading="lazy"
                   />
                 </div>
               </button>
@@ -504,7 +519,12 @@ const Chats = ({ dataChats }) => {
           <>
             <div className={Style.chat_form_change}>
               <div className={Style.chat_form_change_img}>
-                <img width={20} src="../img/edit.svg" alt="edit" />
+                <img
+                  loading="lazy"
+                  width={20}
+                  src="../img/edit.svg"
+                  alt="edit"
+                />
               </div>
               <div className={Style.chat_form_change_block}>
                 <h4>Изменяемое собщение</h4>
@@ -516,7 +536,12 @@ const Chats = ({ dataChats }) => {
                 }}
                 className={Style.chat_form_change_close}
               >
-                <img width={17} src="../img/close.svg" alt="close" />
+                <img
+                  loading="lazy"
+                  width={17}
+                  src="../img/close.svg"
+                  alt="close"
+                />
               </button>
             </div>
             <div className={Style.chat_form}>
@@ -540,6 +565,7 @@ const Chats = ({ dataChats }) => {
                 <button onClick={UpdateClick}>
                   <div className={Style.chat_form_button}>
                     <img
+                      loading="lazy"
                       width={"20px"}
                       height={"16.83px"}
                       src="../../img/send.svg"

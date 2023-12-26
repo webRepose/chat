@@ -31,6 +31,7 @@ const Menu = () => {
           <img
             width={30}
             height={30}
+            loading="lazy"
             src="../../img/Menu/chat.svg"
             alt="add chat"
           />
