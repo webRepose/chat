@@ -175,7 +175,7 @@ const Chats = ({ dataChats }) => {
       />
       <Section>
         {pined && (
-          <div className={Style.chat_consolidate}>
+          <article className={Style.chat_consolidate}>
             <div
               className={Style.chat_consolidate_click}
               onClick={() => {
@@ -216,7 +216,7 @@ const Chats = ({ dataChats }) => {
             >
               <img src="../../img/close.svg" width={15} alt="unpined" />
             </button>
-          </div>
+          </article>
         )}
         <div className={Style.chat}>
           {modalMessage && (
@@ -369,7 +369,7 @@ const Chats = ({ dataChats }) => {
                     <div>
                       {user.uid === message.uid ? (
                         <>
-                          <div className={Style.chat_messageYou}>
+                          <article className={Style.chat_messageYou}>
                             <div
                               id={id}
                               onClick={() => {
@@ -405,13 +405,15 @@ const Chats = ({ dataChats }) => {
                                 {message.changed && (
                                   <p style={{ marginRight: "3px" }}>Изменено</p>
                                 )}
-                                <p>{DateFun(message.createdAt)}</p>
+                                <time dateTime={DateFun(message.createdAt)}>
+                                  {DateFun(message.createdAt)}
+                                </time>
                               </span>
                             </div>
-                          </div>
+                          </article>
                         </>
                       ) : (
-                        <div className={Style.chat_message}>
+                        <article className={Style.chat_message}>
                           <div className={Style.chat_message_ava}>
                             <img
                               loading="lazy"
@@ -461,11 +463,13 @@ const Chats = ({ dataChats }) => {
                                 {message.changed && (
                                   <p style={{ marginRight: "3px" }}>Изменено</p>
                                 )}
-                                <p>{DateFun(message.createdAt)}</p>
+                                <time dateTime={DateFun(message.createdAt)}>
+                                  {DateFun(message.createdAt)}
+                                </time>
                               </span>
                             </span>
                           </div>
-                        </div>
+                        </article>
                       )}
                     </div>
                   </div>

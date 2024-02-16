@@ -78,7 +78,7 @@ const Chat_list = () => {
   if (loading) return <PreloaderChatList />;
 
   return (
-    <>
+    <nav>
       {uids &&
         uids.map((data, id) => (
           <div key={id} className={Style.data_l}>
@@ -160,7 +160,7 @@ const Chat_list = () => {
             </NavLink>
           </div>
         ))}
-    </>
+    </nav>
   );
 };
 

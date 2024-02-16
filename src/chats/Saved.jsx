@@ -96,16 +96,16 @@ const Saved = () => {
     });
   };
 
-  const [countSend , setCountSend] = useState(false);
+  const [countSend, setCountSend] = useState(false);
   const debugSend = () => {
-    if(countSend) return false; 
+    if (countSend) return false;
     Send();
-    setCountSend(prev => prev = true);
+    setCountSend((prev) => (prev = true));
 
-    setTimeout(()=>{
-      setCountSend(prev => prev = false);
-    },[700])
-  }
+    setTimeout(() => {
+      setCountSend((prev) => (prev = false));
+    }, [700]);
+  };
 
   const Delete = async (value) => {
     await deleteDoc(doc(db, "users", user.uid, "saved", value));
@@ -163,16 +163,16 @@ const Saved = () => {
     setModeType((prev) => (prev = true));
   };
 
-  const [countUpdate , setCountUpdate] = useState(false);
+  const [countUpdate, setCountUpdate] = useState(false);
   const debugUpdate = (idmMess) => {
-    if(countUpdate) return false; 
-    setCountUpdate(prev => prev = true);
+    if (countUpdate) return false;
+    setCountUpdate((prev) => (prev = true));
     UpdateButton(idmMess);
 
-    setTimeout(()=>{
-      setCountUpdate(prev => prev = false);
-    },[700])
-  }
+    setTimeout(() => {
+      setCountUpdate((prev) => (prev = false));
+    }, [700]);
+  };
 
   if (loading) return <Preloader />;
 
@@ -186,7 +186,7 @@ const Saved = () => {
       />
       <Section>
         {pined && (
-          <div className={Style.chat_consolidate}>
+          <article className={Style.chat_consolidate}>
             <div
               className={Style.chat_consolidate_click}
               onClick={() => {
@@ -227,7 +227,7 @@ const Saved = () => {
             >
               <img src="../../img/close.svg" width={15} alt="unpined" />
             </button>
-          </div>
+          </article>
         )}
         <div className={Style.chat}>
           {modalMessage && (
@@ -348,7 +348,7 @@ const Saved = () => {
                     }}
                   >
                     <div>
-                      <div className={Style.chat_messageYou}>
+                      <article className={Style.chat_messageYou}>
                         <div
                           id={id}
                           onClick={() => {
@@ -384,10 +384,12 @@ const Saved = () => {
                             {message.changed && (
                               <p style={{ marginRight: "3px" }}>Изменено</p>
                             )}
-                            <p>{DateFun(message.createdAt)}</p>
+                            <time dateTime={DateFun(message.createdAt)}>
+                              {DateFun(message.createdAt)}
+                            </time>
                           </span>
                         </div>
-                      </div>
+                      </article>
                     </div>
                   </div>
                 </div>

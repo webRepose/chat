@@ -44,7 +44,7 @@ const Navbar = () => {
         )}
       </header>
       {window.innerWidth >= 768 && user && (
-        <div className={Style.menu_aside}>
+        <aside className={Style.menu_aside}>
           <ChatList />
           <button
             title="Добавить чат"
@@ -62,7 +62,7 @@ const Navbar = () => {
             />
             <p>Добавить чат</p>
           </button>
-        </div>
+        </aside>
       )}
     </>
   );
