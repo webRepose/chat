@@ -1,0 +1,345 @@
+.chat {
+  width: calc(100% - 1px);
+  height: calc(100svh - 130px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  margin: 0 auto;
+  border-bottom: 0;
+  position: relative;
+
+  &_anim {
+    width: 100% !important;
+    border-radius: 0 0 10px 10px;
+    animation: indeterminate_first 4.5s ease-out;
+  }
+
+  @keyframes indeterminate_first {
+    0% {
+      background-color: #3752fe;
+    }
+    100% {
+      background-color: transparent;
+    }
+  }
+
+  &_consolidate {
+    height: 50px;
+    background-color: #2c2d31;
+    position: absolute;
+    z-index: 10;
+    width: 100%;
+    display: flex;
+
+    &_click {
+      cursor: pointer;
+      width: 100%;
+    }
+
+    h4 {
+      color: #8864cc;
+      margin-left: 10px;
+    }
+
+    p {
+      color: #fcfeef;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-left: 10px;
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
+    }
+
+    button {
+      margin-left: auto;
+      margin-right: 5px;
+      border: 0;
+      padding: 10px;
+      background-color: transparent;
+    }
+  }
+
+  &_change_block {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(2px);
+    z-index: 10;
+  }
+
+  &_change {
+    width: fit-content;
+    height: auto;
+    display: block;
+    padding: 20px;
+    background-color: #2c2d31;
+    border-radius: 15px;
+
+    li {
+      list-style: none;
+      border: 0;
+      margin-bottom: 10px;
+      width: 200px;
+    }
+
+    h4 {
+      color: antiquewhite;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+
+    button {
+      padding: 8px 30px;
+      background-color: #8864cc;
+      color: wheat;
+      border: 0;
+      border-radius: 15px;
+      display: flex;
+      align-items: center;
+      margin: 0 auto;
+      width: 90%;
+      font-size: 16px;
+
+      div {
+        &:first-child {
+          width: 15px;
+          height: 19px;
+          position: relative;
+          margin-right: 20px;
+        }
+      }
+    }
+
+    img {
+      position: absolute;
+      margin-top: 1px;
+      width: 15px;
+    }
+  }
+
+  &_empty {
+    display: grid;
+    place-items: center;
+    height: 70svh;
+
+    &_block {
+      border-radius: 20px;
+      background-color: #2c2d31;
+      color: floralwhite;
+      padding: 15px 25px;
+      text-align: center;
+      cursor: pointer;
+
+      h4 {
+        margin-bottom: 7px;
+      }
+
+      p {
+        margin-bottom: 5px;
+      }
+    }
+  }
+
+  &_block {
+    padding: 0 15px;
+    margin-top: 20px;
+  }
+
+  &_message {
+    display: flex;
+    width: fit-content;
+    margin-bottom: 5px;
+
+    &_ava img {
+      border-radius: 50%;
+      width: 40px;
+      height: auto;
+    }
+
+    &_name {
+      color: #bf22ff;
+      margin-right: 8px;
+      min-width: 90px;
+    }
+
+    &_block {
+      background-color: #fcfeef;
+      padding: 4px 20px 8px 20px;
+      border-radius: 0 10px 10px 10px;
+      margin-left: 6px;
+    }
+
+    &_text {
+      color: #5d6f82;
+      word-break: break-all;
+    }
+
+    &_date {
+      display: flex;
+      color: #737889;
+      margin-top: 4px;
+
+      span {
+        display: flex;
+        margin-left: auto;
+        font-size: 13px;
+        margin-top: 2px;
+      }
+    }
+  }
+
+  &_message {
+    &You {
+      display: flex;
+    }
+
+    &_blockYou {
+      background-color: #be22ff;
+      padding: 6px 20px 3px 20px;
+      border-radius: 10px 0 10px 10px;
+      margin-right: 6px;
+      margin-bottom: 5px;
+    }
+
+    &_textYou {
+      color: whitesmoke;
+      word-break: break-all;
+    }
+
+    &_dateYou {
+      display: flex;
+      color: #fed6f0;
+      font-size: 13px;
+      margin-bottom: 4px;
+      justify-content: flex-end;
+    }
+  }
+
+  &_form {
+    width: 95%;
+    display: flex;
+    margin: 0 auto;
+    height: 45px;
+    position: relative;
+    margin-top: 10px;
+
+    &_input {
+      width: 80%;
+    }
+
+    &_change {
+      background-color: #35373b;
+      width: 95%;
+      margin: 0 auto;
+      border-radius: 15px;
+      color: whitesmoke;
+      position: relative;
+      display: flex;
+      margin-top: -48px;
+      z-index: 10;
+      font-size: 14px;
+      padding: 5px 0;
+
+      &_block {
+        margin-left: 20px;
+
+        p {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-line-clamp: 1;
+          -webkit-box-orient: vertical;
+          width: 90%;
+        }
+      }
+
+      &_close {
+        margin-left: auto;
+        margin-right: 20px;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        background-color: transparent;
+        border: 0;
+      }
+
+      &_img {
+        margin-left: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-right: 1px solid #3752fe;
+
+        img {
+          margin-right: 15px;
+        }
+      }
+    }
+
+    input {
+      outline: none;
+      height: 100%;
+      border: 0;
+      width: 97%;
+      background-color: #35373b;
+      padding: 0 20px;
+      color: floralwhite;
+      border-radius: 15px;
+    }
+
+    button {
+      border: 0;
+      background-color: transparent;
+      width: 100%;
+      cursor: pointer;
+      height: 100%;
+
+      img {
+        width: 20px;
+      }
+    }
+
+    &_button_block {
+      width: 20%;
+    }
+
+    &_button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+      border-radius: 15px;
+      background-color: #3752fe;
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .chat_form {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .chat {
+    &::-webkit-scrollbar {
+      width: 3px;
+    }
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  section {
+    width: calc(100% - 350px) !important;
+    margin-left: auto;
+  }
+
+  .chat_consolidate {
+    width: calc(100% - 350px);
+  }
+
+  .chat_change_block {
+    width: calc(100% - 350px);
+  }
+}

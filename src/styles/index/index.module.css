@@ -1,0 +1,52 @@
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+}
+
+.html,
+body {
+  overflow-y: auto;
+  overflow-x: hidden;
+  background-color: #242627;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  height: 100svh;
+  scroll-behavior: smooth;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #686868;
+  border-radius: 1.17vw;
+}
+
+button {
+  cursor: pointer;
+}
+button:hover {
+  opacity: 0.8;
+  transition: all 0.3s ease;
+}
+button:active {
+  opacity: 0.7;
+  transition: all 0.3s ease;
+}
+
+a {
+  text-decoration: none;
+}
+
+img {
+  pointer-events: none;
+}/*# sourceMappingURL=index.module.css.map */

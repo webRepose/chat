@@ -1,0 +1,104 @@
+.skeleton_wimch2g8rre:empty {
+  position: relative;
+  height: 70px;
+  border-bottom: 1px solid dimgray;
+  background-color: #2c2d31;
+  border-radius: 0px 0px 0px 0px;
+  background-image: linear-gradient(#cccccc 20px, transparent 0),
+    linear-gradient(#cccccc 20px, transparent 0),
+    linear-gradient(#cccccc 0px, transparent 0),
+    linear-gradient(#cccccc 20px, transparent 0),
+    radial-gradient(circle 0px at 0px 0px, #cccccc -1px, transparent 0px),
+    linear-gradient(#cccccc 20px, transparent 0),
+    linear-gradient(#cccccc 20px, transparent 0),
+    linear-gradient(#cccccc 20px, transparent 0),
+    linear-gradient(#cccccc 20px, transparent 0),
+    radial-gradient(circle 0px at 0px 0px, #cccccc -1px, transparent 0px),
+    linear-gradient(#cccccc 20px, transparent 0),
+    radial-gradient(circle 0px at 0px 0px, #cccccc -1px, transparent 0px),
+    linear-gradient(#cccccc 20px, transparent 0),
+    radial-gradient(
+      circle 27.5px at 27.5px 27.5px,
+      #cccccc 26.5px,
+      transparent 27.5px
+    );
+  background-repeat: repeat-y;
+  background-size: 40px 70px, 0px 70px, 250px 70px, 0px 70px, 0px 70px, 0px 70px,
+    0px 70px, 220px 70px, 0px 70px, 0px 70px, 0px 70px, 0px 70px, 160px 70px,
+    55px 70px;
+  background-position: left 307px top 17px, left 363px top 103px,
+    left 82px top 219px, left 84px top 192px, left 20px top 186px,
+    left 82px top 159px, left 82px top 132px, left 72px top 32px,
+    left 82px top 95px, left 20px top 125px, left 82px top 70px,
+    left 20px top 64px, left 72px top 5px, left 10px top 3px;
+}
+.skeleton_wimch2g8rre:empty:before {
+  content: " ";
+  position: absolute;
+  z-index: 1000;
+  width: 100%;
+  height: 70px;
+  -webkit-mask-image: linear-gradient(
+    100deg,
+    rgba(255, 255, 255, 0),
+    rgba(255, 255, 255, 0.5) 50%,
+    rgba(255, 255, 255, 0) 80%
+  );
+  mask-image: linear-gradient(
+    100deg,
+    rgba(255, 255, 255, 0),
+    rgba(255, 255, 255, 0.5) 50%,
+    rgba(255, 255, 255, 0) 80%
+  );
+  -webkit-mask-repeat: repeat-y;
+  mask-repeat: repeat-y;
+  -webkit-mask-size: 50px 70px;
+  mask-size: 50px 70px;
+  -webkit-mask-position: -20% 0;
+  mask-position: -20% 0;
+  background-image: linear-gradient(rgba(102, 102, 102, 1) 20px, transparent 0),
+    linear-gradient(rgba(102, 102, 102, 1) 20px, transparent 0),
+    linear-gradient(rgba(102, 102, 102, 1) 0px, transparent 0),
+    linear-gradient(rgba(102, 102, 102, 1) 20px, transparent 0),
+    radial-gradient(
+      circle 0px at 0px 0px,
+      rgba(102, 102, 102, 1) -1px,
+      transparent 0px
+    ),
+    linear-gradient(rgba(102, 102, 102, 1) 20px, transparent 0),
+    linear-gradient(rgba(102, 102, 102, 1) 20px, transparent 0),
+    linear-gradient(rgba(102, 102, 102, 1) 20px, transparent 0),
+    linear-gradient(rgba(102, 102, 102, 1) 20px, transparent 0),
+    radial-gradient(
+      circle 0px at 0px 0px,
+      rgba(102, 102, 102, 1) -1px,
+      transparent 0px
+    ),
+    linear-gradient(rgba(102, 102, 102, 1) 20px, transparent 0),
+    radial-gradient(
+      circle 0px at 0px 0px,
+      rgba(102, 102, 102, 1) -1px,
+      transparent 0px
+    ),
+    linear-gradient(rgba(102, 102, 102, 1) 20px, transparent 0),
+    radial-gradient(
+      circle 27.5px at 27.5px 27.5px,
+      rgba(102, 102, 102, 1) 26.5px,
+      transparent 27.5px
+    );
+  background-repeat: repeat-y;
+  background-size: 40px 70px, 0px 70px, 250px 70px, 0px 70px, 0px 70px, 0px 70px,
+    0px 70px, 220px 70px, 0px 70px, 0px 70px, 0px 70px, 0px 70px, 160px 70px,
+    55px 70px;
+  background-position: left 307px top 17px, left 363px top 103px,
+    left 82px top 219px, left 84px top 192px, left 20px top 186px,
+    left 82px top 159px, left 82px top 132px, left 72px top 32px,
+    left 82px top 95px, left 20px top 125px, left 82px top 70px,
+    left 20px top 64px, left 72px top 5px, left 10px top 3px;
+  animation: shineForSkeleton-wimch2g8rre 2s infinite;
+}
+@keyframes shineForSkeleton-wimch2g8rre {
+  to {
+    -webkit-mask-position: 120% 0;
+  }
+}

@@ -1,0 +1,3 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="720" viewBox="0 0 720 720">
+  <path id="exit" d="M200-120q-33,0-56.5-23.5T120-200V-760q0-33,23.5-56.5T200-840H480v80H200v560H480v80ZM640-280l-55-58L687-440H360v-80H687L585-622l55-58L840-480Z" transform="translate(-120 840)" fill="#fff"/>
+</svg>
