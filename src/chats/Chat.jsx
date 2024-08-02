@@ -36,8 +36,8 @@ const Chats = ({ dataChats }) => {
 
   // Определение idFromHref в зависимости от URL
   let idFromHref;
-  if (href.includes("https://diasmess.vercel.app/")) {
-    idFromHref = href.replace("https://diasmess.vercel.app/", "");
+  if (href.includes("https://chatsio.vercel.app/")) {
+    idFromHref = href.replace("https://chatsio.vercel.app/", "");
   } else idFromHref = href.replace("http://localhost:3000/", "");
 
   // Запрос сообщений и управление загрузкой
